@@ -6,3 +6,15 @@
 library for rheology data fit
 
 Documentation at https://rheofit.readthedocs.io
+
+to install:
+
+```
+pip install git+https://github.com/marcocaggioni/rheofit.git
+```
+
+If you change your mind:
+
+```
+pip uninstall rheofit
+```
