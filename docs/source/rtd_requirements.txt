@@ -1,0 +1,12 @@
+sphinx
+pandas
+lmfit
+nbsphinx
+ipykernel
+matplotlib
+seaborn
+lmfit
+numpy
+xmltodict
+emcee
+corner
