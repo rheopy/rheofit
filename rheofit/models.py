@@ -3,7 +3,7 @@
 Module for rheology data fitting
 --------------------------------
 
-Provides functions and fitting procedure to fit rheologycal data
+Provides functions and fitting procedure to fit rheological data
 
 Currently focusing on flowcurve
 
@@ -14,7 +14,7 @@ Example:
         rheology.rheology_fit.HB -> Model expression (simple function)
         rheology.rheology_fit.HB_model -> lmfit model object
 
-It also provides convenience functions to rapidly see and plot the result of
+It also provides few convenience functions to rapidly see and plot the result of
 the fit.
 
 '''
@@ -23,6 +23,38 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from IPython.display import Math
 import numpy as np
+
+
+def constantstress(x, ystress=0.1):
+    '''Constant stress model
+
+    Note:
+
+    .. math::
+       \sigma=\sigma_y
+
+    Args:
+
+    Returns:
+        stress : Shear Stress, [Pa]
+    '''
+    return ystress
+
+
+# instantiate model class
+constantstress_model=lmfit.Model(Newtonian, prefix='constantstress_')
+''' Lmfit model from equation :meth:`rheofit.models.constantstress`
+
+Note:
+
+'''
+constantstress_model.model_expression=Math('\sigma=\sigma_y')
+
+
+# set parameters for model class
+constantstress_model.set_param_hint('ystress', min=0, vary=True)
+
+
 
 def Newtonian(x, eta_bg=0.1):
     '''Newtonian model
@@ -44,7 +76,7 @@ def Newtonian(x, eta_bg=0.1):
 
 # instantiate model class
 Newtonian_model=lmfit.Model(Newtonian, prefix='newtonian_')
-''' Lmfit model from equation :meth:`rheology.rheology_fit.Bingham`
+''' Lmfit model from equation :meth:`rheofit.models.Bingham`
 
 Note:
 
@@ -79,7 +111,7 @@ def Powerlaw(x, n=0.5, K=0.1):
 
 # instantiate model class
 Powerlaw_model=lmfit.Model(Powerlaw, prefix='PL_')
-''' Lmfit model from equation :meth:`rheology.rheology_fit.Bingham`
+''' Lmfit model from equation :meth:`rheofit.models.Bingham`
 
 Note:
 
@@ -117,7 +149,7 @@ def Bingham(x, ystress=1.0, eta_bg=0.1):
 
 # instantiate model class
 Bingham_model=lmfit.Model(Bingham, prefix='bingham_')
-''' Lmfit model from equation :meth:`rheology.rheology_fit.Bingham`
+''' Lmfit model from equation :meth:`rheofit.models.Bingham`
 
 Note:
 
@@ -158,7 +190,7 @@ def TC(x, ystress=1.0, eta_bg=0.1, gammadot_crit=0.1):
 
 # instantiate model class
 TC_model=lmfit.Model(TC, prefix='')
-''' Lmfit model from equation :meth:`rheology.rheology_fit.TC`
+''' Lmfit model from equation :meth:`rheofit.models.TC`
 
 Note:
 
@@ -175,48 +207,6 @@ TC_model.model_expression=Math('\sigma=\sigma_y+\sigma_y\cdot(\dot\gamma/\dot\ga
 TC_model.set_param_hint('ystress', min=0)
 TC_model.set_param_hint('eta_bg', min=0, vary=True)
 TC_model.set_param_hint('gammadot_crit', min=0)
-
-
-def TCalt(x, ystress=1.0, eta_bg=0.1, gamma_crit=0.1):
-    '''Three component model - with critical strain as parameter
-
-    Note:
-
-    .. math::
-       \sigma=\sigma_y+\sigma_y\cdot(\dot\gamma \eta_bg /(\gamma_c \cdot \sigma_y)^{0.5}+\eta_{bg}\cdot\dot\gamma
-
-    Args:
-        ystress: yield stress [Pa]
-
-        eta_bg : Background viscosity [Pa s]
-
-        gamma_crit : Critical strain
-
-    Returns:
-        stress : Shear Stress, [Pa]
-    '''
-    return ystress + ystress * (x * eta_bg /(gamma_crit * ystress)) **0.5 + eta_bg * x
-
-
-# instantiate model class
-TCalt_model=lmfit.Model(TCalt, prefix='TCalt_')
-''' Lmfit model from equation :meth:`rheology.rheology_fit.TCalt`
-
-Note:
-
-TC_model.set_param_hint('ystress', min=0)
-
-TC_model.set_param_hint('eta_bg', min=0, vary=True)
-
-TC_model.set_param_hint('gamma_crit', min=0, max=10, value=0.1)
-'''
-TCalt_model.model_expression=Math('\sigma=\sigma_y+\sigma_y\cdot(\dot\gamma/\dot\gamma_c)^{0.5}+\eta_{bg}\cdot\dot\gamma')
-
-
-# set parameters for model class
-TCalt_model.set_param_hint('ystress', min=0)
-TCalt_model.set_param_hint('eta_bg', min=0, vary=True)
-TCalt_model.set_param_hint('gamma_crit', min=0, max=10)
 
 
 def HB(x, ystress=1.0, K=1.0, n=0.5):
@@ -239,8 +229,8 @@ def HB(x, ystress=1.0, K=1.0, n=0.5):
     '''
     return ystress + K * x **n
 
-HB_model=lmfit.Model(HB,prefix='')
-''' Lmfit model from equation :meth:`rheology.rheology_fit.HB`
+HB_model=lmfit.Model(HB,prefix='HB_')
+''' Lmfit model from equation :meth:`rheofit.models.HB`
 
 Note:
 HB_model.set_param_hint('ystress', min=0)
@@ -276,7 +266,7 @@ def casson(x, ystress=1.0, eta_bg=0.1):
     return (ystress**0.5 + (eta_bg * x)**0.5)**2
 
 casson_model=lmfit.Model(casson, prefix='casson_')
-''' Lmfit model from equation :meth:`rheology.rheology_fit.casson`
+''' Lmfit model from equation :meth:`rheofit.models.casson`
 
 Note:
 casson_model.set_param_hint('ystress', min=0)
@@ -295,7 +285,7 @@ def carreau(x, eta_0=1.0, gammadot_crit=1.0, n=0.5, prefix='carreau'):
     Note:
 
     .. math::
-       \sigma=\dot\gamma \cdot \eta_0 \cdot (1+(\dot\gamma/\dot\gamma_c)^2)^{(n-1)/2
+       \sigma=\dot\gamma \cdot \eta_0 \cdot (1+(\dot\gamma/\dot\gamma_c)^2)^{(n-1)/2}
 
     Args:
         eta_0: low shear viscosity [Pa s]
@@ -310,7 +300,7 @@ def carreau(x, eta_0=1.0, gammadot_crit=1.0, n=0.5, prefix='carreau'):
     return x* eta_0*(1+(x/gammadot_crit)**2)**((n-1)/2)
 
 carreau_model=lmfit.Model(carreau,prefix='carreau_')
-''' Lmfit model from equation :meth:`rheology.rheology_fit.carreau`
+''' Lmfit model from equation :meth:`rheofit.models.carreau`
 
 Note:
 carreau_model.set_param_hint('eta_0', min=0)
@@ -347,7 +337,7 @@ def cross(x, eta_inf=0.001, eta_0=1.0, n=0.5, gammadot_crit=1.):
     return x * eta_inf + x * (eta_0-eta_inf)/(1+(x/gammadot_crit)**n)
 
 cross_model=lmfit.Model(cross, prefix='cross_')
-''' Lmfit model from equation :meth:`rheology.rheology_fit.HB`
+''' Lmfit model from equation :meth:`rheofit.models.HB`
 
 Note:
 cross_model.set_param_hint('eta_0', min=0)
@@ -387,43 +377,6 @@ def show_parameter_table(result):
     table_list['redchi']=result.redchi
 
     return table_list
-
-def StExp(x, max_stress=10.0, tau=50, beta=0.3):
-    '''Stretch exponential function - for stress undershoot
-
-    Note:
-
-    .. math::
-       \sigma= \sigma_{max} \cdot (1 - e^{-x/ tau })^{ beta }
-
-    Args:
-        max_stress: Max stress at infinite time [Pa]
-
-        tau : Characteristic time [s]
-
-        beta : Stretching index []
-
-    Returns:
-        stress : Shear Stress, [Pa]
-    '''
-    return max_stress*(1-np.exp(-x/tau))**beta
-
-# instantiate model class
-StExp_model=lmfit.Model(StExp, prefix='SE_')
-''' Lmfit model from equation :meth:`rheology.rheology_fit.StExp`
-
-    Note:
-    StExp_model.set_param_hint('max_stress', min=0)
-
-    StExp_model.set_param_hint('tau', min=0, vary=True)
-
-    StExp_model.set_param_hint('beta', min=0, max=2, vary=True)
-'''
-# set parameters for model class
-StExp_model.set_param_hint('max_stress', min=0)
-StExp_model.set_param_hint('tau', min=0, vary=True)
-StExp_model.set_param_hint('beta', min=0, max=2, vary=True)
-
 
 def fit_FC(model,data):
     ''' Convenience function to fit a flow curve
