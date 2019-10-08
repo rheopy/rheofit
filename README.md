@@ -4,3 +4,5 @@
 
 
 library for rheology data fit
+
+Documentation at https://rheofit.readthedocs.io
