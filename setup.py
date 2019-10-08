@@ -5,17 +5,17 @@
 from setuptools import setup, find_packages
 
 readme='Python labrary for rheology data analysis'
-licence='No licence'
+licence='MIT'
 
 setup(
-    name='rheology',
+    name='rheopy',
     version='0.1.0',
-    description='Python labrary for rheology data analysis',
+    description='Python library for rheology data analysis',
     long_description=readme,
     author='Marco Caggioni',
-    author_email='caggioni.m@pg.com',
-    url='https://gitlab.pg.com/caggioni.m/rheology_python',
-    license=license,
+    author_email='marco.caggioni@gmail.com',
+    url='https://github.com/marcocaggioni/rheofit',
+    license=licence,
     install_requires=['lmfit','xmltodict'],
-    packages=['rheology']
+    packages=['rheofit']
 )
