@@ -1,7 +1,7 @@
-rheology
-========
+rheofit
+=======
 
 .. toctree::
    :maxdepth: 4
 
-   rheology
+   rheofit

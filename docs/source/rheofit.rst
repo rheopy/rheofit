@@ -1,29 +1,29 @@
-rheology package
-================
+rheofit package
+===============
 
 Submodules
 ----------
 
-rheology.open\_doc module
--------------------------
+rheofit.models module
+---------------------
 
-.. automodule:: rheology.open_doc
+.. automodule:: rheofit.models
    :members:
    :undoc-members:
    :show-inheritance:
 
-rheology.rheodata module
+rheofit.open\_doc module
 ------------------------
 
-.. automodule:: rheology.rheodata
+.. automodule:: rheofit.open_doc
    :members:
    :undoc-members:
    :show-inheritance:
 
-rheology.rheofit module
+rheofit.rheodata module
 -----------------------
 
-.. automodule:: rheology.rheofit
+.. automodule:: rheofit.rheodata
    :members:
    :undoc-members:
    :show-inheritance:
@@ -32,7 +32,7 @@ rheology.rheofit module
 Module contents
 ---------------
 
-.. automodule:: rheology
+.. automodule:: rheofit
    :members:
    :undoc-members:
    :show-inheritance:

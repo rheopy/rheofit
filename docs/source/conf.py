@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'rheology_python'
+project = 'rheofit'
 copyright = '2019, Marco Caggioni'
 author = 'Marco Caggioni'
 
@@ -105,7 +105,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'rheology_pythondoc'
+htmlhelp_basename = 'rheofit_pythondoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -132,7 +132,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'rheology_python.tex', 'rheology\\_python Documentation',
+    (master_doc, 'rheofit_python.tex', 'rheofit\\_python Documentation',
      'Marco Caggioni', 'manual'),
 ]
 
@@ -142,7 +142,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'rheology_python', 'rheology_python Documentation',
+    (master_doc, 'rheofit_python', 'rheofit_python Documentation',
      [author], 1)
 ]
 
@@ -153,8 +153,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'rheology_python', 'rheology_python Documentation',
-     author, 'rheology_python', 'One line description of project.',
+    (master_doc, 'rheofit', 'rheofit Documentation',
+     author, 'rheofit', 'One line description of project.',
      'Miscellaneous'),
 ]
 
