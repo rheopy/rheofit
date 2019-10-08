@@ -8,7 +8,7 @@ readme='Python labrary for rheology data analysis'
 licence='MIT'
 
 setup(
-    name='rheopy',
+    name='rheofit',
     version='0.1.0',
     description='Python library for rheology data analysis',
     long_description=readme,
