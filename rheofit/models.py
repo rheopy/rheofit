@@ -42,7 +42,7 @@ def constantstress(x, ystress=0.1):
 
 
 # instantiate model class
-constantstress_model=lmfit.Model(Newtonian, prefix='constantstress_')
+constantstress_model=lmfit.Model(constantstress, prefix='constantstress_')
 ''' Lmfit model from equation :meth:`rheofit.models.constantstress`
 
 Note:
