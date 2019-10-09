@@ -16,6 +16,6 @@ setup(
     author_email='marco.caggioni@gmail.com',
     url='https://github.com/marcocaggioni/rheofit',
     license=licence,
-    install_requires=['lmfit','xmltodict'],
+    install_requires=['lmfit','xmltodict','emcee','corner','pybroom'],
     packages=['rheofit']
 )
