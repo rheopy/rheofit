@@ -2,6 +2,7 @@
 [![Documentation Status](https://readthedocs.org/projects/rheofit/badge/?version=latest)](https://rheofit.readthedocs.io/en/latest/?badge=latest)
 
 library for fitting rheology data
+
 Documentation at https://rheofit.readthedocs.io
 
 # Try it in the cloud
