@@ -15,6 +15,7 @@ Quickstart guide
    :maxdepth: 2
    :glob:
 
+   Quickstart
    Fitting_single_flow_curve
 
 
