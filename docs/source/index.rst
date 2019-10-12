@@ -19,6 +19,7 @@ Quickstart guide
    :glob:
 
    Quickstart
+   load_data
    Fitting_single_flow_curve
 
 
