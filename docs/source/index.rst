@@ -7,12 +7,15 @@ Welcome to rheofit's documentation
 ===========================================
 
 Documentation of python rheology library
-Initially focused on fitting flow curves to rheological models. 
+
+Initially focused on fitting flow curves to rheological models.
+
+github repository at https://github.com/rheopy/rheofit
 
 Quickstart guide
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :glob:
 
    Quickstart
