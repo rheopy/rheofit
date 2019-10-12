@@ -3,7 +3,7 @@ import os
 import io
 import xmltodict
 import pandas as pd
-
+import numpy as np
 
 def example_emulsion():
     ''' 
@@ -156,7 +156,7 @@ def dicttopanda(datadict):
                     linelist.append(float(line[cellkey]['#text']))
                     columns.append(cellkey)
                 datatable.append(linelist)    
-            pandatable=pd.DataFrame(array(datatable),columns=columns)
+            pandatable=pd.DataFrame(np.array(datatable),columns=columns)
         
         if 'RVM' in experiment.keys():
             
@@ -171,7 +171,7 @@ def dicttopanda(datadict):
                     linelist.append(float(line[cellkey]['#text']))
                     columns.append(cellkey)
                 datatable.append(linelist)    
-            pandatable=pd.DataFrame(array(datatable),columns=columns)
+            pandatable=pd.DataFrame(np.array(datatable),columns=columns)
         pandalist.append(pandatable)    
     return pandalist
 
