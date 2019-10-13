@@ -11,14 +11,7 @@ rheofit.models module
    :members:
    :undoc-members:
    :show-inheritance:
-
-rheofit.open\_doc module
-------------------------
-
-.. automodule:: rheofit.open_doc
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   
 
 rheofit.rheodata module
 -----------------------
