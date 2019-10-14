@@ -189,7 +189,7 @@ def TC(x, ystress=1.0, eta_bg=0.1, gammadot_crit=0.1):
 
 
 # instantiate model class
-TC_model=lmfit.Model(TC, prefix='')
+TC_model=lmfit.Model(TC, prefix='TC_')
 ''' Lmfit model from equation :meth:`rheofit.models.TC`
 
 Note:
