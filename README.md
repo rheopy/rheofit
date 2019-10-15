@@ -21,12 +21,16 @@ pip uninstall rheofit
 
 # Try it in the cloud
 
+## With Colab (gmail account required)
+
 [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/marcocaggioni/rheofit/blob/master/notebooks/index.ipynb)
 
 In colab you can execute the notebooks used to create the documentation. Clicking the badge opens a index nobebook with links to the documentation notebooks. A direct link each notebook is also available in the documentation by clicking the link at the top of the page.
 You do not require a local python installation, colab provides all you need. You can try this also on a phone or tablet.
 
 ![link_to_colab_from_doc](link_to_colab_from_doc.png)
+
+## With Binder
 
 [![Binder](http://mybinder.org/badge_logo.svg)](http://beta.mybinder.org/v2/gh/rheopy/rheofit/master)
 
