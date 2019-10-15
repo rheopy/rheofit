@@ -5,6 +5,20 @@ library for fitting rheology data
 
 Documentation at https://rheofit.readthedocs.io
 
+# Install
+
+to install:
+
+```
+pip install git+https://github.com/marcocaggioni/rheofit.git
+```
+
+If you change your mind:
+
+```
+pip uninstall rheofit
+```
+
 # Try it in the cloud
 
 [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/marcocaggioni/rheofit/blob/master/notebooks/index.ipynb)
@@ -19,17 +33,3 @@ You do not require a local python installation, colab provides all you need. You
 In Binder you can test notebooks and also use Ipywidgets to run notebooks as small web applications. We provide one example app that uses a widget to let the user upload a file, select a rheological model and fit the data. Binder takes a few min to start but provides a very convenient way to test feature on a customized environemnt.
 
 ![appmode_example](appmode_example.png)
-
-# Install
-
-to install:
-
-```
-pip install git+https://github.com/marcocaggioni/rheofit.git
-```
-
-If you change your mind:
-
-```
-pip uninstall rheofit
-```
