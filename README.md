@@ -30,6 +30,6 @@ You do not require a local python installation, colab provides all you need. You
 
 [![Binder](http://mybinder.org/badge_logo.svg)](http://beta.mybinder.org/v2/gh/rheopy/rheofit/master)
 
-In Binder you can test notebooks and also use Ipywidgets to run notebooks as small web applications. We provide one example app that uses a widget to let the user upload a file, select a rheological model and fit the data. Binder takes a few min to start but provides a very convenient way to test feature on a customized environemnt.
+In Binder you can test notebooks and also use Ipywidgets to run notebooks as small web applications. We provide one example app that uses widgets to let the user upload a file, select a rheological model and fit the data. Binder takes a few min to start but provides a very convenient way to test feature on a customized environemnt. For this specific app we also provide an example file with an example measurement of a flow curve in the format assumed by the app, you can download it here [flow_curve_example.xls](https://github.com/rheopy/rheofit/raw/master/notebooks/data/Flow_curve_example.xls) 
 
 ![appmode_example](appmode_example.png)
