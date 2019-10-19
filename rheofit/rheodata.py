@@ -258,7 +258,18 @@ class rheology_data(object):
         else:
             raise ValueError('''data not loaded''')
 
-
+    @property
+    def tidy(self):
+        for (stepnum,stepdata) in enumerate(data):
+            stepdata[1]['Stepnum']=stepnum
+            stepdata[1]['stepname']=stepdata[0]
+            stepdata[1]['filename']=data.filename
+            if stepnum==0:
+                fulldata=stepdata[1]
+            else:
+                fulldata=pd.concat([fulldata,stepdata[1]],ignore_index=True,sort=False)
+        return fulldata
+            
     def __getitem__(self, i):
         return list(self.data.items())[i]
 
