@@ -260,7 +260,7 @@ class rheology_data(object):
 
     @property
     def tidy(self):
-        for (stepnum,stepdata) in enumerate(data):
+        for (stepnum,stepdata) in enumerate(self):
             stepdata[1]['Stepnum']=stepnum
             stepdata[1]['stepname']=stepdata[0]
             stepdata[1]['filename']=data.filename
