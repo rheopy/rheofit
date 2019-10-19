@@ -263,7 +263,7 @@ class rheology_data(object):
         for (stepnum,stepdata) in enumerate(self):
             stepdata[1]['Stepnum']=stepnum
             stepdata[1]['stepname']=stepdata[0]
-            stepdata[1]['filename']=data.filename
+            stepdata[1]['filename']=self.filename
             if stepnum==0:
                 fulldata=stepdata[1]
             else:
