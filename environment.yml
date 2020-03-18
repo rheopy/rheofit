@@ -17,6 +17,7 @@ dependencies:
   - pybroom
   - pymongo
   - jupyter_contrib_nbextensions
+  - voila
   - pip:
     - ipyupload
     - xmltodict
