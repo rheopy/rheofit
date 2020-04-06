@@ -218,7 +218,7 @@ class rheology_data(object):
                     
                     sample_notes=[self.Details.loc['Sample notes'].value]
                 
-                    for key, value in test.iloc[self.Details.index.get_loc('Sample notes')+1:self.Details.index.get_loc('Geometry name')].iterrows():
+                    for key, value in self.Details.iloc[self.Details.index.get_loc('Sample notes')+1:self.Details.index.get_loc('Geometry name')].iterrows():
                         sample_notes.append(key)
 
 
@@ -271,7 +271,7 @@ class rheology_data(object):
                     
                     sample_notes=[self.Details.loc['Sample notes'].value]
                 
-                    for key, value in test.iloc[self.Details.index.get_loc('Sample notes')+1:self.Details.index.get_loc('Geometry name')].iterrows():
+                    for key, value in self.Details.iloc[self.Details.index.get_loc('Sample notes')+1:self.Details.index.get_loc('Geometry name')].iterrows():
                         sample_notes.append(key)
 
 
