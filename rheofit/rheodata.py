@@ -212,7 +212,24 @@ class rheology_data(object):
             for table_name in table_name_list:
                 if table_name == 'Details':
                     self.Details = pd.read_excel(data_file_object,
-                                                 sheet_name=table_name)
+                                                 sheet_name='Details',
+                                                 header=None,
+                                                 names=['key','value']).set_index('key')
+                    
+                    sample_notes=[self.Details.loc['Sample notes'].value]
+                
+                    for key, value in test.iloc[self.Details.index.get_loc('Sample notes')+1:self.Details.index.get_loc('Geometry name')].iterrows():
+                        sample_notes.append(key)
+
+
+                    sample_notes=[x for x in sample_notes if str(x) != 'nan']
+                    self.sample_notes=sample_notes
+                    
+                    self.instrument_serial=self.Details.loc['Instrument serial number'].value
+                    self.geometry_name=self.Details.loc['Geometry name'].value
+                    self.instrument_type=self.Details.loc['Instrument type'].value
+                    self.run_date=self.Details.loc['Run date'].value
+
                 else:
                     try:
                         self.data[table_name] = data_file_object.parse(table_name,skiprows=1).drop(0).reset_index().astype('float')
@@ -248,7 +265,26 @@ class rheology_data(object):
             for table_name in table_name_list:
                 if table_name == 'Details':
                     self.Details = pd.read_excel(data_file_object,
-                                                 sheet_name=table_name)
+                                                 sheet_name='Details',
+                                                 header=None,
+                                                 names=['key','value']).set_index('key')
+                    
+                    sample_notes=[self.Details.loc['Sample notes'].value]
+                
+                    for key, value in test.iloc[self.Details.index.get_loc('Sample notes')+1:self.Details.index.get_loc('Geometry name')].iterrows():
+                        sample_notes.append(key)
+
+
+                    sample_notes=[x for x in sample_notes if str(x) != 'nan']
+                    self.sample_notes=sample_notes
+                    
+                    self.instrument_serial=self.Details.loc['Instrument serial number'].value
+                    self.geometry_name=self.Details.loc['Geometry name'].value
+                    self.instrument_type=self.Details.loc['Instrument type'].value
+                    self.run_date=self.Details.loc['Run date'].value
+
+                
+
                 else:
                     try:
                         self.data[table_name] = data_file_object.parse(table_name,skiprows=1).drop(0).reset_index().astype('float')
@@ -283,6 +319,7 @@ class rheology_data(object):
     def __add__(self,other):
         self.data.update(other.data)
         return self
+
 
 
 class data_package(object):
