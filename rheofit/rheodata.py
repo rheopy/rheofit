@@ -202,7 +202,7 @@ class rheology_data(object):
             source (str): Options 'trios_multitab_xls' (default), 'pandas_export_excel'
         '''
         if source == 'trios_multitab_xls':
-            self.filename = filename
+            self.filename = str(filename)
 
             data_file_object = pd.ExcelFile(filename)
             table_name_list = data_file_object.sheet_names
@@ -255,7 +255,7 @@ class rheology_data(object):
                         print('step ' + table_name + ' not loaded' )
 
         elif source == 'pandas_export_excel':
-            self.filename = filename
+            self.filename = str(filename)
 
             data_file_object = pd.ExcelFile(filename)
             table_name_list = data_file_object.sheet_names
