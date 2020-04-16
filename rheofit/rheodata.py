@@ -216,19 +216,37 @@ class rheology_data(object):
                                                  header=None,
                                                  names=['key','value']).set_index('key')
                     
-                    sample_notes=[self.Details.loc['Sample notes'].value]
-                
-                    for key, value in self.Details.iloc[self.Details.index.get_loc('Sample notes')+1:self.Details.index.get_loc('Geometry name')].iterrows():
-                        sample_notes.append(key)
+                    try:
+                        sample_notes=[self.Details.loc['Sample notes'].value]
+
+                        for key, value in self.Details.iloc[self.Details.index.get_loc('Sample notes')+1:self.Details.index.get_loc('Geometry name')].iterrows():
+                            sample_notes.append(key)
 
 
-                    sample_notes=[x for x in sample_notes if str(x) != 'nan']
-                    self.sample_notes=sample_notes
+                        sample_notes=[x for x in sample_notes if str(x) != 'nan']
+                        self.sample_notes=sample_notes
+                    except:
+                        self.sample_notes=''
+                        
+                    try:
+                        self.instrument_serial=self.Details.loc['Instrument serial number'].value
+                    except:
+                        self.instrument_serial=''
+                        
+                    try:
+                        self.geometry_name=self.Details.loc['Geometry name'].value
+                    except:
+                        self.geometry_name=''
                     
-                    self.instrument_serial=self.Details.loc['Instrument serial number'].value
-                    self.geometry_name=self.Details.loc['Geometry name'].value
-                    self.instrument_type=self.Details.loc['Instrument type'].value
-                    self.run_date=self.Details.loc['Run date'].value
+                    try:
+                        self.instrument_type=self.Details.loc['Instrument type'].value
+                    except:
+                        self.instrument_type=''
+                    
+                    try:
+                        self.run_date=self.Details.loc['Run date'].value
+                    except:
+                        self.run_date=None
 
                 else:
                     try:
@@ -269,19 +287,38 @@ class rheology_data(object):
                                                  header=None,
                                                  names=['key','value']).set_index('key')
                     
-                    sample_notes=[self.Details.loc['Sample notes'].value]
-                
-                    for key, value in self.Details.iloc[self.Details.index.get_loc('Sample notes')+1:self.Details.index.get_loc('Geometry name')].iterrows():
-                        sample_notes.append(key)
+                    try:
+                        sample_notes=[self.Details.loc['Sample notes'].value]
+
+                        for key, value in self.Details.iloc[self.Details.index.get_loc('Sample notes')+1:self.Details.index.get_loc('Geometry name')].iterrows():
+                            sample_notes.append(key)
 
 
-                    sample_notes=[x for x in sample_notes if str(x) != 'nan']
-                    self.sample_notes=sample_notes
+                        sample_notes=[x for x in sample_notes if str(x) != 'nan']
+                        self.sample_notes=sample_notes
+                    except:
+                        self.sample_notes=''
+                        
+                    try:
+                        self.instrument_serial=self.Details.loc['Instrument serial number'].value
+                    except:
+                        self.instrument_serial=''
+                        
+                    try:
+                        self.geometry_name=self.Details.loc['Geometry name'].value
+                    except:
+                        self.geometry_name=''
                     
-                    self.instrument_serial=self.Details.loc['Instrument serial number'].value
-                    self.geometry_name=self.Details.loc['Geometry name'].value
-                    self.instrument_type=self.Details.loc['Instrument type'].value
-                    self.run_date=self.Details.loc['Run date'].value
+                    try:
+                        self.instrument_type=self.Details.loc['Instrument type'].value
+                    except:
+                        self.instrument_type=''
+                    
+                    try:
+                        self.run_date=self.Details.loc['Run date'].value
+                    except:
+                        self.run_date=None
+
 
                 
 
