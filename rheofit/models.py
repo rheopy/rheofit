@@ -159,7 +159,8 @@ Bingham_model.set_param_hint('eta_bg', min=0, vary=True)
 
 
 """
-Bingham_model.model_expression = Math("\sigma=\sigma_y + \eta_{bg}\cdot\dot\gamma")
+Bingham_model.model_expression = Math(
+    "\sigma=\sigma_y + \eta_{bg}\cdot\dot\gamma")
 
 
 # set parameters for model class
@@ -278,7 +279,8 @@ casson_model.set_param_hint('ystress', min=0)
 casson_model.set_param_hint('eta_bg', min=0, vary=True)
 
 """
-casson_model.model_expression = Math("\sigma^{0.5}=\sigma_y^{0.5}+\eta_{bg}^{0.5}")
+casson_model.model_expression = Math(
+    "\sigma^{0.5}=\sigma_y^{0.5}+\eta_{bg}^{0.5}")
 
 casson_model.set_param_hint("ystress", min=0)
 casson_model.set_param_hint("eta_bg", min=0, vary=True)
