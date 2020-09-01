@@ -330,7 +330,7 @@ def cross(x, eta_inf=0.001, eta_0=1.0, n=0.5, gammadot_crit=1.0):
     Note:
 
     .. math::
-       \sigma= \dot\gamma \eta_{inf} + \frac{\dot\gamma (\eta_0 - \eta_{inf})}{1 + (\dot\gamma/\dot\gamma_c)^n}
+       \sigma= \dot\gamma \eta_{inf} + \dot\gamma (\eta_0 - \eta_{inf})/(1 + (\dot\gamma/\dot\gamma_c)^n)
 
     Args:
         ystress: yield stress [Pa]
@@ -360,7 +360,7 @@ cross_model.set_param_hint('gammadot_crit', min=0.0 ,vary=True)
 """
 
 cross_model.model_expression = Math(
-    "\sigma= \dot\gamma \eta_{inf} + \frac{\dot\gamma (\eta_0 - \eta_{inf})}{1 + (\dot\gamma/\dot\gamma_c)^n}"
+    "\sigma= \dot\gamma \eta_{inf} + \dot\gamma (\eta_0 - \eta_{inf})/(1 + (\dot\gamma/\dot\gamma_c)^n)"
 )
 
 cross_model.set_param_hint("eta_0", min=0)

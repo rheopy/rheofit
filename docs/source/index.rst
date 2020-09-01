@@ -21,6 +21,7 @@ Quickstart guide
    Quickstart
    load_data
    Fitting_single_flow_curve
+   models
 
 
 .. toctree::
