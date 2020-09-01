@@ -5,6 +5,7 @@ import xmltodict
 import pandas as pd
 import numpy as np
 
+
 def example_emulsion():
     ''' 
     Example flow curve data for oil in water emulsion
@@ -12,7 +13,7 @@ def example_emulsion():
     temperature 40C 
     '''
 
-    emulsion_75_1400oil_11Las_40C='''
+    emulsion_75_1400oil_11Las_40C = '''
     999.89475	131.22475
     891.251	121.57225
     794.32825	112.56525
@@ -115,9 +116,10 @@ def example_emulsion():
     0.011219275	2.950915
     0.009999548	2.9067975
     '''
-    FC = pd.read_csv(io.StringIO(emulsion_75_1400oil_11Las_40C),names=['Shear rate','Stress'],delimiter='\t').astype('float')
-    FC['Stress']=FC['Stress']
-    FC.sort_values('Shear rate',ascending=False, inplace=True)
+    FC = pd.read_csv(io.StringIO(emulsion_75_1400oil_11Las_40C), names=[
+                     'Shear rate', 'Stress'], delimiter='\t').astype('float')
+    FC['Stress'] = FC['Stress']
+    FC.sort_values('Shear rate', ascending=False, inplace=True)
 
     return FC
 
@@ -129,50 +131,51 @@ def get_data_dict(data_name):
     with open(data_name) as xml_file:
         try:
             xml_file.seek(0)
-            data_dict=xmltodict.parse(xml_file.read())
+            data_dict = xmltodict.parse(xml_file.read())
         except:
             xml_file.seek(3)
-            data_dict=xmltodict.parse(xml_file.read())
-    return data_dict                
+            data_dict = xmltodict.parse(xml_file.read())
+    return data_dict
+
 
 def dicttopanda(datadict):
     ''' Covert dictionary from rheoml to list of pandas table'''
 
-    datasource=datadict['RheoML_Dataset']['ExperimentalData']
-    pandalist=[]
-    counter=0
+    datasource = datadict['RheoML_Dataset']['ExperimentalData']
+    pandalist = []
+    counter = 0
 
-    if isinstance(datasource, list)==False:
-        datasource=[datasource]
+    if isinstance(datasource, list) == False:
+        datasource = [datasource]
     for experiment in datasource:
-        datatable=[]
-        
+        datatable = []
+
         if 'DMA' in experiment.keys():
             for line in experiment['DMA']:
-                linelist=[]
-                columns=[]            
+                linelist = []
+                columns = []
 
                 for cellkey in line.keys():
                     linelist.append(float(line[cellkey]['#text']))
                     columns.append(cellkey)
-                datatable.append(linelist)    
-            pandatable=pd.DataFrame(np.array(datatable),columns=columns)
-        
+                datatable.append(linelist)
+            pandatable = pd.DataFrame(np.array(datatable), columns=columns)
+
         if 'RVM' in experiment.keys():
-            
+
             for line in experiment['RVM']:
-                linelist=[]
-                columns=[] 
-                
-                if isinstance(experiment['RVM'], list)==False:
-                    line=experiment['RVM']
-                                
+                linelist = []
+                columns = []
+
+                if isinstance(experiment['RVM'], list) == False:
+                    line = experiment['RVM']
+
                 for cellkey in line.keys():
                     linelist.append(float(line[cellkey]['#text']))
                     columns.append(cellkey)
-                datatable.append(linelist)    
-            pandatable=pd.DataFrame(np.array(datatable),columns=columns)
-        pandalist.append(pandatable)    
+                datatable.append(linelist)
+            pandatable = pd.DataFrame(np.array(datatable), columns=columns)
+        pandalist.append(pandatable)
     return pandalist
 
 
@@ -214,45 +217,46 @@ class rheology_data(object):
                     self.Details = pd.read_excel(data_file_object,
                                                  sheet_name='Details',
                                                  header=None,
-                                                 names=['key','value']).set_index('key')
-                    
+                                                 names=['key', 'value']).set_index('key')
+
                     try:
-                        sample_notes=[self.Details.loc['Sample notes'].value]
+                        sample_notes = [self.Details.loc['Sample notes'].value]
 
                         for key, value in self.Details.iloc[self.Details.index.get_loc('Sample notes')+1:self.Details.index.get_loc('Geometry name')].iterrows():
                             sample_notes.append(key)
 
+                        sample_notes = [
+                            x for x in sample_notes if str(x) != 'nan']
+                        self.sample_notes = sample_notes
+                    except:
+                        self.sample_notes = ''
 
-                        sample_notes=[x for x in sample_notes if str(x) != 'nan']
-                        self.sample_notes=sample_notes
-                    except:
-                        self.sample_notes=''
-                        
                     try:
-                        self.instrument_serial=self.Details.loc['Instrument serial number'].value
+                        self.instrument_serial = self.Details.loc['Instrument serial number'].value
                     except:
-                        self.instrument_serial=''
-                        
+                        self.instrument_serial = ''
+
                     try:
-                        self.geometry_name=self.Details.loc['Geometry name'].value
+                        self.geometry_name = self.Details.loc['Geometry name'].value
                     except:
-                        self.geometry_name=''
-                    
+                        self.geometry_name = ''
+
                     try:
-                        self.instrument_type=self.Details.loc['Instrument type'].value
+                        self.instrument_type = self.Details.loc['Instrument type'].value
                     except:
-                        self.instrument_type=''
-                    
+                        self.instrument_type = ''
+
                     try:
-                        self.run_date=self.Details.loc['Run date'].value
+                        self.run_date = self.Details.loc['Run date'].value
                     except:
-                        self.run_date=None
+                        self.run_date = None
 
                 else:
                     try:
-                        self.data[table_name] = data_file_object.parse(table_name,skiprows=1).drop(0).reset_index().astype('float')
+                        self.data[table_name] = data_file_object.parse(
+                            table_name, skiprows=1).drop(0).reset_index().astype('float')
                     except:
-                        print('step ' + table_name + ' not loaded' )
+                        print('step ' + table_name + ' not loaded')
 
         elif source == 'pandas_export_excel':
             self.filename = str(filename)
@@ -268,10 +272,11 @@ class rheology_data(object):
                                                  sheet_name=table_name)
                 else:
                     try:
-                        self.data[table_name] = data_file_object.parse(table_name).astype('float')
+                        self.data[table_name] = data_file_object.parse(
+                            table_name).astype('float')
                     except:
-                        print('step ' + table_name + ' not loaded' )
-                        
+                        print('step ' + table_name + ' not loaded')
+
         elif source == 'file_like_object':
             self.filename = 'from filelike object'
 
@@ -285,64 +290,63 @@ class rheology_data(object):
                     self.Details = pd.read_excel(data_file_object,
                                                  sheet_name='Details',
                                                  header=None,
-                                                 names=['key','value']).set_index('key')
-                    
+                                                 names=['key', 'value']).set_index('key')
+
                     try:
-                        sample_notes=[self.Details.loc['Sample notes'].value]
+                        sample_notes = [self.Details.loc['Sample notes'].value]
 
                         for key, value in self.Details.iloc[self.Details.index.get_loc('Sample notes')+1:self.Details.index.get_loc('Geometry name')].iterrows():
                             sample_notes.append(key)
 
+                        sample_notes = [
+                            x for x in sample_notes if str(x) != 'nan']
+                        self.sample_notes = sample_notes
+                    except:
+                        self.sample_notes = ''
 
-                        sample_notes=[x for x in sample_notes if str(x) != 'nan']
-                        self.sample_notes=sample_notes
-                    except:
-                        self.sample_notes=''
-                        
                     try:
-                        self.instrument_serial=self.Details.loc['Instrument serial number'].value
+                        self.instrument_serial = self.Details.loc['Instrument serial number'].value
                     except:
-                        self.instrument_serial=''
-                        
-                    try:
-                        self.geometry_name=self.Details.loc['Geometry name'].value
-                    except:
-                        self.geometry_name=''
-                    
-                    try:
-                        self.instrument_type=self.Details.loc['Instrument type'].value
-                    except:
-                        self.instrument_type=''
-                    
-                    try:
-                        self.run_date=self.Details.loc['Run date'].value
-                    except:
-                        self.run_date=None
+                        self.instrument_serial = ''
 
+                    try:
+                        self.geometry_name = self.Details.loc['Geometry name'].value
+                    except:
+                        self.geometry_name = ''
 
-                
+                    try:
+                        self.instrument_type = self.Details.loc['Instrument type'].value
+                    except:
+                        self.instrument_type = ''
+
+                    try:
+                        self.run_date = self.Details.loc['Run date'].value
+                    except:
+                        self.run_date = None
 
                 else:
                     try:
-                        self.data[table_name] = data_file_object.parse(table_name,skiprows=1).drop(0).reset_index().astype('float')
+                        self.data[table_name] = data_file_object.parse(
+                            table_name, skiprows=1).drop(0).reset_index().astype('float')
                     except:
-                        print('step ' + table_name + ' not loaded' )
+                        print('step ' + table_name + ' not loaded')
 
         else:
             raise ValueError('''data not loaded''')
 
     @property
     def tidy(self):
-        for (stepnum,stepdata) in enumerate(self):
-            stepdata[1]['Stepnum']=stepnum
-            stepdata[1]['stepname']=stepdata[0]
-            stepdata[1]['filename']=self.filename
-            if stepnum==0:
-                fulldata=stepdata[1]
+        for (stepnum, stepdata) in enumerate(self):
+            stepdata[1]['Stepnum'] = stepnum
+            stepdata[1]['stepname'] = stepdata[0]
+            stepdata[1]['filename'] = self.filename
+            if stepnum == 0:
+                fulldata = stepdata[1]
             else:
-                fulldata=pd.concat([fulldata,stepdata[1]],ignore_index=True,sort=False)
+                fulldata = pd.concat(
+                    [fulldata, stepdata[1]], ignore_index=True, sort=False)
         return fulldata
-            
+
     def __getitem__(self, i):
         return list(self.data.items())[i]
 
@@ -350,75 +354,74 @@ class rheology_data(object):
         if self.filename is None:
             ret_string = 'No data'
         else:
-            ret_string='rheology_data('+self.filename+')'
-        return  ret_string
+            ret_string = 'rheology_data('+self.filename+')'
+        return ret_string
 
-    def __add__(self,other):
+    def __add__(self, other):
         self.data.update(other.data)
         return self
 
 
-
 class data_package(object):
-    def __init__(self,data_path,exp_files_dict=None,procedure=None):
+    def __init__(self, data_path, exp_files_dict=None, procedure=None):
 
-        self.procedure=procedure
-
+        self.procedure = procedure
 
         if exp_files_dict is None:
-            self.source='Trios'
-            filelist=[item for item in os.listdir(data_path) if '.xls' in item]
+            self.source = 'Trios'
+            filelist = [item for item in os.listdir(
+                data_path) if '.xls' in item]
 
-            data_dict={}
+            data_dict = {}
             for file in filelist:
-                data_dict[file]=data_path + file
+                data_dict[file] = data_path + file
 
-            self.data_dict=data_dict
-            self._len=len(data_dict)
+            self.data_dict = data_dict
+            self._len = len(data_dict)
 
-        elif isinstance(exp_files_dict,dict):
-            self.source='Advantage'
-            self.data_dict=exp_files_dict
+        elif isinstance(exp_files_dict, dict):
+            self.source = 'Advantage'
+            self.data_dict = exp_files_dict
 
     @property
     def data_table(self):
         return pd.DataFrame.from_dict(
-        {'filename':list(self.data_dict.keys()),
-        'filepath':list(self.data_dict.values())})
+            {'filename': list(self.data_dict.keys()),
+             'filepath': list(self.data_dict.values())})
 
-    def __getitem__(self,index):
+    def __getitem__(self, index):
 
         def _concat_rheology_data(list):
-            result=list[0]
+            result = list[0]
             for item in list[1:]:
-                result+=item
+                result += item
             return result
 
-        if isinstance( index, slice ):
+        if isinstance(index, slice):
             return [self[ii] for ii in range(*index.indices(len(self)))]
 
-        elif isinstance( index, int ):
+        elif isinstance(index, int):
             if self.procedure is not None:
-                if self.source=='Trios':
+                if self.source == 'Trios':
                     return self.procedure(
-                    rheology_data(self.data_table.iloc[index]['filepath']))
-                if self.source=='Advantage':
+                        rheology_data(self.data_table.iloc[index]['filepath']))
+                if self.source == 'Advantage':
                     return self.procedure(
-                    _concat_rheology_data(
-                    [rheology_data(item) for item in
-                    self.data_table.iloc[index]['filepath']]))
+                        _concat_rheology_data(
+                            [rheology_data(item) for item in
+                             self.data_table.iloc[index]['filepath']]))
 
             else:
-                if self.source=='Trios':
+                if self.source == 'Trios':
                     return rheology_data(self.data_table.iloc[index]['filepath'])
-                if self.source=='Advantage':
+                if self.source == 'Advantage':
                     return self._concat_rheology_data(
-                    [rheology_data(item) for item in
-                    self.data_table.iloc[index]['filepath']])
-
+                        [rheology_data(item) for item in
+                         self.data_table.iloc[index]['filepath']])
 
     def __len__(self):
         return self._len
+
 
 if __name__ == "__main__":
     print('ok')
