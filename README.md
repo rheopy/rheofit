@@ -10,7 +10,7 @@ Documentation at https://rheofit.readthedocs.io
 to install:
 
 ```
-pip install git+https://github.com/marcocaggioni/rheofit.git
+pip install git+https://github.com/rheopy/rheofit.git
 ```
 
 If you change your mind:
