@@ -1,7 +1,7 @@
 # rheofit
 [![Documentation Status](https://readthedocs.org/projects/rheofit/badge/?version=latest)](https://rheofit.readthedocs.io/en/latest/?badge=latest)
 
-library for fitting rheology data
+library for fitting rheology data flow curves
 
 Documentation at https://rheofit.readthedocs.io
 
