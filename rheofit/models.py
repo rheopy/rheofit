@@ -212,6 +212,55 @@ TC_model.set_param_hint("eta_bg", min=0, vary=True)
 TC_model.set_param_hint("gammadot_crit", min=0)
 
 
+def TCn(x, ystress=1.0, eta_bg=0.1, gammadot_crit=0.1,n=0.5):
+    """Three component model
+
+    Note:
+
+    .. math::
+       \sigma=\sigma_y+\sigma_y\cdot(\dot\gamma/\dot\gamma_c)^n+\eta_{bg}\cdot\dot\gamma
+
+    Args:
+        ystress: yield stress [Pa]
+
+        eta_bg : Background viscosity [Pa s]
+
+        gammadot_crit : Critical shear rate [1/s]
+        
+        n: Shear thinning exponent
+
+    Returns:
+        stress : Shear Stress, [Pa]
+    """
+    return ystress + ystress * (x / gammadot_crit) ** n + eta_bg * x
+
+
+# instantiate model class
+TCn_model = lmfit.Model(TCn, prefix="TCn_")
+""" Lmfit model from equation :meth:`rheofit.models.TC`
+
+Note:
+
+TCn_model.set_param_hint('ystress', min=0)
+
+TCn_model.set_param_hint('eta_bg', min=0, vary=True)
+
+TCn_model.set_param_hint('gammadot_crit', min=0)
+
+TCn_model.set_param_hint('n', min=0, max=1)
+"""
+TCn_model.model_expression = Math(
+    "\sigma=\sigma_y+\sigma_y\cdot(\dot\gamma/\dot\gamma_c)^{0.5}+\eta_{bg}\cdot\dot\gamma"
+)
+
+
+# set parameters for model class
+TCn_model.set_param_hint("ystress", min=0)
+TCn_model.set_param_hint("eta_bg", min=0, vary=True)
+TCn_model.set_param_hint("gammadot_crit", min=0)
+TCn_model.set_param_hint("n", min=0, max=1)
+
+
 def HB(x, ystress=1.0, K=1.0, n=0.5):
     """Hershel-Bulkley Model
 
