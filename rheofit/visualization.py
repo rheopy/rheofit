@@ -96,3 +96,15 @@ def plot_fit_res(fit_res, show_par_values=False,exp_err=0.05):
         fig.suptitle(fit_res.model)
     
     return fig
+
+def plot_confidence(res_fit,expand=1):
+    dely = res_fit.eval_uncertainty(x=res_fit.userkws['x'],sigma=3)*expand
+
+    plt.plot(res_fit.userkws['x'], res_fit.data,'o',color='black',label='Data',markersize=5)
+    plt.plot(res_fit.userkws['x'], res_fit.best_fit,label='Best fit TC model',color='red')
+    plt.fill_between(res_fit.userkws['x'], res_fit.best_fit-dely,res_fit.best_fit+dely,
+                     color='blue',alpha=0.2,label='0.9973 Confidence interval')
+    plt.yscale('log')
+    plt.xscale('log')
+    plt.ylabel('$\sigma [Pa]$')
+    plt.xlabel('$\dot\gamma [1/s]$')
