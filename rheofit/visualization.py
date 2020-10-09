@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import lmfit
 
 def make_par_widget(model,data=None):
-    
+    ''' '''
     if data is not None:
         res_fit=model.fit(data['Stress'],x=data['Shear rate'],weights=1/(0.05*data['Stress']))
         params=res_fit.params
