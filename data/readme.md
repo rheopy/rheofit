@@ -4,6 +4,8 @@
 
 **Tool**: Webplotdigitizer https://automeris.io/WebPlotDigitizer/
 
+[![](http://img.youtube.com/vi/jKtmEz6jeCs/0.jpg)](http://www.youtube.com/watch?v=jKtmEz6jeCs "plot_digitizer_demo")
+
 ## Initial scope:
 
 Initially collecting just flow curve for yield stress fluids,
