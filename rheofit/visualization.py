@@ -90,7 +90,7 @@ def plot_fit_res(fit_res, show_par_values=False,exp_err=0.05):
         for item in fit_res.params:
             mod_par_text+=(f'{item} : {fit_res.params[item].value:.2E} \n')
 
-        mod_par_text+='Red chi square: ' + str(fit_res.redchi)+ '\n'
+        mod_par_text+=f'Red chi square: {fit_res.redchi:.2E} \n'
 
         plt.text(-1, 0.95, mod_par_text, transform=plt.gca().transAxes, fontsize=14,verticalalignment='top')
         fig.suptitle(fit_res.model)
