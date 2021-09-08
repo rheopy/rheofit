@@ -1,6 +1,6 @@
 # Collection of digitized data from published work
 
-## Dizitization protocol:
+## Digitization protocol:
 
 **Tool**: Webplotdigitizer https://automeris.io/WebPlotDigitizer/
 
