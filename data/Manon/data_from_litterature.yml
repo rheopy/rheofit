@@ -1,0 +1,87 @@
+Fig2_Dekker2018:
+  figure_number: 2
+  title: Scaling of flow curves Comparison between experiments and simulations
+  year: 2018
+  doi: 10.1016/j.jnnfm.2018.08.006
+  author: Riande I. Dekker and Maureen Dinkgreve and Henri de Cagny and Dion J. Koeze and Brian P. Tighe and Daniel Bonn
+  sample: castor oil concentrated emuslions
+  unit_x: s-1
+  unit_y: Pa
+  solvent_viscosity: 0.00089 #Pa.s for water at 25°C
+
+Fig2_Dinkgreve2015:
+  figure_number: 2
+  title: Universal rescaling of flow curves for yield-stress fluids close to jamming
+  year: 2015
+  doi: 10.1103/PhysRevE.92.012305
+  author: Dinkgreve, M. and Paredes, J. and Michels, M. A. J. and Bonn, D.
+  sample: rigid emulsions of castor oil in water
+  unit_x: s-1
+  unit_y: Pa
+  solvent_viscosity: 0.0089
+
+Fig3_Ghosh2019:
+  figure_number: 3
+  title: Linear and nonlinear rheology and structural relaxation in dense glassy and jammed soft repulsive pNIPAM microgel suspensions
+  year: 2019
+  doi: 10.1039/C8SM02014K
+  author: Ghosh, Ashesh and Chaudhary, Gaurav and Kang, Jin Gu and Braun, Paul V. and Ewoldt, Randy H. and Schweizer, Kenneth S.
+  sample: pnipam in water, the volume concentration is derived from their interpretation
+  unit_x: s-1
+  unit_y: Pa
+  solvent_viscosity: 0.00131 #Pa.s for water at 10°C
+
+Fig5_Mason1996:
+  figure_number: 5
+  title: Yielding and Flow of Monodisperse Emulsions
+  year: 1996
+  doi: 10.1006/jcis.1996.0235
+  author: T.G. Mason and J. Bibette and D.A. Weitz
+  sample: silicon droplets in water stabilised with SDS
+  unit_x: s-1
+  unit_y: dynes/cm2
+  solvent_viscosity: 0.00089 #Pa.s for water at 25°C
+
+Fig1_Paredes2013:
+  figure_number: 1
+  title: Rheology across the Zero-Temperature Jamming Transition
+  year: 2013
+  doi: 10.1103/PhysRevLett.111.015701
+  author: Paredes, Jos\'e and Michels, Matthias A. J. and Bonn, Daniel
+  sample: castor oil emulsion (mobile emulsion)
+  unit_x: s-1
+  unit_y: Pa
+  solvent_viscosity: 0.00089 #Pa.s for water at 25°C
+
+Fig5_Petekidis2004:
+  figure_number: 5
+  title: Yielding and flow of sheared colloidal glasses
+  year: 2004
+  doi: 10.1088/0953-8984/16/38/013
+  author: G Petekidis and D Vlassopoulos and P N Pusey
+  sample: PMMA hard-sphere colloids in dodecane with 12% polydispersity. Thermal system.
+  unit_x: 0.158s-1
+  unit_y: 0.0825Pa
+  solvent_viscosity: 0.00149 #Pa.s at 20°C
+
+FigS3a_Seth2011:
+  figure_number: Sa
+  title: A micromechanical model to predict the flow of soft particle glasses
+  year: 2011
+  doi: 10.1038/nmat3119
+  author: Seth, Jyoti R. and Mohan, Lavanya and Locatelli-Champagne, Clémentine and Cloitre, Michel and Bonnecaze, Roger T.
+  sample: oil/water-glycerol emulsions
+  unit_x: s-1
+  unit_y: Pa
+  solvent_viscosity: 0.0079  #Pa.s
+
+FigS3b_Seth2011:
+  figure_number: Sa
+  title: A micromechanical model to predict the flow of soft particle glasses
+  year: 2011
+  doi: 10.1038/nmat3119
+  author: Seth, Jyoti R. and Mohan, Lavanya and Locatelli-Champagne, Clémentine and Cloitre, Michel and Bonnecaze, Roger T.
+  sample: oil/water-glycerol emulsions
+  unit_x: s-1
+  unit_y: Pa
+  solvent_viscosity: 0.001  #Pa.s
