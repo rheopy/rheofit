@@ -11,3 +11,9 @@ Just pickles every useful information about the figures by grabbing the yml file
 ## Jupyter notebook 
 
 To make the plots
+
+## Naming convention
+
+Fig#AuthorYear
+
+If 'S' in figure number, then the plot can be found in the supplementary materials of the paper
