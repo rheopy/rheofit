@@ -1,0 +1,5 @@
+lmfit
+xmltodict
+emcee
+corner
+pybroom

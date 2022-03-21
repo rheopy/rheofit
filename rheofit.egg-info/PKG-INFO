@@ -1,0 +1,13 @@
+Metadata-Version: 2.1
+Name: rheofit
+Version: 0.1.0
+Summary: Python library for rheology data analysis
+Home-page: https://github.com/rheopy/rheofit
+Author: Marco Caggioni
+Author-email: marco.caggioni@gmail.com
+License: MIT
+Platform: UNKNOWN
+License-File: LICENSE
+
+Python labrary for rheology data analysis
+
