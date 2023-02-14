@@ -9,7 +9,7 @@ licence='MIT'
 
 setup(
     name='rheofit',
-    version='0.1.1',
+    version='0.1.2',
     description='Python library for rheology data analysis',
     long_description=readme,
     author='Marco Caggioni',
