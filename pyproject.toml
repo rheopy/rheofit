@@ -9,7 +9,7 @@ readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
-dependencies = ["lmfit","xmltodict","emcee',"corner","pybroom"]
+dependencies = ["lmfit","xmltodict","emcee","corner","pybroom"]
 
 [project.urls]
 Home = "https://github.com/rheopy/rheofit"
