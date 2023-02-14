@@ -9,13 +9,13 @@ licence='MIT'
 
 setup(
     name='rheofit',
-    version='0.1.2',
+    version='0.1.3',
     description='Python library for rheology data analysis',
     long_description=readme,
     author='Marco Caggioni',
     author_email='marco.caggioni@gmail.com',
     url='https://github.com/rheopy/rheofit',
     license=licence,
-    install_requires=['lmfit','xmltodict','emcee','corner','pybroom'],
+    install_requires=['lmfit','xmltodict','emcee','corner','pybroom','xlrd','ipywidgets'],
     packages=['rheofit']
 )
