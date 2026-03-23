@@ -212,7 +212,7 @@ TC_model.set_param_hint("eta_bg", min=0, vary=True)
 TC_model.set_param_hint("gammadot_crit", min=0)
 
 
-def TCn(x, ystress=1.0, eta_bg=0.1, gammadot_crit=0.1,n=0.5):
+def TCn(x, ystress=1.0, eta_bg=0.1, gammadot_crit=0.1, n=0.5):
     """Three component model
 
     Note:
@@ -418,6 +418,63 @@ cross_model.set_param_hint("eta_0", min=0)
 cross_model.set_param_hint("eta_inf", min=0, vary=True)
 cross_model.set_param_hint("n", min=0.0, max=1, vary=True)
 cross_model.set_param_hint("gammadot_crit", min=0.0, vary=True)
+
+
+def TC_carreau_carreau(x, sigma_y=1.0, tau_TC=0.1, eta_0_1=0.1, lambda_val_1=0.1, n_1=0.5, eta_0_2=0.1, lambda_val_2=0.1, n_2=0.5):
+    """Three Component + Carreau + Carreau (TCCC) Model
+
+    Note:
+
+    .. math::
+       \sigma=\sigma_y + \sigma_y\sqrt{x \cdot \tau_{TC}} + \eta_{0,1}(1+(\lambda_1 x)^2)^{(n_1-1)/2} \cdot x + \eta_{0,2}(1+(\lambda_2 x)^2)^{(n_2-1)/2} \cdot x
+
+    Args:
+        sigma_y : Yield stress [Pa]
+
+        tau_TC : Three component characteristic stress [Pa]
+
+        eta_0_1 : Low shear viscosity for first Carreau component [Pa s]
+
+        lambda_val_1 : Time constant for first Carreau component [s]
+
+        n_1 : Shear thinning exponent for first Carreau component []
+
+        eta_0_2 : Low shear viscosity for second Carreau component [Pa s]
+
+        lambda_val_2 : Time constant for second Carreau component [s]
+
+        n_2 : Shear thinning exponent for second Carreau component []
+
+    Returns:
+        stress : Shear Stress, [Pa]
+    """
+    return (
+        sigma_y
+        + sigma_y * np.sqrt(x * tau_TC)
+        + (eta_0_1 * (1 + (lambda_val_1 * x) ** 2) ** ((n_1 - 1) / 2)) * x
+        + (eta_0_2 * (1 + (lambda_val_2 * x) ** 2) ** ((n_2 - 1) / 2)) * x
+    )
+
+
+TC_carreau_carreau_model = lmfit.Model(TC_carreau_carreau, prefix="TCCC_")
+""" Lmfit model from equation :meth:`rheofit.models.TC_carreau_carreau`
+
+Note:
+
+"""
+TC_carreau_carreau_model.model_expression = Math(
+    "\sigma=\sigma_y + \sigma_y\sqrt{x \cdot \tau_{TC}} + \eta_{0,1}(1+(\lambda_1 x)^2)^{(n_1-1)/2} \cdot x + \eta_{0,2}(1+(\lambda_2 x)^2)^{(n_2-1)/2} \cdot x"
+)
+
+# set parameters for model class
+TC_carreau_carreau_model.set_param_hint("sigma_y", min=0)
+TC_carreau_carreau_model.set_param_hint("tau_TC", min=0, vary=True)
+TC_carreau_carreau_model.set_param_hint("eta_0_1", min=0, vary=True)
+TC_carreau_carreau_model.set_param_hint("lambda_val_1", min=0, vary=True)
+TC_carreau_carreau_model.set_param_hint("n_1", min=0.0, max=1, vary=True)
+TC_carreau_carreau_model.set_param_hint("eta_0_2", min=0, vary=True)
+TC_carreau_carreau_model.set_param_hint("lambda_val_2", min=0, vary=True)
+TC_carreau_carreau_model.set_param_hint("n_2", min=0.0, max=1, vary=True)
 
 
 def show_parameter_table(result):

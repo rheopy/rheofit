@@ -1,15 +1,45 @@
-[build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
-
 [project]
 name = "rheofit"
+version = "0.1.3"
+description = "Python library for rheology data analysis"
 authors = [{name = "Marco Caggioni", email = "marco.caggioni@gmail.com"}]
 readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
-dynamic = ["version", "description"]
-dependencies = ["lmfit","xmltodict","emcee","corner","pybroom","xlrd","ipywidgets"]
+requires-python = ">=3.9"
+dependencies = [
+    "lmfit",
+    "xmltodict",
+    "emcee",
+    "corner",
+    "pybroom",
+    "xlrd",
+    "ipywidgets",
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "openpyxl",
+    "ipykernel>=6.31.0",
+    "seaborn>=0.13.2",
+    "tadatakit>=0.1.1",
+    "tqdm>=4.67.3",
+]
+
+[project.optional-dependencies]
+docs = [
+    "sphinx",
+    "nbsphinx",
+]
+dev = [
+    "pytest",
+]
 
 [project.urls]
 Home = "https://github.com/rheopy/rheofit"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["rheofit"]

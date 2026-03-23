@@ -1,9 +1,27 @@
 import collections
 import os
 import io
+import json
+from importlib.resources import files
 import xmltodict
 import pandas as pd
 import numpy as np
+from tadatakit.classes import Experiment
+
+
+_DATASETS = {
+    "cp2pc_pg": "cp2pc_pg.json",
+}
+
+
+def __getattr__(name):
+    """Lazy-load JSON data files as Experiment objects."""
+    if name in _DATASETS:
+        data_path = files("rheofit.data").joinpath(_DATASETS[name])
+        experiment = Experiment.from_json(str(data_path))
+        globals()[name] = experiment
+        return experiment
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
 def example_emulsion():
@@ -122,306 +140,6 @@ def example_emulsion():
     FC.sort_values('Shear rate', ascending=False, inplace=True)
 
     return FC
-
-
-def get_data_dict(data_name):
-    '''
-    parse xml file into dicionary
-    '''
-    with open(data_name) as xml_file:
-        try:
-            xml_file.seek(0)
-            data_dict = xmltodict.parse(xml_file.read())
-        except:
-            xml_file.seek(3)
-            data_dict = xmltodict.parse(xml_file.read())
-    return data_dict
-
-
-def dicttopanda(datadict):
-    ''' Covert dictionary from rheoml to list of pandas table'''
-
-    datasource = datadict['RheoML_Dataset']['ExperimentalData']
-    pandalist = []
-    counter = 0
-
-    if isinstance(datasource, list) == False:
-        datasource = [datasource]
-    for experiment in datasource:
-        datatable = []
-
-        if 'DMA' in experiment.keys():
-            for line in experiment['DMA']:
-                linelist = []
-                columns = []
-
-                for cellkey in line.keys():
-                    linelist.append(float(line[cellkey]['#text']))
-                    columns.append(cellkey)
-                datatable.append(linelist)
-            pandatable = pd.DataFrame(np.array(datatable), columns=columns)
-
-        if 'RVM' in experiment.keys():
-
-            for line in experiment['RVM']:
-                linelist = []
-                columns = []
-
-                if isinstance(experiment['RVM'], list) == False:
-                    line = experiment['RVM']
-
-                for cellkey in line.keys():
-                    linelist.append(float(line[cellkey]['#text']))
-                    columns.append(cellkey)
-                datatable.append(linelist)
-            pandatable = pd.DataFrame(np.array(datatable), columns=columns)
-        pandalist.append(pandatable)
-    return pandalist
-
-
-class rheology_data(object):
-    '''Container for rheology data from trios rheometer software.
-
-    Accept excel file exported with the option multitab.
-    The main utility of this class is for test consisting of Multiple
-    steps. The rheology_data class accept index and return the nth
-    step result as a tuple with (step_name, Pandas Dataframe)
-
-    The rheology_data class can also be added to append the steps of the
-    second object to the steps of the first.
-    This is usefull to combine consecutive tests when exported as
-    multiple files (Rheology advantage software)
-
-    Attributes:
-        filename (str): name of data file (xls from trios)
-
-    '''
-
-    def __init__(self, filename, source='trios_multitab_xls'):
-        '''
-        Assuming Shear stress label 'Stress' And Shear rate label 'Shear rate'
-        Args:
-            filename (str): name of data file
-            source (str): Options 'trios_multitab_xls' (default), 'pandas_export_excel'
-        '''
-        if source == 'trios_multitab_xls':
-            self.filename = str(filename)
-
-            data_file_object = pd.ExcelFile(filename)
-            table_name_list = data_file_object.sheet_names
-
-            self.data = collections.OrderedDict()
-
-            for table_name in table_name_list:
-                if table_name == 'Details':
-                    self.Details = pd.read_excel(data_file_object,
-                                                 sheet_name='Details',
-                                                 header=None,
-                                                 names=['key', 'value']).set_index('key')
-
-                    try:
-                        sample_notes = [self.Details.loc['Sample notes'].value]
-
-                        for key, value in self.Details.iloc[self.Details.index.get_loc('Sample notes')+1:self.Details.index.get_loc('Geometry name')].iterrows():
-                            sample_notes.append(key)
-
-                        sample_notes = [
-                            x for x in sample_notes if str(x) != 'nan']
-                        self.sample_notes = sample_notes
-                    except:
-                        self.sample_notes = ''
-
-                    try:
-                        self.instrument_serial = self.Details.loc['Instrument serial number'].value
-                    except:
-                        self.instrument_serial = ''
-
-                    try:
-                        self.geometry_name = self.Details.loc['Geometry name'].value
-                    except:
-                        self.geometry_name = ''
-
-                    try:
-                        self.instrument_type = self.Details.loc['Instrument type'].value
-                    except:
-                        self.instrument_type = ''
-
-                    try:
-                        self.run_date = self.Details.loc['Run date'].value
-                    except:
-                        self.run_date = None
-
-                else:
-                    try:
-                        self.data[table_name] = data_file_object.parse(
-                            table_name, skiprows=1).drop(0).reset_index().astype('float')
-                    except:
-                        print('step ' + table_name + ' not loaded')
-
-        elif source == 'pandas_export_excel':
-            self.filename = str(filename)
-
-            data_file_object = pd.ExcelFile(filename)
-            table_name_list = data_file_object.sheet_names
-
-            self.data = collections.OrderedDict()
-
-            for table_name in table_name_list:
-                if table_name == 'Details':
-                    self.Details = pd.read_excel(data_file_object,
-                                                 sheet_name=table_name)
-                else:
-                    try:
-                        self.data[table_name] = data_file_object.parse(
-                            table_name).astype('float')
-                    except:
-                        print('step ' + table_name + ' not loaded')
-
-        elif source == 'file_like_object':
-            self.filename = 'from filelike object'
-
-            data_file_object = pd.ExcelFile(filename)
-            table_name_list = data_file_object.sheet_names
-
-            self.data = collections.OrderedDict()
-
-            for table_name in table_name_list:
-                if table_name == 'Details':
-                    self.Details = pd.read_excel(data_file_object,
-                                                 sheet_name='Details',
-                                                 header=None,
-                                                 names=['key', 'value']).set_index('key')
-
-                    try:
-                        sample_notes = [self.Details.loc['Sample notes'].value]
-
-                        for key, value in self.Details.iloc[self.Details.index.get_loc('Sample notes')+1:self.Details.index.get_loc('Geometry name')].iterrows():
-                            sample_notes.append(key)
-
-                        sample_notes = [
-                            x for x in sample_notes if str(x) != 'nan']
-                        self.sample_notes = sample_notes
-                    except:
-                        self.sample_notes = ''
-
-                    try:
-                        self.instrument_serial = self.Details.loc['Instrument serial number'].value
-                    except:
-                        self.instrument_serial = ''
-
-                    try:
-                        self.geometry_name = self.Details.loc['Geometry name'].value
-                    except:
-                        self.geometry_name = ''
-
-                    try:
-                        self.instrument_type = self.Details.loc['Instrument type'].value
-                    except:
-                        self.instrument_type = ''
-
-                    try:
-                        self.run_date = self.Details.loc['Run date'].value
-                    except:
-                        self.run_date = None
-
-                else:
-                    try:
-                        self.data[table_name] = data_file_object.parse(
-                            table_name, skiprows=1).drop(0).reset_index().astype('float')
-                    except:
-                        print('step ' + table_name + ' not loaded')
-
-        else:
-            raise ValueError('''data not loaded''')
-
-    @property
-    def tidy(self):
-        for (stepnum, stepdata) in enumerate(self):
-            stepdata[1]['Stepnum'] = stepnum
-            stepdata[1]['stepname'] = stepdata[0]
-            stepdata[1]['filename'] = self.filename
-            if stepnum == 0:
-                fulldata = stepdata[1]
-            else:
-                fulldata = pd.concat(
-                    [fulldata, stepdata[1]], ignore_index=True, sort=False)
-        return fulldata
-
-    def __getitem__(self, i):
-        return list(self.data.items())[i]
-
-    def __repr__(self):
-        if self.filename is None:
-            ret_string = 'No data'
-        else:
-            ret_string = 'rheology_data('+self.filename+')'
-        return ret_string
-
-    def __add__(self, other):
-        self.data.update(other.data)
-        return self
-
-
-class data_package(object):
-    def __init__(self, data_path, exp_files_dict=None, procedure=None):
-
-        self.procedure = procedure
-
-        if exp_files_dict is None:
-            self.source = 'Trios'
-            filelist = [item for item in os.listdir(
-                data_path) if '.xls' in item]
-
-            data_dict = {}
-            for file in filelist:
-                data_dict[file] = data_path + file
-
-            self.data_dict = data_dict
-            self._len = len(data_dict)
-
-        elif isinstance(exp_files_dict, dict):
-            self.source = 'Advantage'
-            self.data_dict = exp_files_dict
-
-    @property
-    def data_table(self):
-        return pd.DataFrame.from_dict(
-            {'filename': list(self.data_dict.keys()),
-             'filepath': list(self.data_dict.values())})
-
-    def __getitem__(self, index):
-
-        def _concat_rheology_data(list):
-            result = list[0]
-            for item in list[1:]:
-                result += item
-            return result
-
-        if isinstance(index, slice):
-            return [self[ii] for ii in range(*index.indices(len(self)))]
-
-        elif isinstance(index, int):
-            if self.procedure is not None:
-                if self.source == 'Trios':
-                    return self.procedure(
-                        rheology_data(self.data_table.iloc[index]['filepath']))
-                if self.source == 'Advantage':
-                    return self.procedure(
-                        _concat_rheology_data(
-                            [rheology_data(item) for item in
-                             self.data_table.iloc[index]['filepath']]))
-
-            else:
-                if self.source == 'Trios':
-                    return rheology_data(self.data_table.iloc[index]['filepath'])
-                if self.source == 'Advantage':
-                    return self._concat_rheology_data(
-                        [rheology_data(item) for item in
-                         self.data_table.iloc[index]['filepath']])
-
-    def __len__(self):
-        return self._len
-
 
 if __name__ == "__main__":
     print('ok')
