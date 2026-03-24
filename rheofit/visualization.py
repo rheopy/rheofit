@@ -1,5 +1,4 @@
 import ipywidgets as widgets
-import numpy as np
 import matplotlib.pyplot as plt
 import lmfit
 
@@ -76,9 +75,9 @@ def plot_fit_res(fit_res, show_par_values=False,exp_err=0.05):
     ax1.set_xscale('log')
     ax2.set_yscale('log')
 
-    ax1.set_ylabel('$\sigma [Pa]$')
-    ax3.set_xlabel('$\dot\gamma [1/s]$')
-    ax2.set_ylabel('$\eta [Pa s]$')
+    ax1.set_ylabel(r'$\sigma [Pa]$')
+    ax3.set_xlabel(r'$\dot\gamma [1/s]$')
+    ax2.set_ylabel(r'$\eta [Pa s]$')
     ax3.set_ylabel('relative residuals')
     
     ax3.set_ylim(-0.2,0.2)
@@ -106,5 +105,5 @@ def plot_confidence(res_fit,expand=1):
                      color='blue',alpha=0.2,label='0.9973 Confidence interval')
     plt.yscale('log')
     plt.xscale('log')
-    plt.ylabel('$\sigma [Pa]$')
-    plt.xlabel('$\dot\gamma [1/s]$')
+    plt.ylabel(r'$\sigma [Pa]$')
+    plt.xlabel(r'$\dot\gamma [1/s]$')

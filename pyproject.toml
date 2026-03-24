@@ -1,6 +1,6 @@
 [project]
 name = "rheofit"
-version = "0.1.3"
+version = "1.0.0"
 description = "Python library for rheology data analysis"
 authors = [{name = "Marco Caggioni", email = "marco.caggioni@gmail.com"}]
 readme = "README.md"

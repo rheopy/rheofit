@@ -26,7 +26,7 @@ import numpy as np
 
 
 def constantstress(x, ystress=0.1):
-    """Constant stress model
+    r"""Constant stress model
 
     Note:
 
@@ -48,7 +48,7 @@ constantstress_model = lmfit.Model(constantstress, prefix="constantstress_")
 Note:
 
 """
-constantstress_model.model_expression = Math("\sigma=\sigma_y")
+constantstress_model.model_expression = Math(r"\sigma=\sigma_y")
 
 
 # set parameters for model class
@@ -56,7 +56,7 @@ constantstress_model.set_param_hint("ystress", min=0, vary=True)
 
 
 def Newtonian(x, eta_bg=0.1):
-    """Newtonian model
+    r"""Newtonian model
 
     Note:
 
@@ -83,7 +83,7 @@ Newtonian_model.set_param_hint('eta_bg', min=0, vary=True)
 
 
 """
-Newtonian_model.model_expression = Math("\sigma=\eta_{bg}\cdot\dot\gamma")
+Newtonian_model.model_expression = Math(r"\sigma=\eta_{bg}\cdot\dot\gamma")
 
 
 # set parameters for model class
@@ -91,7 +91,7 @@ Newtonian_model.set_param_hint("eta_bg", min=0, vary=True)
 
 
 def Powerlaw(x, n=0.5, K=0.1):
-    """Powerlaw model for the stress data
+    r"""Powerlaw model for the stress data
 
     Note:
 
@@ -120,7 +120,7 @@ Powerlaw_model.set_param_hint('n', min=0, vary=True)
 
 
 """
-Powerlaw_model.model_expression = Math("\sigma=K\cdot\dot\gamma^n")
+Powerlaw_model.model_expression = Math(r"\sigma=K\cdot\dot\gamma^n")
 
 
 # set parameters for model class
@@ -129,7 +129,7 @@ Powerlaw_model.set_param_hint("n", min=0, vary=True)
 
 
 def Bingham(x, ystress=1.0, eta_bg=0.1):
-    """Bingham model
+    r"""Bingham model
 
     Note:
 
@@ -160,7 +160,7 @@ Bingham_model.set_param_hint('eta_bg', min=0, vary=True)
 
 """
 Bingham_model.model_expression = Math(
-    "\sigma=\sigma_y + \eta_{bg}\cdot\dot\gamma")
+    r"\sigma=\sigma_y + \eta_{bg}\cdot\dot\gamma")
 
 
 # set parameters for model class
@@ -169,7 +169,7 @@ Bingham_model.set_param_hint("eta_bg", min=0, vary=True)
 
 
 def TC(x, ystress=1.0, eta_bg=0.1, gammadot_crit=0.1):
-    """Three component model
+    r"""Three component model
 
     Note:
 
@@ -202,7 +202,7 @@ TC_model.set_param_hint('eta_bg', min=0, vary=True)
 TC_model.set_param_hint('gammadot_crit', min=0)
 """
 TC_model.model_expression = Math(
-    "\sigma=\sigma_y+\sigma_y\cdot(\dot\gamma/\dot\gamma_c)^{0.5}+\eta_{bg}\cdot\dot\gamma"
+    r"\sigma=\sigma_y+\sigma_y\cdot(\dot\gamma/\dot\gamma_c)^{0.5}+\eta_{bg}\cdot\dot\gamma"
 )
 
 
@@ -213,7 +213,7 @@ TC_model.set_param_hint("gammadot_crit", min=0)
 
 
 def TCn(x, ystress=1.0, eta_bg=0.1, gammadot_crit=0.1, n=0.5):
-    """Three component model
+    r"""Three component model
 
     Note:
 
@@ -250,7 +250,7 @@ TCn_model.set_param_hint('gammadot_crit', min=0)
 TCn_model.set_param_hint('n', min=0, max=1)
 """
 TCn_model.model_expression = Math(
-    "\sigma=\sigma_y+\sigma_y\cdot(\dot\gamma/\dot\gamma_c)^{0.5}+\eta_{bg}\cdot\dot\gamma"
+    r"\sigma=\sigma_y+\sigma_y\cdot(\dot\gamma/\dot\gamma_c)^{0.5}+\eta_{bg}\cdot\dot\gamma"
 )
 
 
@@ -262,7 +262,7 @@ TCn_model.set_param_hint("n", min=0, max=1)
 
 
 def HB(x, ystress=1.0, K=1.0, n=0.5):
-    """Hershel-Bulkley Model
+    r"""Hershel-Bulkley Model
 
     Note:
 
@@ -293,7 +293,7 @@ HB_model.set_param_hint('K', min=0, vary=True)
 HB_model.set_param_hint('n', min=0.0,max=1,vary=True)
 """
 
-HB_model.model_expression = Math("\sigma=\sigma_y+K\cdot\dot\gamma^n")
+HB_model.model_expression = Math(r"\sigma=\sigma_y+K\cdot\dot\gamma^n")
 
 HB_model.set_param_hint("ystress", min=0)
 HB_model.set_param_hint("K", min=0, vary=True)
@@ -301,7 +301,7 @@ HB_model.set_param_hint("n", min=0.0, max=1, vary=True)
 
 
 def casson(x, ystress=1.0, eta_bg=0.1):
-    """Casson Model
+    r"""Casson Model
 
     Note:
 
@@ -329,19 +329,19 @@ casson_model.set_param_hint('eta_bg', min=0, vary=True)
 
 """
 casson_model.model_expression = Math(
-    "\sigma^{0.5}=\sigma_y^{0.5}+\eta_{bg}^{0.5}")
+    r"\sigma^{0.5}=\sigma_y^{0.5}+\eta_{bg}^{0.5}")
 
 casson_model.set_param_hint("ystress", min=0)
 casson_model.set_param_hint("eta_bg", min=0, vary=True)
 
 
-def carreau(x, eta_0=1.0, gammadot_crit=1.0, n=0.5, prefix="carreau"):
-    """carreau Model
+def carreau(x, eta_0=1.0, gammadot_crit=1.0, n=0.5, eta_inf=0.001):
+    r"""carreau Model
 
     Note:
 
     .. math::
-       \sigma=\dot\gamma \cdot \eta_0 \cdot (1+(\dot\gamma/\dot\gamma_c)^2)^{(n-1)/2}
+       \sigma=\dot\gamma \cdot (\eta_0 - \eta_inf) \cdot (1+(\dot\gamma/\dot\gamma_c)^2)^{(n-1)/2} + \dot\gamma \cdot \eta_inf
 
     Args:
         eta_0: low shear viscosity [Pa s]
@@ -350,10 +350,12 @@ def carreau(x, eta_0=1.0, gammadot_crit=1.0, n=0.5, prefix="carreau"):
 
         n : shear thinning exponent
 
+        eta_inf : high shear viscosity [Pa s]
+
     Returns:
         stress : Shear Stress, [Pa]
     """
-    return x * eta_0 * (1 + (x / gammadot_crit) ** 2) ** ((n - 1) / 2)
+    return x * (eta_0 - eta_inf) * (1 + (x / gammadot_crit) ** 2) ** ((n - 1) / 2) + x * eta_inf
 
 
 carreau_model = lmfit.Model(carreau, prefix="carreau_")
@@ -367,16 +369,17 @@ carreau_model.set_param_hint('gammadot_crit_carreau', min=0, vary=True)
 carreau_model.set_param_hint('n',min=0, max=1)
 """
 carreau_model.model_expression = Math(
-    "\sigma=\dot\gamma \cdot \eta_0 \cdot (1+(\dot\gamma/\dot\gamma_{c_carreau})^2)^{(n-1)/2}"
+    r"\sigma=\dot\gamma \cdot \eta_0 \cdot (1+(\dot\gamma/\dot\gamma_{c_carreau})^2)^{(n-1)/2}"
 )
 
 carreau_model.set_param_hint("eta_0", min=0)
 carreau_model.set_param_hint("gammadot_crit", min=0, vary=True)
+carreau_model.set_param_hint("eta_inf", min=0, value=0.001, vary=True)
 carreau_model.set_param_hint("n", min=0, max=1)
 
 
 def cross(x, eta_inf=0.001, eta_0=1.0, n=0.5, gammadot_crit=1.0):
-    """cross Model
+    r"""cross Model
 
     Note:
 
@@ -411,7 +414,7 @@ cross_model.set_param_hint('gammadot_crit', min=0.0 ,vary=True)
 """
 
 cross_model.model_expression = Math(
-    "\sigma= \dot\gamma \eta_{inf} + \dot\gamma (\eta_0 - \eta_{inf})/(1 + (\dot\gamma/\dot\gamma_c)^n)"
+    r"\sigma= \dot\gamma \eta_{inf} + \dot\gamma (\eta_0 - \eta_{inf})/(1 + (\dot\gamma/\dot\gamma_c)^n)"
 )
 
 cross_model.set_param_hint("eta_0", min=0)
@@ -420,8 +423,197 @@ cross_model.set_param_hint("n", min=0.0, max=1, vary=True)
 cross_model.set_param_hint("gammadot_crit", min=0.0, vary=True)
 
 
+def TC_carreau(x, ystress=1.0, eta_bg=0.1, gammadot_crit=0.1, eta_0=0.1, lambda_val=0.1, n=0.5):
+    r"""Three Component + Carreau Model
+
+    Note:
+
+    .. math::
+       \sigma=\sigma_y+\sigma_y\cdot(\dot\gamma/\dot\gamma_c)^{0.5}+\dot\gamma \cdot \eta_0 \cdot (1+(\lambda\dot\gamma)^2)^{(n-1)/2}
+
+    Args:
+        ystress: yield stress [Pa]
+
+        eta_bg : Background viscosity [Pa s]
+
+        gammadot_crit : Critical shear rate [1/s]
+
+        eta_0 : Low shear viscosity for Carreau component [Pa s]
+
+        lambda_val : Time constant for Carreau component [s]
+
+        n : Shear thinning exponent []
+
+    Returns:
+        stress : Shear Stress, [Pa]
+    """
+    return ystress + ystress * (x / gammadot_crit) ** 0.5 + x * eta_0 * (1 + (lambda_val * x) ** 2) ** ((n - 1) / 2)
+
+
+TC_carreau_model = lmfit.Model(TC_carreau, prefix="TC_carreau_")
+""" Lmfit model from equation :meth:`rheofit.models.TC_carreau`
+
+Note:
+
+"""
+TC_carreau_model.model_expression = Math(
+    r"\sigma=\sigma_y+\sigma_y\cdot(\dot\gamma/\dot\gamma_c)^{0.5}+\dot\gamma \cdot \eta_0 \cdot (1+(\lambda\dot\gamma)^2)^{(n-1)/2}"
+)
+
+TC_carreau_model.set_param_hint("ystress", min=0)
+TC_carreau_model.set_param_hint("eta_bg", min=0, vary=True)
+TC_carreau_model.set_param_hint("gammadot_crit", min=0, vary=True)
+TC_carreau_model.set_param_hint("eta_0", min=0, vary=True)
+TC_carreau_model.set_param_hint("lambda_val", min=0, vary=True)
+TC_carreau_model.set_param_hint("n", min=0.0, max=1, vary=True)
+
+
+def TC_cross(x, ystress=1.0, eta_bg=0.1, gammadot_crit=0.1, eta_inf=0.001, eta_0=1.0, n=0.5):
+    r"""Three Component + Cross Model
+
+    Note:
+
+    .. math::
+       \sigma=\sigma_y+\sigma_y\cdot(\dot\gamma/\dot\gamma_c)^{0.5}+\dot\gamma \eta_{inf} + \dot\gamma (\eta_0 - \eta_{inf})/(1 + (\dot\gamma/\dot\gamma_c)^n)
+
+    Args:
+        ystress: yield stress [Pa]
+
+        eta_bg : Background viscosity [Pa s]
+
+        gammadot_crit : Critical shear rate [1/s]
+
+        eta_inf : High shear viscosity [Pa s]
+
+        eta_0 : Low shear viscosity [Pa s]
+
+        n : Shear thinning exponent []
+
+    Returns:
+        stress : Shear Stress, [Pa]
+    """
+    return ystress + ystress * (x / gammadot_crit) ** 0.5 + x * eta_inf + x * (eta_0 - eta_inf) / (1 + (x / gammadot_crit) ** n)
+
+
+TC_cross_model = lmfit.Model(TC_cross, prefix="TC_cross_")
+""" Lmfit model from equation :meth:`rheofit.models.TC_cross`
+
+Note:
+
+"""
+TC_cross_model.model_expression = Math(
+    r"\sigma=\sigma_y+\sigma_y\cdot(\dot\gamma/\dot\gamma_c)^{0.5}+\dot\gamma \eta_{inf} + \dot\gamma (\eta_0 - \eta_{inf})/(1 + (\dot\gamma/\dot\gamma_c)^n)"
+)
+
+TC_cross_model.set_param_hint("ystress", min=0)
+TC_cross_model.set_param_hint("eta_bg", min=0, vary=True)
+TC_cross_model.set_param_hint("gammadot_crit", min=0, vary=True)
+TC_cross_model.set_param_hint("eta_inf", min=0, vary=True)
+TC_cross_model.set_param_hint("eta_0", min=0, vary=True)
+TC_cross_model.set_param_hint("n", min=0.0, max=1, vary=True)
+
+
+def TC_cross_cross(x, sigma_y=1.0, tau_TC=0.1, eta_inf_1=0.001, eta_0_1=1.0, n_1=0.5, gammadot_crit_1=1.0, eta_inf_2=0.001, eta_0_2=1.0, n_2=0.5, gammadot_crit_2=1.0):
+    r"""Three Component + Cross + Cross Model
+
+    Note:
+
+    .. math::
+       \sigma=\sigma_y + \sigma_y\sqrt{x \cdot \tau_{TC}} + \dot\gamma \eta_{inf,1} + \dot\gamma (\eta_{0,1} - \eta_{inf,1})/(1 + (\dot\gamma/\dot\gamma_{c,1})^{n_1}) + \dot\gamma \eta_{inf,2} + \dot\gamma (\eta_{0,2} - \eta_{inf,2})/(1 + (\dot\gamma/\dot\gamma_{c,2})^{n_2})
+
+    Args:
+        sigma_y : Yield stress [Pa]
+
+        tau_TC : Three component characteristic stress [Pa]
+
+        eta_inf_1 : High shear viscosity for first Cross component [Pa s]
+
+        eta_0_1 : Low shear viscosity for first Cross component [Pa s]
+
+        n_1 : Shear thinning exponent for first Cross component []
+
+        gammadot_crit_1 : Critical shear rate for first Cross component [1/s]
+
+        eta_inf_2 : High shear viscosity for second Cross component [Pa s]
+
+        eta_0_2 : Low shear viscosity for second Cross component [Pa s]
+
+        n_2 : Shear thinning exponent for second Cross component []
+
+        gammadot_crit_2 : Critical shear rate for second Cross component [1/s]
+
+    Returns:
+        stress : Shear Stress, [Pa]
+    """
+    return (
+        sigma_y
+        + sigma_y * np.sqrt(x * tau_TC)
+        + x * eta_inf_1 + x * (eta_0_1 - eta_inf_1) / (1 + (x / gammadot_crit_1) ** n_1)
+        + x * eta_inf_2 + x * (eta_0_2 - eta_inf_2) / (1 + (x / gammadot_crit_2) ** n_2)
+    )
+
+
+TC_cross_cross_model = lmfit.Model(TC_cross_cross, prefix="TCC_")
+""" Lmfit model from equation :meth:`rheofit.models.TC_cross_cross`
+
+Note:
+
+"""
+TC_cross_cross_model.model_expression = Math(
+    r"\sigma=\sigma_y + \sigma_y\sqrt{x \cdot \tau_{TC}} + \dot\gamma \eta_{inf,1} + \dot\gamma (\eta_{0,1} - \eta_{inf,1})/(1 + (\dot\gamma/\dot\gamma_{c,1})^{n_1}) + \dot\gamma \eta_{inf,2} + \dot\gamma (\eta_{0,2} - \eta_{inf,2})/(1 + (\dot\gamma/\dot\gamma_{c,2})^{n_2})"
+)
+
+TC_cross_cross_model.set_param_hint("sigma_y", min=0)
+TC_cross_cross_model.set_param_hint("tau_TC", min=0, vary=True)
+TC_cross_cross_model.set_param_hint("eta_inf_1", min=0, vary=True)
+TC_cross_cross_model.set_param_hint("eta_0_1", min=0, vary=True)
+TC_cross_cross_model.set_param_hint("n_1", min=0.0, max=1, vary=True)
+TC_cross_cross_model.set_param_hint("gammadot_crit_1", min=0.0, vary=True)
+TC_cross_cross_model.set_param_hint("eta_inf_2", min=0, vary=True)
+TC_cross_cross_model.set_param_hint("eta_0_2", min=0, vary=True)
+TC_cross_cross_model.set_param_hint("n_2", min=0.0, max=1, vary=True)
+TC_cross_cross_model.set_param_hint("gammadot_crit_2", min=0.0, vary=True)
+
+
+def zhang(x, mu=10, G0=100, beta=0.01):
+    r"""Zhang Model
+
+    Note:
+
+    .. math::
+       \sigma=\frac{\dot\gamma \cdot \mu}{1 + \left(\frac{\mu \cdot \dot\gamma}{2(G_0 + \beta \cdot \mu \cdot \dot\gamma)}\right)^2}
+
+    Args:
+        mu: Viscosity parameter [Pa s]
+
+        G0 : Storage modulus [Pa]
+
+        beta : Material constant []
+
+    Returns:
+        stress : Shear Stress, [Pa]
+    """
+    return (x * mu) / (1 + (mu * x / (2 * (G0 + beta * mu * x)) ** 2))
+
+
+zhang_model = lmfit.Model(zhang, prefix="zhang_")
+""" Lmfit model from equation :meth:`rheofit.models.zhang`
+
+Note:
+
+"""
+zhang_model.model_expression = Math(
+    r"\sigma=\frac{\dot\gamma \cdot \mu}{1 + \left(\frac{\mu \cdot \dot\gamma}{2(G_0 + \beta \cdot \mu \cdot \dot\gamma)}\right)^2}"
+)
+
+zhang_model.set_param_hint("mu", min=0, vary=True)
+zhang_model.set_param_hint("G0", min=0, vary=True)
+zhang_model.set_param_hint("beta", min=0, vary=True)
+
+
+
 def TC_carreau_carreau(x, sigma_y=1.0, tau_TC=0.1, eta_0_1=0.1, lambda_val_1=0.1, n_1=0.5, eta_0_2=0.1, lambda_val_2=0.1, n_2=0.5):
-    """Three Component + Carreau + Carreau (TCCC) Model
+    r"""Three Component + Carreau + Carreau (TCCC) Model
 
     Note:
 
@@ -463,7 +655,7 @@ Note:
 
 """
 TC_carreau_carreau_model.model_expression = Math(
-    "\sigma=\sigma_y + \sigma_y\sqrt{x \cdot \tau_{TC}} + \eta_{0,1}(1+(\lambda_1 x)^2)^{(n_1-1)/2} \cdot x + \eta_{0,2}(1+(\lambda_2 x)^2)^{(n_2-1)/2} \cdot x"
+    r"\sigma=\sigma_y + \sigma_y\sqrt{x \cdot \tau_{TC}} + \eta_{0,1}(1+(\lambda_1 x)^2)^{(n_1-1)/2} \cdot x + \eta_{0,2}(1+(\lambda_2 x)^2)^{(n_2-1)/2} \cdot x"
 )
 
 # set parameters for model class
@@ -475,6 +667,26 @@ TC_carreau_carreau_model.set_param_hint("n_1", min=0.0, max=1, vary=True)
 TC_carreau_carreau_model.set_param_hint("eta_0_2", min=0, vary=True)
 TC_carreau_carreau_model.set_param_hint("lambda_val_2", min=0, vary=True)
 TC_carreau_carreau_model.set_param_hint("n_2", min=0.0, max=1, vary=True)
+
+
+# Dictionary mapping model names to lmfit model objects
+available_models = {
+    'constantstress': constantstress_model,
+    'Newtonian': Newtonian_model,
+    'Powerlaw': Powerlaw_model,
+    'Bingham': Bingham_model,
+    'TC': TC_model,
+    'TCn': TCn_model,
+    'HB': HB_model,
+    'casson': casson_model,
+    'carreau': carreau_model,
+    'cross': cross_model,
+    'TC_carreau': TC_carreau_model,
+    'TC_cross': TC_cross_model,
+    'TC_cross_cross': TC_cross_cross_model,
+    'zhang': zhang_model,
+    'TC_carreau_carreau': TC_carreau_carreau_model,
+}
 
 
 def show_parameter_table(result):
