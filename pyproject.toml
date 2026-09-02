@@ -1,15 +1,36 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "rheofit"
-authors = [{name = "Marco Caggioni", email = "marco.caggioni@gmail.com"}]
+version = "1.0.0"
+description = "Fit flow curves (viscosity vs shear rate) to physically-based rheological models and quantify material properties."
 readme = "README.md"
-license = {file = "LICENSE"}
-classifiers = ["License :: OSI Approved :: MIT License"]
-dynamic = ["version", "description"]
-dependencies = ["lmfit","xmltodict","emcee","corner","pybroom","xlrd","ipywidgets"]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "scipy",
+    "pandas",
+    "matplotlib",
+]
 
-[project.urls]
-Home = "https://github.com/rheopy/rheofit"
+[project.optional-dependencies]
+pptx = ["python-pptx"]
+
+[project.scripts]
+rheofit = "rheofit.cli:main"
+
+[dependency-groups]
+dev = [
+    "ipykernel",
+    "python-pptx",
+]
+
+[tool.uv]
+# `uv sync` installs the project itself (editable) plus the dev group, so a
+# fresh clone gets a ready-to-use environment with notebook + pptx support.
+default-groups = ["dev"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["rheofit"]

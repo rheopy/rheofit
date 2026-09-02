@@ -1,10 +1,12 @@
-docs/build/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.uv-cache/
+.pytest_cache/
+.ipynb_checkpoints/
+results/
 
-*.py[co]
-*.ipynb_checkpoints
-
-# Packages
-__pycache__
-
-#build
-build
+# uv.lock is intentionally committed so `uv sync` is reproducible.
