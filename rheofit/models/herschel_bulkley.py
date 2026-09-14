@@ -16,8 +16,8 @@ BOUNDS = {
     "K": (1e-12, np.inf),
     "n": (0.01, 2.0),
 }
-# exact reduction: sigma_y -> 0 recovers the power law
-PARENT = "power_law"
+# exact reduction: n -> 1 recovers Bingham
+PARENT = "bingham"
 PARENT_EXACT = True
 
 
@@ -38,7 +38,7 @@ def initial_guess(x, y, eta) -> dict:
 
 
 def seed_from_parent(pv, x, y, eta) -> dict:
-    return {"sigma_y": max(y.max() * 1e-10, 1e-12), "K": pv["K"], "n": pv["n"]}
+    return {"sigma_y": pv["sigma_y"], "K": pv["K"], "n": 1.0}
 
 
 def fit_model(df, effort: str = DEFAULT_EFFORT, seed: int = 0) -> dict:

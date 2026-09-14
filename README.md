@@ -22,6 +22,11 @@ parameters have physical meaning does three things:
 Data is read directly from TA Instruments **TRIOS** JSON, but `fit()` accepts any DataFrame with
 shear-rate and stress columns.
 
+## What is the problem we are trying to solve?
+
+
+
+
 ## Fitting contract
 
 Every fit minimises the **relative** residual $(f(\dot\gamma;p)-\sigma)/|\sigma|$, so each decade of
@@ -70,7 +75,7 @@ pip install -e ".[pptx]"   # adds PowerPoint output
 import rheofit
 
 rheofit.list_models()
-# ['carreau', 'carreau_carreau', 'herschel_bulkley', 'power_law', 'tc', 'tc_carreau', 'tccc']
+# ['bingham', 'carreau', 'carreau_carreau', 'casson', 'herschel_bulkley', 'power_law', 'tc', 'tc_carreau', 'tccc']
 
 rheofit.print_steps("sample.json")            # which steps exist (0-based ResultsSteps index)
 
@@ -104,11 +109,11 @@ Flags: `--steps`, `--model`, `--labels`, `--effort {fast,normal,thorough}`, `--s
 
 ## Models
 
-| No yield stress   | With yield stress            |
-| ----------------- | ---------------------------- |
-| `power_law`       | `tc`, `herschel_bulkley`     |
-| `carreau`         | `tc_carreau`                 |
-| `carreau_carreau` | `tccc`                       |
+| No yield stress   | With yield stress                               |
+| ----------------- | ----------------------------------------------- |
+| `power_law`       | `bingham`, `casson`, `tc`, `herschel_bulkley`   |
+| `carreau`         | `tc_carreau`                                    |
+| `carreau_carreau` | `tccc`                                          |
 
 Within each family the models form a ladder. Prefer the simplest model that fits; climb only if the
 residuals show structure the simpler model missed. Extra parameters buy little once `RedChi2` is
@@ -117,12 +122,13 @@ below `0.01`, and they cost identifiability.
 ## Layout
 
 ```
-src/rheofit/
-  io.py         TRIOS JSON reading, URL download, demo data
-  models/       one module per model + _fitcore.py (shared fitting engine)
-  report.py     plots, PNG scorecard, parameter summary, PPTX
-  analysis.py   analyze()
-  cli.py        command-line front-end
+rheofit/
+  io.py            TRIOS JSON reading, URL download, demo data
+  models/          one module per model + _fitcore.py (shared fitting engine)
+  visualization/   flow-curve, frequency-sweep and amplitude-sweep plots
+  report.py        plots, PNG scorecard, parameter summary, PPTX
+  analysis.py      analyze()
+  cli.py           command-line front-end
 ```
 
 ## Skill
@@ -132,3 +138,41 @@ agent-facing companion to this library: it documents the models, the fitting con
 interview workflow (is the sample structured? which model? which steps?), and drives the same CLI.
 Use the library directly, or let the skill walk you through it — they are the same code. Keep the
 skill in sync when the library's models, flags or outputs change.
+
+## Model map
+
+Models split into two families by whether the constitutive equation carries a yield stress
+$\sigma_y$. Arrows point from the simpler model to the model that reduces to it (the ladder used
+for parent seeding); dashed arrows are advisory seeds only, not exact reductions.
+
+```mermaid
+flowchart LR
+
+
+    subgraph Yield["With yield stress"]
+        direction TB
+        BI["bingham<br/>σ = σ_y + K·γ̇<br/>σ_y, K"]
+        HB["herschel_bulkley<br/>σ = σ_y + K·γ̇ⁿ<br/>σ_y, K, n"]
+        CS["casson<br/>σ = (√σ_y + √(K·γ̇))²<br/>σ_y, K"]
+        TC["tc<br/>σ = σ_y + σ_y·(γ̇/γ̇_c)^½ + η_bg·γ̇<br/>σ_y, γ̇_c, η_bg"]
+        TCA["tc_carreau<br/>tc + Carreau term<br/>σ_y, γ̇_c, η₀, λ"]
+        TCCC["tccc<br/>tc + two Carreau terms<br/>σ_y, γ̇_c, η₀₁, λ₁, η₀₂, λ₂"]
+        BI -->|n → 1| HB
+        TC -->|λ → 0| TCA
+        TCA -->|η₀₁ → 0| TCCC
+    end
+
+        subgraph NoYield["No yield stress"]
+        direction TB
+        PL["power_law<br/>σ = K·γ̇ⁿ<br/>K, n"]
+        CA["carreau<br/>σ = η₀·γ̇·[1+(λ·γ̇)²]^((n-1)/2)<br/>η₀, λ, n"]
+        CC["carreau_carreau<br/>two relax times components<br/>η₀₁, λ₁, η₀₂, λ₂, n1=0.5, n2=0"]
+        CA -.->|advisory seed| CC
+    end
+
+    style NoYield fill:#eef6ff,stroke:#5b8db8
+    style Yield fill:#fff4e6,stroke:#c98a2e
+```
+
+Prefer the simplest model that fits; climb the ladder only when the residuals show structure the
+simpler model missed.

@@ -19,7 +19,15 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "json_file",
         nargs="?",
         default=None,
-        help="Path or HTTP(S) URL to a TA Instruments TRIOS JSON file",
+        help="Path or HTTP(S) URL to a TA Instruments TRIOS JSON file, or 'install-skill' command.",
+    )
+    p.add_argument(
+        "--target", default="vscode", choices=["vscode", "gemini", "cursor", "claude"],
+        help="Target environment for install-skill command (default: vscode).",
+    )
+    p.add_argument(
+        "--global-user", action="store_true",
+        help="Install skill globally for current user rather than local workspace.",
     )
     p.add_argument(
         "--demo",
@@ -61,11 +69,50 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return p.parse_args(argv)
 
 
+def install_skill(
+    target: str = "vscode",
+    global_user: bool = False,
+    dest_dir: Path | str | None = None,
+) -> Path:
+    """Install the packaged flow-curve-analysis AI skill into a project or global directory."""
+    import shutil
+
+    package_skill_dir = Path(__file__).parent / "skills" / "flow-curve-analysis"
+    if not package_skill_dir.exists():
+        repo_skill_dir = Path(__file__).resolve().parent.parent / ".github" / "skills" / "flow-curve-analysis"
+        if repo_skill_dir.exists():
+            package_skill_dir = repo_skill_dir
+        else:
+            raise RuntimeError(f"Skill directory not found at {package_skill_dir}")
+
+    if dest_dir is not None:
+        target_path = Path(dest_dir) / "flow-curve-analysis"
+    elif global_user:
+        target_path = Path.home() / ".gemini" / "antigravity" / "skills" / "flow-curve-analysis"
+    else:
+        mapping = {
+            "vscode": Path(".github/skills/flow-curve-analysis"),
+            "gemini": Path(".gemini/skills/flow-curve-analysis"),
+            "cursor": Path(".cursor/rules/flow-curve-analysis"),
+            "claude": Path(".claude/skills/flow-curve-analysis"),
+        }
+        target_path = mapping.get(target.lower(), Path(".github/skills/flow-curve-analysis"))
+
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(package_skill_dir, target_path, dirs_exist_ok=True)
+    return target_path
+
+
 def main(argv: list[str] | None = None) -> int:
     args = _parse_args(argv)
     try:
+        if args.json_file == "install-skill":
+            dest = install_skill(target=args.target, global_user=args.global_user)
+            print(f"[+] Successfully installed flow-curve-analysis skill to: {dest.resolve()}")
+            return 0
+
         if not args.demo and not args.json_file:
-            print("[!] Provide <json_file> or use --demo")
+            print("[!] Provide <json_file> or use --demo (or 'install-skill')")
             return 2
 
         source = demo_source() if args.demo else args.json_file

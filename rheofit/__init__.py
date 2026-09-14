@@ -25,6 +25,7 @@ from __future__ import annotations
 from .analysis import Analysis, analyze, fit, get_model, list_models, model_info, print_steps
 from .io import (DEMO_SAMPLE_NAME, demo_source, detect_test_type, discover_steps,
                  load_step, load_steps)
+from .cli import install_skill
 from .models import MODELS
 from .visualization import PLOTS, get_plot, list_plots, plot, plot_info
 
@@ -42,6 +43,7 @@ __all__ = [
     "fit",
     "get_model",
     "get_plot",
+    "install_skill",
     "list_models",
     "list_plots",
     "load_step",

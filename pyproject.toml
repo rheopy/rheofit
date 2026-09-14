@@ -8,15 +8,29 @@ version = "1.0.0"
 description = "Fit flow curves (viscosity vs shear rate) to physically-based rheological models and quantify material properties."
 readme = "README.md"
 requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "Marco Caggioni", email = "marco.caggioni@gmail.com" }]
+keywords = ["rheology", "flow curve", "viscosity", "yield stress", "curve fitting"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Physics",
+]
 dependencies = [
-    "numpy",
-    "scipy",
-    "pandas",
-    "matplotlib",
+    "numpy>=1.23,<3",
+    "scipy>=1.9,<2",
+    "pandas>=1.5,<3",
+    "matplotlib>=3.6,<4",
 ]
 
+[project.urls]
+Homepage = "https://github.com/rheopy/rheofit"
+Repository = "https://github.com/rheopy/rheofit"
+
 [project.optional-dependencies]
-pptx = ["python-pptx"]
+pptx = ["python-pptx>=0.6.21"]
 
 [project.scripts]
 rheofit = "rheofit.cli:main"
