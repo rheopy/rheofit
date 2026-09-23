@@ -10,3 +10,6 @@ dist/
 results/
 
 # uv.lock is intentionally committed so `uv sync` is reproducible.
+
+# generated marimo wasm explorers (built at docs build time)
+docs/_static/interactive/
