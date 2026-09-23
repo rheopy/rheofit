@@ -70,8 +70,12 @@ def main() -> None:
     chromium = find_chromium()
     print(f"chromium: {chromium}")
 
+    # NOTE: no -W here. This HTML is a throwaway intermediate used only for
+    # printing: the PDF job skips export_interactive.py, so the links to the
+    # WebAssembly explorers (../_static/interactive/*/index.html) are
+    # intentionally missing and would trip warnings-as-errors.
     subprocess.run(
-        [sys.executable, "-m", "sphinx", "-b", "html", "-W",
+        [sys.executable, "-m", "sphinx", "-b", "html",
          str(DOCS), str(HTML_OUT)],
         check=True,
     )
