@@ -18,6 +18,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import numpy as np
+
 DOCS = Path(__file__).resolve().parent
 STATIC_OUT = DOCS / "_static" / "interactive"
 
@@ -36,6 +38,13 @@ MODELS = {
         "title": "τ₀ = {tau0} Pa, μ_p = {mu_p} Pa·s",
         "defaults": {"tau0": 20.0, "mu_p": 5.0},
         "stress": lambda gd, p: p["tau0"] + p["mu_p"] * gd,
+    },
+    "tc": {
+        "notebook": DOCS / "interactive" / "tc_explorer.py",
+        "preview": DOCS / "models" / "tc_explorer_preview.png",
+        "title": "τ₀ = {tau0} Pa, γ̇_c = {gdot_c} s⁻¹, η_bg = {eta_bg} Pa·s",
+        "defaults": {"tau0": 20.0, "gdot_c": 1.0, "eta_bg": 0.5},
+        "stress": lambda gd, p: p["tau0"] + p["tau0"] * np.sqrt(gd / p["gdot_c"]) + p["eta_bg"] * gd,
     },
 }
 
@@ -59,7 +68,6 @@ def preview_png(spec: dict) -> None:
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    import numpy as np
 
     p = spec["defaults"]
     gd = np.logspace(-3, 3, 200)
