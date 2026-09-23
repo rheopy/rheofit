@@ -14,7 +14,7 @@ once `RedChi2` is below `0.01`, and they cost identifiability.
 | Model | Equation | Page |
 | ----- | -------- | ---- |
 | `herschel_bulkley` | $\tau = \tau_0 + K\dot{\gamma}^n$ | [📖 guide](herschel_bulkley) |
-| `bingham` | $\sigma = \sigma_y + K\dot{\gamma}$ | 🚧 coming soon |
+| `bingham` | $\tau = \tau_0 + \mu_p\dot{\gamma}$ | [📖 guide](bingham) |
 | `casson` | $\sigma = (\sqrt{\sigma_y} + \sqrt{K\dot{\gamma}})^2$ | 🚧 coming soon |
 | `tc` | $\sigma = \sigma_y + \sigma_y(\dot{\gamma}/\dot{\gamma}_c)^{1/2} + \eta_{bg}\dot{\gamma}$ | 🚧 coming soon |
 | `tc_carreau` | tc + Carreau term | 🚧 coming soon |
@@ -33,4 +33,5 @@ once `RedChi2` is below `0.01`, and they cost identifiability.
 :hidden:
 
 herschel_bulkley
+bingham
 ```
