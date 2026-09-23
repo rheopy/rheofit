@@ -131,6 +131,13 @@ walkthrough
 
 ```{toctree}
 :maxdepth: 2
+:caption: Models
+
+models/index
+```
+
+```{toctree}
+:maxdepth: 2
 :caption: Reference
 
 api
