@@ -63,11 +63,15 @@ where $\boldsymbol{\tau}$ is the extra stress tensor, $\mathbf{D} = \frac{1}{2} 
 Drag the sliders to feel what each parameter does — the equation you just read, recomputed
 live in your browser (Python via WebAssembly, no server involved).
 
+````{only} builder_html
 ```{raw} html
 <iframe src="../_static/interactive/bingham/index.html" width="100%" height="760" style="border: 1px solid #ddd; border-radius: 8px;" title="Bingham plastic interactive explorer" loading="lazy"></iframe>
 ```
 
-*Tip: [open the explorer full-screen](../_static/interactive/bingham/index.html). Static preview
+*Tip: [open the explorer full-screen](../_static/interactive/bingham/index.html).*
+````
+
+*Static preview
 (τ₀ = 20 Pa, μ_p = 5 Pa·s):*
 
 ![Bingham plastic explorer preview](bingham_explorer_preview.png)

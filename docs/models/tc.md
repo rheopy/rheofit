@@ -67,11 +67,15 @@ the total stress (red) into its three physical contributions: **elastic** τ₀,
 **plastic** τ₀(γ̇/γ̇_c)^{1/2}, and **viscous** η_bg·γ̇ — the heart of §3. The blue axis shows
 the apparent viscosity η = τ/γ̇.
 
+````{only} builder_html
 ```{raw} html
 <iframe src="../_static/interactive/tc/index.html" width="100%" height="760" style="border: 1px solid #ddd; border-radius: 8px;" title="Three-Component model interactive explorer" loading="lazy"></iframe>
 ```
 
-*Tip: [open the explorer full-screen](../_static/interactive/tc/index.html). Static preview
+*Tip: [open the explorer full-screen](../_static/interactive/tc/index.html).*
+````
+
+*Static preview
 (τ₀ = 20 Pa, γ̇_c = 1.0 s⁻¹, η_bg = 0.5 Pa·s):*
 
 ![Three-Component model explorer preview](tc_explorer_preview.png)

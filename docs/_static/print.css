@@ -1,0 +1,12 @@
+/* Print stylesheet: the interactive explorers are live web content and have no
+   meaning on paper. Hide their iframes when printing / print-to-PDF; the
+   static preview image underneath still shows what the explorer looks like. */
+@media print {
+  iframe[src*="_static/interactive"] {
+    display: none !important;
+  }
+  /* "Read the Docs" version flyout is fixed-position UI; keep it off paper. */
+  .rst-versions {
+    display: none !important;
+  }
+}

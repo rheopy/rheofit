@@ -26,3 +26,60 @@ jobs:
 
       - name: Build docs
         run: sphinx-build -W -b html docs docs/_build/html
+
+  # EPUB ebook (math rendered to images; the WebAssembly explorers are
+  # excluded and their iframes replaced by static preview PNGs).
+  epub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install LaTeX (math -> PNG for the ebook)
+        run: sudo apt-get update && sudo apt-get install -y texlive-latex-recommended dvipng
+
+      - name: Install dependencies
+        run: |
+          pip install -r docs/requirements.txt
+          pip install -e .
+
+      - name: Build EPUB
+        run: python docs/export_epub.py
+
+      - name: Upload EPUB
+        uses: actions/upload-artifact@v4
+        with:
+          name: rheofit-epub
+          path: docs/_build/epub/rheofit.epub
+
+  # PDF via headless Chromium print-to-PDF (renders MathJax + Unicode
+  # exactly as on the site; interactive iframes are print-hidden).
+  pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r docs/requirements.txt
+          pip install -e .
+          pip install playwright pypdf
+
+      - name: Install Chromium
+        run: python -m playwright install chromium --with-deps
+
+      - name: Build PDF
+        run: python docs/export_pdf.py
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: rheofit-pdf
+          path: docs/_build/pdf/rheofit.pdf
