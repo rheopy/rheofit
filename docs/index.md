@@ -122,6 +122,14 @@ New here? Read the **[Carbopol case study](walkthrough)** — a complete, reprod
 head-to-head of the TC model against Herschel–Bulkley on real data, run the way the skill
 runs it. Then browse the **[API reference](api)**.
 
+## 📥 Download
+
+Prefer to read offline? Every docs build produces **PDF** and **EPUB** versions of
+these pages, attached as `rheofit-pdf` and `rheofit-epub` artifacts on the
+[latest docs CI run](https://github.com/rheopy/rheofit/actions/workflows/docs.yml) —
+open the most recent successful run and grab them from the Artifacts section at the
+bottom of the page.
+
 ```{toctree}
 :maxdepth: 2
 :caption: Case studies
