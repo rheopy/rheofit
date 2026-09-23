@@ -1,43 +1,57 @@
-# rheofit
+# ⚗️ rheofit
 
-Fit **flow curves** — viscosity as a function of shear rate — to physically-based rheological
-models, and turn them into quantified material properties.
+**Turn flow curves into material physics.** `rheofit` fits viscosity–vs–shear-rate data to
+constitutive models whose parameters *mean something* — yield stress, zero-shear viscosity,
+relaxation time — and hands you quantified material properties instead of curve shapes.
 
-A flow curve is the fingerprint of a non-Newtonian fluid: shear thinning, yield stress, low-shear
-plateaus and relaxation times are all features of that one curve. Fitting it with a model whose
-parameters have physical meaning does three things:
+## 🧪 The idea
 
-- **Quantifies material properties** — $\sigma_y$, $\eta_0$, $\lambda$, $n$ — instead of describing curve shapes.
-- **Gives a concise description of the material** — a handful of numbers replace hundreds of points, so samples, temperatures and batches become directly comparable.
-- **Feeds back to formulators** — when the properties are tied to the formulation, they say immediately which ingredient or level to move to hit a material-property target.
+A flow curve is the fingerprint of a non-Newtonian fluid 🔍: shear thinning, yield stress,
+low-shear plateaus and relaxation times all show up as features of that single curve. Fitting it
+with a physically-based model does three things:
 
-| Parameter   | Reads as                           | Usual formulation lever                    |
-| ----------- | ---------------------------------- | ------------------------------------------ |
-| $\sigma_y$  | strength of the structured network | structurant level, particle/fiber network  |
-| $\eta_0$    | zero-shear / at-rest viscosity     | thickener or polymer concentration         |
-| $\lambda$   | relaxation time, onset of thinning | molecular weight, micelle length           |
-| $n$         | how sharply it shear-thins         | polymer architecture, entanglement         |
-| $\eta_{bg}$ | Newtonian background flow          | solvent / continuous phase                 |
+- 🎯 **Quantifies material properties** — $\sigma_y$, $\eta_0$, $\lambda$, $n$ — instead of describing curve shapes.
+- 🗜️ **Compresses the material into numbers** — a handful of parameters replace hundreds of points, so samples, temperatures and batches become directly comparable.
+- 🧬 **Closes the loop with formulation** — tied back to the formula, the parameters say *which ingredient or level to move* to hit a material-property target.
 
-Data is read directly from TA Instruments **TRIOS** JSON, but `fit()` accepts any DataFrame with
-shear-rate and stress columns.
+### From parameter → to physics → to formulation lever
 
-## What is the problem we are trying to solve?
+|      | Parameter   | Reads as                           | Formulation lever                          |
+| ---- | ----------- | ---------------------------------- | ------------------------------------------ |
+| 🧱   | $\sigma_y$  | strength of the structured network | structurant level, particle/fiber network  |
+| 💧   | $\eta_0$    | zero-shear / at-rest viscosity     | thickener or polymer concentration         |
+| ⏳   | $\lambda$   | relaxation time, onset of thinning | molecular weight, micelle length           |
+| 📐   | $n$         | how sharply it shear-thins         | polymer architecture, entanglement         |
+| 🌊   | $\eta_{bg}$ | Newtonian background flow          | solvent / continuous phase                 |
 
+Data is read directly from TA Instruments **TRIOS** JSON 📥, but `fit()` accepts any DataFrame
+with shear-rate and stress columns.
 
+## 🎯 The problem we're solving
 
+Measuring a flow curve is easy; *interpreting* it is not. The inverse problem — recovering
+constitutive parameters from $(\dot\gamma, \sigma)$ data — is ill-conditioned: parameters span
+many decades, the objective landscape is riddled with local minima, and a naive least-squares fit
+from a hand-picked guess will happily converge to a physically meaningless answer behind a
+pretty curve. `rheofit` exists to make the fit *trustworthy*: scale-free search,
+physics-informed starting points, and self-diagnostics that tell you when a parameter isn't
+earned by the data.
 
-## Fitting contract
+## 🔬 The fitting engine
 
-Every fit minimises the **relative** residual $(f(\dot\gamma;p)-\sigma)/|\sigma|$, so each decade of
-stress counts equally and `RedChi2` is dimensionless — comparable across steps, samples and models.
-Fits use log-space parameters, physics-informed starting values, ladder seeding from the nested
-parent model, a Sobol multi-start and a tight polish. Weakly identified parameters, near-degenerate
-Jacobians and nesting violations are reported as notes on the result.
+Every fit minimises the **relative** residual $(f(\dot\gamma;p)-\sigma)/|\sigma|$ 📏, so each
+decade of stress counts equally and `RedChi2` is dimensionless — comparable across steps,
+samples and models. Under the hood:
 
-## Install
+- 🧮 **Log-space parameters** — multi-decade quantities ($\sigma_y$, $\lambda$, $\eta$, …) are fitted as $\log_{10} p$, making the search scale-free; standard errors are chain-ruled back into physical units.
+- 🧭 **Physics-informed starting values** — read off the data rather than guessed: $\sigma_y$ from the low-rate stress plateau, $\eta_{bg}$ from the high-rate slope, $\lambda$ from the viscosity half-fall crossover.
+- 🪜 **Ladder seeding** — each model is seeded from its exactly-nested parent, so a richer model can never score worse than its parent. A nesting violation means the optimiser failed, not that the simpler model is "better".
+- 🎲 **Sobol multi-start** (+ differential evolution at `thorough` effort) — global search over ±3 decades before the tight polish.
+- 🚨 **Self-diagnostics** — weakly identified parameters (>100% relative error), near-degenerate Jacobians (condition number > 1e12) and nesting violations are reported as notes on every result. Never interpret them as physics.
 
-### With uv (recommended)
+## 📦 Install
+
+### With uv (recommended) ⚡
 
 Clone and run — `uv` creates the virtual environment, installs the pinned dependencies from
 `uv.lock` and installs `rheofit` itself in editable mode:
@@ -59,17 +73,16 @@ uv run jupyter lab            # notebooks: pick the .venv kernel
 `uv sync` also installs the `dev` group (`ipykernel`, `python-pptx`), so notebooks and PowerPoint
 output work out of the box. For a lean runtime-only environment use `uv sync --no-default-groups`.
 
-Activate the environment instead, if you prefer: `.venv\Scripts\Activate.ps1` (Windows) or
-`source .venv/bin/activate`.
+Prefer activation instead? `.venv\Scripts\Activate.ps1` (Windows) or `source .venv/bin/activate`.
 
-### With pip
+### With pip 🐍
 
 ```bash
 pip install -e .
 pip install -e ".[pptx]"   # adds PowerPoint output
 ```
 
-## Python API
+## 🐍 Python API
 
 ```python
 import rheofit
@@ -94,7 +107,11 @@ a.outputs      # saved PNG / CSV / PPTX paths
 `analyze(..., output="none")` fits without writing files. Inputs may be a local path or an
 HTTP(S) URL. `rheofit.demo_source()` returns the bundled demo flow-curve file.
 
-## CLI
+It also **plots** oscillatory data 📊 — frequency and amplitude sweeps (visualization only, no
+models to fit yet): `rheofit.plot(df)` picks the right view from the step's test type, and reads
+model-free landmarks (LVR limit, G′/G″ crossover) straight off the curve.
+
+## ⌨️ CLI
 
 ```bash
 uv run rheofit sample.json                                     # list steps
@@ -107,19 +124,21 @@ uv run rheofit --demo --steps 0 2 --model tccc --output both
 Flags: `--steps`, `--model`, `--labels`, `--effort {fast,normal,thorough}`, `--seed`,
 `--sample-name`, `--output {png_csv,pptx,both,none}`, `--demo`.
 
-## Models
+## 📚 Models
 
-| No yield stress   | With yield stress                               |
-| ----------------- | ----------------------------------------------- |
-| `power_law`       | `bingham`, `casson`, `tc`, `herschel_bulkley`   |
-| `carreau`         | `tc_carreau`                                    |
-| `carreau_carreau` | `tccc`                                          |
+| 🧱 With yield stress (structured) | 💧 No yield stress      |
+| --------------------------------- | ----------------------- |
+| `bingham`, `casson`               | `power_law`             |
+| `tc`, `herschel_bulkley`          | `carreau`               |
+| `tc_carreau`                      | `carreau_carreau`       |
+| `tccc`                            |                         |
 
-Within each family the models form a ladder. Prefer the simplest model that fits; climb only if the
-residuals show structure the simpler model missed. Extra parameters buy little once `RedChi2` is
-below `0.01`, and they cost identifiability.
+Within each family the models form a ladder 🪜 — climb only if the residuals show structure the
+simpler model missed. Prefer the simplest model that fits: extra parameters buy little once
+`RedChi2` is below `0.01`, and they cost identifiability. A good fit with meaningless parameters
+is worse than a slightly poorer fit with parameters that map onto the formula.
 
-## Layout
+## 🗂️ Layout
 
 ```
 rheofit/
@@ -131,7 +150,7 @@ rheofit/
   cli.py           command-line front-end
 ```
 
-## Skill
+## 🤖 Agent skill
 
 [.github/skills/flow-curve-analysis/SKILL.md](.github/skills/flow-curve-analysis/SKILL.md) is the
 agent-facing companion to this library: it documents the models, the fitting contract and a guided
@@ -139,7 +158,7 @@ interview workflow (is the sample structured? which model? which steps?), and dr
 Use the library directly, or let the skill walk you through it — they are the same code. Keep the
 skill in sync when the library's models, flags or outputs change.
 
-## Model map
+## 🗺️ Model map
 
 Models split into two families by whether the constitutive equation carries a yield stress
 $\sigma_y$. Arrows point from the simpler model to the model that reduces to it (the ladder used
