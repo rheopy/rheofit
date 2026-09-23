@@ -1,18 +1,18 @@
 # ⚗️ rheofit
 
 **Turn flow curves into material physics.** `rheofit` fits viscosity–vs–shear-rate data to
-constitutive models whose parameters *mean something* — yield stress, zero-shear viscosity,
-relaxation time — and hands you quantified material properties instead of curve shapes.
+constitutive models whose parameters have a direct or intuitive *material properties connection* — yield stress, zero-shear viscosity,
+relaxation time, shear thinning index — and hands you quantified material properties that connect the fingerprint to the material. We start with the equilibrium flow curve of a material which is clearly not a complete fingerprint, there are many material properties we are still missing but we believe is a goo pragmatic way to start the efort.
 
 ## 🧪 The idea
 
-A flow curve is the fingerprint of a non-Newtonian fluid 🔍: shear thinning, yield stress,
+We consider a equilibrium flow curve the fingerprint of a non-Newtonian fluid 🔍: shear thinning, yield stress,
 low-shear plateaus and relaxation times all show up as features of that single curve. Fitting it
-with a physically-based model does three things:
+with a rheologicla model does three things:
 
-- 🎯 **Quantifies material properties** — $\sigma_y$, $\eta_0$, $\lambda$, $n$ — instead of describing curve shapes.
+- 🎯 **Quantifies material properties** — $\sigma_y$, $\eta_0$, $\lambda$, $n$ — the parameter of the model are typically linked to material properties
 - 🗜️ **Compresses the material into numbers** — a handful of parameters replace hundreds of points, so samples, temperatures and batches become directly comparable.
-- 🧬 **Closes the loop with formulation** — tied back to the formula, the parameters say *which ingredient or level to move* to hit a material-property target.
+- 🧬 **Closes the loop with formulation** — tied back to the formula, the parameters can be often connected to the microstructure that sets them and the ingredient used to create that microstructure so we can provide immediate feedback to material design via formulation and process levers.
 
 ### From parameter → to physics → to formulation lever
 
@@ -29,7 +29,7 @@ with shear-rate and stress columns.
 
 ## 🎯 The problem we're solving
 
-Measuring a flow curve is easy; *interpreting* it is not. The inverse problem — recovering
+Measuring a flow curve is already a big step that involve the proper choice of instrument, geometries, protocols and data acquisition strategy. We assumet this hard work was succesfull and we try to solve the next challange: *interpreting*. The inverse problem of model parameter "fitting"— recovering
 constitutive parameters from $(\dot\gamma, \sigma)$ data — is ill-conditioned: parameters span
 many decades, the objective landscape is riddled with local minima, and a naive least-squares fit
 from a hand-picked guess will happily converge to a physically meaningless answer behind a
