@@ -7,6 +7,10 @@ build:
   os: ubuntu-24.04
   tools:
     python: "3.12"
+  jobs:
+    pre_build:
+      # export marimo wasm explorers before Sphinx runs
+      - python docs/export_interactive.py
 
 sphinx:
   configuration: docs/conf.py

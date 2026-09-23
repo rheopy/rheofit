@@ -42,6 +42,22 @@ $$\eta(\dot{\gamma}) = \frac{\tau_0}{\dot{\gamma}} + K \dot{\gamma}^{n-1} \quad 
 
 ---
 
+## 🔬 Interactive explorer
+
+Drag the sliders to feel what each parameter does — the equation you just read, recomputed
+live in your browser (Python via WebAssembly, no server involved).
+
+```{raw} html
+<iframe src="../_static/interactive/hb/index.html" width="100%" height="760" style="border: 1px solid #ddd; border-radius: 8px;" title="Herschel–Bulkley interactive explorer" loading="lazy"></iframe>
+```
+
+*Tip: [open the explorer full-screen](../_static/interactive/hb/index.html). Static preview
+(τ₀ = 20 Pa, K = 10 Pa·sⁿ, n = 0.6):*
+
+![Herschel–Bulkley explorer preview](hb_explorer_preview.png)
+
+---
+
 ## 3. Range of Applicable Materials
 
 The Herschel–Bulkley model is one of the most widely applied viscoplastic equations across industrial processing, geophysics, and soft matter physics. It accurately describes materials that form temporary, stress-sensitive physical structures (e.g., microgel packing, colloidal attractive networks, or polymer entanglements).

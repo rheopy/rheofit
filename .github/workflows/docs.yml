@@ -21,5 +21,8 @@ jobs:
           pip install -r docs/requirements.txt
           pip install -e .
 
+      - name: Export interactive notebooks
+        run: python docs/export_interactive.py
+
       - name: Build docs
         run: sphinx-build -W -b html docs docs/_build/html
