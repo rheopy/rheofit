@@ -1,8 +1,12 @@
 # ⚗️ rheofit
 
+[![Documentation Status](https://readthedocs.org/projects/rheofit/badge/?version=latest)](https://rheofit.readthedocs.io/en/latest/?badge=latest)
+
 **Turn flow curves into material physics.** `rheofit` fits viscosity–vs–shear-rate data to
 constitutive models whose parameters have a direct or intuitive *material properties connection* — yield stress, zero-shear viscosity,
 relaxation time, shear thinning index — and hands you quantified material properties that connect the fingerprint to the material. We start with the equilibrium flow curve of a material which is clearly not a complete fingerprint, there are many material properties we are still missing but we believe is a goo pragmatic way to start the efort.
+
+📖 **Documentation:** [rheofit.readthedocs.io](https://rheofit.readthedocs.io/) — install, quickstart, the Carbopol walkthrough, and the full API reference.
 
 ## 🧪 The idea
 
