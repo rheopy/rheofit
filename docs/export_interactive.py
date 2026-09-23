@@ -46,6 +46,13 @@ MODELS = {
         "defaults": {"tau0": 20.0, "gdot_c": 1.0, "eta_bg": 0.5},
         "stress": lambda gd, p: p["tau0"] + p["tau0"] * np.sqrt(gd / p["gdot_c"]) + p["eta_bg"] * gd,
     },
+    "casson": {
+        "notebook": DOCS / "interactive" / "casson_explorer.py",
+        "preview": DOCS / "models" / "casson_explorer_preview.png",
+        "title": "τ₀ = {tau0} Pa, η_bg = {eta_bg} Pa·s",
+        "defaults": {"tau0": 20.0, "eta_bg": 0.5},
+        "stress": lambda gd, p: p["tau0"] + 2 * np.sqrt(p["tau0"] * p["eta_bg"] * gd) + p["eta_bg"] * gd,
+    },
 }
 
 
