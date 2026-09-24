@@ -161,20 +161,22 @@ def _(df, mo, plt):
 
 @app.cell
 def _(MODELS, mo):
-    # The model keys double as the dropdown options, so the names shown are
-    # the lowercase library names (tc, tc_carreau, …).
-    MODEL_ORDER = [
-        "power_law",
-        "carreau",
-        "carreau_carreau",
-        "bingham",
-        "casson",
-        "herschel_bulkley",
-        "tc",
-        "tc_carreau",
-        "tccc",
-    ]
-    model_sel = mo.ui.dropdown(MODEL_ORDER, value="tc", label="Model")
+    # Display labels are lowercase and human-readable; the dropdown *values*
+    # are the exact rheofit model keys, so they always stay compatible with
+    # the library (the dict is built from MODELS itself, no hardcoded list).
+    _DISPLAY = {
+        "power_law": "power law",
+        "carreau": "carreau",
+        "carreau_carreau": "carreau–carreau",
+        "bingham": "bingham",
+        "casson": "casson",
+        "herschel_bulkley": "herschel–bulkley",
+        "tc": "tc",
+        "tc_carreau": "tc–carreau",
+        "tccc": "tccc",
+    }
+    _options = {_DISPLAY.get(_k, _k): _k for _k in MODELS}
+    model_sel = mo.ui.dropdown(_options, value="tc", label="Model")
     effort_sel = mo.ui.radio(
         ["fast", "normal", "thorough"], value="fast", label="Fit effort"
     )
