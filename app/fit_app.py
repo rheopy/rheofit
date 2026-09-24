@@ -18,8 +18,12 @@ with sliders, then fit — all in the browser via WebAssembly.
 
 import marimo
 
-__generated_with = "0.24.2"
-app = marimo.App(width="full", app_title="rheofit — flow curve fitting")
+__generated_with = "0.24.0"
+app = marimo.App(
+    width="full",
+    app_title="rheofit — flow curve fitting",
+    auto_download=["html"],
+)
 
 
 @app.cell
@@ -34,20 +38,19 @@ def _():
     import tempfile
     import rheofit.io
     from rheofit.models import MODELS
+
     return MODELS, io, json, mo, np, os, pd, plt, rheofit, tempfile
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        """
-        # 🧪 rheofit — flow curve fitting
+    mo.md("""
+    # 🧪 rheofit — flow curve fitting
 
-        Fit a measured flow curve with any rheofit model, right in your browser —
-        no install, no server. **1.** Upload a file · **2.** pick the step ·
-        **3.** pick a model and preview it with the sliders · **4.** hit **Fit**.
-        """
-    )
+    Fit a measured flow curve with any rheofit model, right in your browser —
+    no install, no server. **1.** Upload a file · **2.** pick the step ·
+    **3.** pick a model and preview it with the sliders · **4.** hit **Fit**.
+    """)
     return
 
 
@@ -160,23 +163,11 @@ def _(df, mo, plt):
 
 
 @app.cell
-def _(MODELS, mo):
+def _(MODELS, mo, model_sel):
     # Display labels are lowercase and human-readable; the dropdown *values*
     # are the exact rheofit model keys, so they always stay compatible with
     # the library (the dict is built from MODELS itself, no hardcoded list).
-    _DISPLAY = {
-        "power_law": "power law",
-        "carreau": "carreau",
-        "carreau_carreau": "carreau–carreau",
-        "bingham": "bingham",
-        "casson": "casson",
-        "herschel_bulkley": "herschel–bulkley",
-        "tc": "tc",
-        "tc_carreau": "tc–carreau",
-        "tccc": "tccc",
-    }
-    _options = {_DISPLAY.get(_k, _k): _k for _k in MODELS}
-    model_sel = mo.ui.dropdown(_options, value="tc", label="Model")
+
     effort_sel = mo.ui.radio(
         ["fast", "normal", "thorough"], value="fast", label="Fit effort"
     )
@@ -193,15 +184,41 @@ def _(MODELS, mo):
             mo.md(f"`{mod.get_equation_latex()}`"),
         ]
     )
-    return effort_sel, mod, model_sel
+    return effort_sel, mod
 
 
 @app.cell
-def _(df, mo, mod, np):
+def _(MODELS, mo):
+    _DISPLAY = {
+        "power_law": "power law",
+        "carreau": "carreau",
+        "carreau_carreau": "carreau–carreau",
+        "bingham": "bingham",
+        "casson": "casson",
+        "herschel_bulkley": "herschel–bulkley",
+        "tc": "tc",
+        "tc_carreau": "tc–carreau",
+        "tccc": "tccc",
+    }
+    _options = {_DISPLAY.get(_k, _k): _k for _k in MODELS}
+    model_sel = mo.ui.dropdown(_options, value="tc", label="Model")
+    model_sel
+    return (model_sel,)
+
+
+@app.cell
+def _(df, mo):
     _xmin = float(df["Shear rate / 1/s"].min())
     _xmax = float(df["Shear rate / 1/s"].max())
     lo_in = mo.ui.number(_xmin * 0.999, _xmax * 1.001, value=_xmin, label="Min γ̇ (s⁻¹)")
     hi_in = mo.ui.number(_xmin * 0.999, _xmax * 1.001, value=_xmax, label="Max γ̇ (s⁻¹)")
+
+    return hi_in, lo_in
+
+
+@app.cell
+def _(df, hi_in, lo_in, mo, mod, np):
+
 
     _sel = (df["Shear rate / 1/s"] >= lo_in.value) & (
         df["Shear rate / 1/s"] <= hi_in.value
@@ -231,11 +248,11 @@ def _(df, mo, mod, np):
             ui,
         ]
     )
-    return hi_in, lo_in, sel_df, ui
+    return sel_df, ui
 
 
 @app.cell
-def _(mod, mo, np, plt, sel_df, ui):
+def _(mod, np, plt, sel_df, ui):
     _x = sel_df["Shear rate / 1/s"].to_numpy()
     _xf = np.logspace(np.log10(_x.min()), np.log10(_x.max()), 200)
     _pv = {_p: 10.0 ** ui[_p].value for _p in mod.PARAMS}
@@ -286,7 +303,7 @@ def _(effort_sel, mo, mod, model_sel, run_btn, sel_df):
 
 
 @app.cell
-def _(mo, pd, plt, res, model_sel):
+def _(mo, model_sel, pd, plt, res):
     _rx = res["x"]
     _yd, _yf = res["y_data"], res["y_fit"]
 
@@ -348,7 +365,7 @@ def _(mo, pd, plt, res, model_sel):
 
 
 @app.cell
-def _(effort_sel, json, mo, pd, res, model_sel):
+def _(effort_sel, json, mo, model_sel, pd, res):
     _key = model_sel.value
     _params_csv = pd.DataFrame(
         [
@@ -383,7 +400,7 @@ def _(effort_sel, json, mo, pd, res, model_sel):
 
 
 @app.cell
-def _(mo, sel_df):
+def _(mo):
     cmp_btn = mo.ui.run_button(label="⚖️ Fit all models & rank")
     mo.vstack(
         [
