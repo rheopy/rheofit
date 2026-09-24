@@ -53,6 +53,51 @@ MODELS = {
         "defaults": {"tau0": 20.0, "eta_bg": 0.5},
         "stress": lambda gd, p: p["tau0"] + 2 * np.sqrt(p["tau0"] * p["eta_bg"] * gd) + p["eta_bg"] * gd,
     },
+    "power_law": {
+        "notebook": DOCS / "interactive" / "power_law_explorer.py",
+        "preview": DOCS / "models" / "power_law_explorer_preview.png",
+        "title": "K = {K} Pa·sⁿ, n = {n}",
+        "defaults": {"K": 10.0, "n": 0.6},
+        "stress": lambda gd, p: p["K"] * gd ** p["n"],
+    },
+    "carreau": {
+        "notebook": DOCS / "interactive" / "carreau_explorer.py",
+        "preview": DOCS / "models" / "carreau_explorer_preview.png",
+        "title": "η₀ = {eta0} Pa·s, λ = {lam} s, n = {n}",
+        "defaults": {"eta0": 100.0, "lam": 1.0, "n": 0.5},
+        "stress": lambda gd, p: p["eta0"] * gd * (1.0 + (p["lam"] * gd) ** 2) ** ((p["n"] - 1.0) / 2.0),
+    },
+    "carreau_carreau": {
+        "notebook": DOCS / "interactive" / "carreau_carreau_explorer.py",
+        "preview": DOCS / "models" / "carreau_carreau_explorer_preview.png",
+        "title": "η₀,₁ = {eta0_1} Pa·s, λ₁ = {lam1} s, η₀,₂ = {eta0_2} Pa·s, λ₂ = {lam2} s",
+        "defaults": {"eta0_1": 30.0, "lam1": 0.3, "eta0_2": 70.0, "lam2": 10.0},
+        "stress": lambda gd, p: (
+            p["eta0_1"] * gd * (1.0 + (p["lam1"] * gd) ** 2) ** (-0.25)
+            + p["eta0_2"] * gd * (1.0 + (p["lam2"] * gd) ** 2) ** (-0.5)
+        ),
+    },
+    "tc_carreau": {
+        "notebook": DOCS / "interactive" / "tc_carreau_explorer.py",
+        "preview": DOCS / "models" / "tc_carreau_explorer_preview.png",
+        "title": "σ_y = {sigma_y} Pa, γ̇_c = {gdot_c} s⁻¹, η₀ = {eta0} Pa·s, λ = {lam} s",
+        "defaults": {"sigma_y": 20.0, "gdot_c": 1.0, "eta0": 5.0, "lam": 2.0},
+        "stress": lambda gd, p: (
+            p["sigma_y"] + p["sigma_y"] * np.sqrt(gd / p["gdot_c"])
+            + p["eta0"] * gd * (1.0 + (p["lam"] * gd) ** 2) ** (-0.5)
+        ),
+    },
+    "tccc": {
+        "notebook": DOCS / "interactive" / "tccc_explorer.py",
+        "preview": DOCS / "models" / "tccc_explorer_preview.png",
+        "title": "σ_y = {sigma_y} Pa, γ̇_c = {gdot_c} s⁻¹, η₀,₁ = {eta0_1}, λ₁ = {lam1} s, η₀,₂ = {eta0_2}, λ₂ = {lam2} s",
+        "defaults": {"sigma_y": 20.0, "gdot_c": 1.0, "eta0_1": 3.0, "lam1": 0.5, "eta0_2": 7.0, "lam2": 20.0},
+        "stress": lambda gd, p: (
+            p["sigma_y"] + p["sigma_y"] * np.sqrt(gd / p["gdot_c"])
+            + p["eta0_1"] * gd * (1.0 + (p["lam1"] * gd) ** 2) ** (-0.25)
+            + p["eta0_2"] * gd * (1.0 + (p["lam2"] * gd) ** 2) ** (-0.5)
+        ),
+    },
 }
 
 

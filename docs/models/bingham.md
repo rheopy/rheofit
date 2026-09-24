@@ -183,14 +183,14 @@ $$
 
 ## Verified Literature References
 
-* **Barnes, H. A.** (1999). The yield stress—a review or ‘$\pi\alpha\nu\tau\alpha\,\rho\epsilon\iota$’—everything flows?. *Journal of Non-Newtonian Fluid Mechanics*, 81(1-2), 133–178. https://doi.org/10.1016/S0377-0257(98)00094-9
+* **Barnes, H. A.** (1999). The yield stress—a review or ‘$\pi\alpha\nu\tau\alpha\,\rho\epsilon\iota$’—everything flows?. *Journal of Non-Newtonian Fluid Mechanics*, 81(1-2), 133–178. [https://doi.org/10.1016/S0377-0257(98](https://doi.org/10.1016/S0377-0257(98))00094-9
 
-* **Bercovier, M., & Engelman, M.** (1980). A finite element method for incompressible non-Newtonian flows. *Journal of Computational Physics*, 36(3), 313–326. https://doi.org/10.1016/0021-9991(80)90163-0
+* **Bercovier, M., & Engelman, M.** (1980). A finite element method for incompressible non-Newtonian flows. *Journal of Computational Physics*, 36(3), 313–326. [https://doi.org/10.1016/0021-9991(80](https://doi.org/10.1016/0021-9991(80))90163-0
 
 * **Bingham, E. C.** (1922). *Fluidity and Plasticity*. McGraw-Hill Book Company.
 
 * **Bingham, E. C., & Green, H.** (1919). Paint, a plastic material and not a viscous liquid; the measurement of its mobility and yield value. *Proceedings of the American Society for Testing Materials*, 19, 640–664.
 
-* **Papanastasiou, T. C.** (1987). Flows of materials with yield stress. *Journal of Rheology*, 31(5), 385–404. https://doi.org/10.1122/1.549926
+* **Papanastasiou, T. C.** (1987). Flows of materials with yield stress. *Journal of Rheology*, 31(5), 385–404. [https://doi.org/10.1122/1.549926](https://doi.org/10.1122/1.549926)
 
 * **Tattersall, G. H., & Banfill, P. F. G.** (1983). *The Rheology of Fresh Concrete*. Pitman Publishing.

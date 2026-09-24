@@ -133,6 +133,32 @@ The TC model reconciles and unifies several classic viscoplastic flow models:
 
 ---
 
+(mirm)=
+## 🧬 Microstructure-informed models (MIRM): linear combinations of primitives
+
+Real consumer-product formulations rarely contain a single microstructure. A shampoo
+may combine a jammed surfactant network (yield + plastic rearrangements) with entangled
+polymers (shear-thinning with its own relaxation time); a skin cream may add a second
+emollient phase with yet another timescale — all tuned to obtain a tailored texture.
+No single primitive model spans that complexity, so `rheofit` builds
+**microstructure-informed rheological models (MIRM)** as *linear combinations* —
+plain sums — of primitive models, one additive stress term per microstructural
+contributor:
+
+| MIRM model | Construction | Page |
+| :--- | :--- | :--- |
+| **TC-Carreau** (`tc_carreau`) | TC + one Carreau term: $\sigma = \sigma_y + \sigma_y(\dot{\gamma}/\dot{\gamma}_c)^{1/2} + \eta_0\dot{\gamma}[1+(\lambda\dot{\gamma})^2]^{-1/2}$ | [📖 guide](tc_carreau) |
+| **Carreau-Carreau** (`carreau_carreau`) | Carreau + Carreau: two shear-thinning components with distinct relaxation times $\lambda_1$, $\lambda_2$ | [📖 guide](carreau_carreau) |
+| **TCCC** (`tccc`) | TC + two Carreau terms: yield, plastic rearrangement, plus two distinct thinning timescales | [📖 guide](tccc) |
+
+Because the construction is additive, each fitted parameter keeps a direct physical
+readout — $\sigma_y$ still the network yield stress, each $\lambda_i$ the relaxation
+time of one thinning contributor — instead of collapsing into an uninterpretable
+effective exponent. Climb this ladder only when the data demand it: extra terms must
+earn their keep against the identifiability cost (see [§9](#tc-fitting)).
+
+---
+
 ## 5. Range of Applicable Materials
 
 The TC model is tailored for soft glassy materials (SGMs) and dense jammed suspensions where elastoplastic rearrangements govern intermediate flow and hydrodynamic drag dominates at elevated shear rates:
@@ -214,6 +240,7 @@ $$
 
 ---
 
+(tc-fitting)=
 ## 9. Recommended Fitting Best Practices
 
 1. **Independent Solvent Viscosity Anchor:** Measure the viscosity of the pure continuous phase ($\eta_{sol}$) independently. Use $\eta_{sol}$ as an initial seed value or lower bound constraint for $\eta_{bg}$ during non-linear regression.
@@ -227,12 +254,12 @@ $$
 
 ## Verified Literature References
 
-* **Bocquet, L., Colin, A., & Ajdari, A.** (2009). Kinetic theory of plastic flow in soft glassy materials. *Physical Review Letters*, 103(3), 036001. https://doi.org/10.1103/PhysRevLett.103.036001
+* **Bocquet, L., Colin, A., & Ajdari, A.** (2009). Kinetic theory of plastic flow in soft glassy materials. *Physical Review Letters*, 103(3), 036001. [https://doi.org/10.1103/PhysRevLett.103.036001](https://doi.org/10.1103/PhysRevLett.103.036001)
 
-* **Caggioni, M., Trappe, V., & Spicer, P. T.** (2020). Variations of the Herschel-Bulkley exponent reflecting contributions of the viscous continuous phase to the shear rate-dependent stress of soft glassy materials. *Journal of Rheology*, 64(2), 413–422. https://doi.org/10.1122/1.5127805
+* **Caggioni, M., Trappe, V., & Spicer, P. T.** (2020). Variations of the Herschel-Bulkley exponent reflecting contributions of the viscous continuous phase to the shear rate-dependent stress of soft glassy materials. *Journal of Rheology*, 64(2), 413–422. [https://doi.org/10.1122/1.5127805](https://doi.org/10.1122/1.5127805)
 
 * **Casson, N.** (1959). A flow equation for pigment-oil suspensions of the printing ink type. In C. Mill (Ed.), *Rheology of Disperse Systems* (pp. 84–104). Pergamon Press.
 
-* **Hébraud, P., & Lequeux, F.** (1998). Mode-coupling theory for the pasty rheology of soft glassy materials. *Physical Review Letters*, 81(14), 2934–2937. https://doi.org/10.1103/PhysRevLett.81.2934
+* **Hébraud, P., & Lequeux, F.** (1998). Mode-coupling theory for the pasty rheology of soft glassy materials. *Physical Review Letters*, 81(14), 2934–2937. [https://doi.org/10.1103/PhysRevLett.81.2934](https://doi.org/10.1103/PhysRevLett.81.2934)
 
-* **Herschel, W. H., & Bulkley, R.** (1926). Konsistenzmessungen von Gummi-Benzollösungen. *Kolloid-Zeitschrift*, 39(4), 291–300. https://doi.org/10.1007/BF01432034
+* **Herschel, W. H., & Bulkley, R.** (1926). Konsistenzmessungen von Gummi-Benzollösungen. *Kolloid-Zeitschrift*, 39(4), 291–300. [https://doi.org/10.1007/BF01432034](https://doi.org/10.1007/BF01432034)
