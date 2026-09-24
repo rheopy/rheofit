@@ -38,24 +38,6 @@ def _():
 
 
 @app.cell
-def _():
-    # Friendly labels for the model dropdown.
-    MODEL_LABELS = {
-        "power_law": "Power Law",
-        "carreau": "Carreau",
-        "carreau_carreau": "Carreau–Carreau",
-        "bingham": "Bingham",
-        "casson": "Casson",
-        "herschel_bulkley": "Herschel–Bulkley",
-        "tc": "TC",
-        "tc_carreau": "TC–Carreau",
-        "tccc": "TCCC",
-    }
-    LABEL_TO_KEY = {v: k for k, v in MODEL_LABELS.items()}
-    return LABEL_TO_KEY, MODEL_LABELS
-
-
-@app.cell
 def _(mo):
     mo.md(
         """
@@ -66,7 +48,6 @@ def _(mo):
         **3.** pick a model and preview it with the sliders · **4.** hit **Fit**.
         """
     )
-    mo.sidebar(mo.md("## 📁 Data"))
     return
 
 
@@ -76,7 +57,7 @@ def _(mo):
         filetypes=[".json", ".xls", ".xlsx"],
         label="Flow curve file (TRIOS JSON or Excel)",
     )
-    mo.sidebar(upload)
+    mo.vstack([mo.md("## 📁 Data"), upload])
     return (upload,)
 
 
@@ -99,8 +80,7 @@ def _(io, mo, os, pd, rheofit, tempfile, upload):
         _sheets = pd.ExcelFile(io.BytesIO(content)).sheet_names
         step_pick = mo.ui.dropdown(_sheets, label="Worksheet")
 
-    mo.sidebar(mo.md("## 📑 Step"))
-    mo.sidebar(step_pick)
+    mo.vstack([mo.md("## 📑 Step"), step_pick])
     return content, ext, step_pick, tmp
 
 
@@ -180,38 +160,49 @@ def _(df, mo, plt):
 
 
 @app.cell
-def _(MODEL_LABELS, df, mo):
-    _xmin = float(df["Shear rate / 1/s"].min())
-    _xmax = float(df["Shear rate / 1/s"].max())
-
-    model_sel = mo.ui.dropdown(MODEL_LABELS, value="TC", label="Model")
+def _(MODELS, mo):
+    # Display labels are lowercase and human-readable; the dropdown *values*
+    # are the exact rheofit model keys, so they always stay compatible with
+    # the library (the dict is built from MODELS itself, no hardcoded list).
+    _DISPLAY = {
+        "power_law": "power law",
+        "carreau": "carreau",
+        "carreau_carreau": "carreau–carreau",
+        "bingham": "bingham",
+        "casson": "casson",
+        "herschel_bulkley": "herschel–bulkley",
+        "tc": "tc",
+        "tc_carreau": "tc–carreau",
+        "tccc": "tccc",
+    }
+    _options = {_DISPLAY.get(_k, _k): _k for _k in MODELS}
+    model_sel = mo.ui.dropdown(_options, value="tc", label="Model")
     effort_sel = mo.ui.radio(
         ["fast", "normal", "thorough"], value="fast", label="Fit effort"
     )
+    mod = MODELS[model_sel.value]
+    mo.vstack(
+        [
+            mo.md("## ⚙️ Model"),
+            model_sel,
+            effort_sel,
+            mo.md(
+                "_Tip: `fast` is plenty in the browser; `thorough` can take a while._"
+            ),
+            mo.md(f"### {model_sel.value}"),
+            mo.md(f"`{mod.get_equation_latex()}`"),
+        ]
+    )
+    return effort_sel, mod, model_sel
+
+
+@app.cell
+def _(df, mo, mod, np):
+    _xmin = float(df["Shear rate / 1/s"].min())
+    _xmax = float(df["Shear rate / 1/s"].max())
     lo_in = mo.ui.number(_xmin * 0.999, _xmax * 1.001, value=_xmin, label="Min γ̇ (s⁻¹)")
     hi_in = mo.ui.number(_xmin * 0.999, _xmax * 1.001, value=_xmax, label="Max γ̇ (s⁻¹)")
-    run_btn = mo.ui.run_button(label="▶ Fit model")
 
-    mo.sidebar(mo.md("## ⚙️ Fit"))
-    mo.sidebar(model_sel)
-    mo.sidebar(effort_sel)
-    mo.sidebar(mo.hstack([lo_in, hi_in], justify="start"))
-    mo.sidebar(run_btn)
-    mo.sidebar(
-        mo.md("_Tip: `fast` is plenty in the browser; `thorough` can take a while._")
-    )
-    return effort_sel, hi_in, lo_in, model_sel, run_btn
-
-
-@app.cell
-def _(LABEL_TO_KEY, MODELS, mo, model_sel):
-    mod = MODELS[LABEL_TO_KEY[model_sel.value]]
-    mo.md(f"### {model_sel.value}\n\n`{mod.get_equation_latex()}`")
-    return (mod,)
-
-
-@app.cell
-def _(df, hi_in, lo_in, mo, mod, np):
     _sel = (df["Shear rate / 1/s"] >= lo_in.value) & (
         df["Shear rate / 1/s"] <= hi_in.value
     )
@@ -233,8 +224,14 @@ def _(df, hi_in, lo_in, mo, mod, np):
             label=f"{_p} (log₁₀)",
         )
     ui = mo.ui.dictionary(_sliders)
-    mo.vstack([mo.md("#### 🔍 Curve preview — drag to explore"), ui])
-    return sel_df, ui
+    mo.vstack(
+        [
+            mo.md("#### 🔍 Curve preview — drag to explore"),
+            mo.hstack([lo_in, hi_in], justify="start"),
+            ui,
+        ]
+    )
+    return hi_in, lo_in, sel_df, ui
 
 
 @app.cell
@@ -262,6 +259,22 @@ def _(mod, mo, np, plt, sel_df, ui):
     _fig_prev.tight_layout()
     _fig_prev
     return
+
+
+@app.cell
+def _(mo, model_sel, sel_df):
+    run_btn = mo.ui.run_button(label="▶ Fit model")
+    mo.vstack(
+        [
+            mo.md("## ▶ Fit"),
+            mo.md(
+                f"Fit **{model_sel.value}** on "
+                f"**{len(sel_df)}** points in the selected range."
+            ),
+            run_btn,
+        ]
+    )
+    return (run_btn,)
 
 
 @app.cell
@@ -335,8 +348,8 @@ def _(mo, pd, plt, res, model_sel):
 
 
 @app.cell
-def _(LABEL_TO_KEY, effort_sel, json, mo, pd, res, model_sel):
-    _key = LABEL_TO_KEY[model_sel.value]
+def _(effort_sel, json, mo, pd, res, model_sel):
+    _key = model_sel.value
     _params_csv = pd.DataFrame(
         [
             {"parameter": _p, "value": _d["value"], "stderr": _d["stderr"]}
@@ -370,11 +383,15 @@ def _(LABEL_TO_KEY, effort_sel, json, mo, pd, res, model_sel):
 
 
 @app.cell
-def _(mo):
+def _(mo, sel_df):
     cmp_btn = mo.ui.run_button(label="⚖️ Fit all models & rank")
-    mo.sidebar(mo.md("## 🏆 Compare"))
-    mo.sidebar(cmp_btn)
-    mo.sidebar(mo.md("_Ranks every model by RedChi2 on the current fit range._"))
+    mo.vstack(
+        [
+            mo.md("## 🏆 Compare"),
+            mo.md("_Ranks every model by RedChi2 on the current fit range._"),
+            cmp_btn,
+        ]
+    )
     return (cmp_btn,)
 
 
