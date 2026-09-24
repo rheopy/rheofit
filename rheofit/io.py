@@ -219,8 +219,13 @@ def load_step(json_path: str | Path, step_index: int) -> pd.DataFrame:
         step_rows = [r for r in processed["Rows"] if r.get("Results Step Id") == step_id]
         df = pd.DataFrame(step_rows).rename(columns=COLUMN_RENAME)
 
-        if "Stress / Pa" not in df.columns and "Stress (step) / Pa" in df.columns:
-            df["Stress / Pa"] = df["Stress (step) / Pa"]
+        if "Stress / Pa" not in df.columns:
+            if "Stress (step) / Pa" in df.columns:
+                df["Stress / Pa"] = df["Stress (step) / Pa"]
+            elif "Stress_MPa" in df.columns:
+                df["Stress / Pa"] = pd.to_numeric(df["Stress_MPa"], errors="coerce") * 1e6
+            elif "Stress (step)_MPa" in df.columns:
+                df["Stress / Pa"] = pd.to_numeric(df["Stress (step)_MPa"], errors="coerce") * 1e6
 
         numeric_cols = set(COLUMN_RENAME.values()) | {"Tan(delta)"}
         for col in numeric_cols & set(df.columns):
