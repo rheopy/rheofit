@@ -122,6 +122,14 @@ New here? Read the **[Carbopol case study](walkthrough)** — a complete, reprod
 head-to-head of the TC model against Herschel–Bulkley on real data, run the way the skill
 runs it. Then browse the **[API reference](api)**.
 
+## 🧪 Try it in your browser
+
+The **[rheofit fit app](https://rheopy.github.io/rheofit/)** runs the whole
+fitting workflow in your browser — upload a flow curve, preview any model with
+sliders, fit it, and rank all nine models by RedChi2. No install, no server;
+the calculations are done by the `rheofit` library itself, compiled to
+WebAssembly.
+
 ## 📥 Download
 
 Prefer to read offline? Every docs build produces **PDF** and **EPUB** versions of
