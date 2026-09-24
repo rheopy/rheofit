@@ -212,14 +212,14 @@ $$
 
 ## Verified Literature References
 
-* **Caggioni, M., Trappe, V., & Spicer, P. T.** (2020). Variations of the Herschel-Bulkley exponent reflecting contributions of the viscous continuous phase to the shear rate-dependent stress of soft glassy materials. *Journal of Rheology*, 64(2), 413–422. https://doi.org/10.1122/1.5127805
+* **Caggioni, M., Trappe, V., & Spicer, P. T.** (2020). Variations of the Herschel-Bulkley exponent reflecting contributions of the viscous continuous phase to the shear rate-dependent stress of soft glassy materials. *Journal of Rheology*, 64(2), 413–422. [https://doi.org/10.1122/1.5127805](https://doi.org/10.1122/1.5127805)
 
 * **Casson, N.** (1959). A flow equation for pigment-oil suspensions of the printing ink type. In C. Mill (Ed.), *Rheology of Disperse Systems* (pp. 84–104). Pergamon Press.
 
-* **Charm, S., & Kurland, G. S.** (1965). Viscometry of human blood for shear rates of 0 to 100,000 $s^{-1}$. *Nature*, 206(4984), 617–618. https://doi.org/10.1038/206617a0
+* **Charm, S., & Kurland, G. S.** (1965). Viscometry of human blood for shear rates of 0 to 100,000 $s^{-1}$. *Nature*, 206(4984), 617–618. [https://doi.org/10.1038/206617a0](https://doi.org/10.1038/206617a0)
 
 * **IOCCC / OICC.** (2000). *Viscosity of Cocoa and Chocolate Products*. International Office of Cocoa, Chocolate and Sugar Confectionery, Official Method 46.
 
-* **Merrill, E. W., Cokelet, G. C., Britten, A., & Wells, R. E.** (1963). Non-Newtonian rheology of human blood—effect of fibrinogen and rouleaux formation. *Biophysical Journal*, 3(3), 199–213. https://doi.org/10.1016/S0006-3495(63)86816-2
+* **Merrill, E. W., Cokelet, G. C., Britten, A., & Wells, R. E.** (1963). Non-Newtonian rheology of human blood—effect of fibrinogen and rouleaux formation. *Biophysical Journal*, 3(3), 199–213. [https://doi.org/10.1016/S0006-3495(63](https://doi.org/10.1016/S0006-3495(63))86816-2
 
 * **Steffe, J. F.** (1996). *Rheological Methods in Food Process Engineering* (2nd ed.). Freeman Press.
