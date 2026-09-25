@@ -33,7 +33,8 @@ Carreau mode with a **fixed** exponent:
 That is precisely the [`carreau_carreau`](models/carreau_carreau) model — a microstructure-informed
 (MIRM) sum of two Carreau terms:
 
-σ = η₀₁·γ̇·[1 + (λ₁·γ̇)²]^(−¼) + η₀₂·γ̇·[1 + (λ₂·γ̇)²]^(−½)
+$$\sigma = \eta_{0,1}\,\dot{\gamma}\,\left[1 + (\lambda_1 \dot{\gamma})^2\right]^{-1/4}
++ \eta_{0,2}\,\dot{\gamma}\,\left[1 + (\lambda_2 \dot{\gamma})^2\right]^{-1/2}$$
 
 ```mermaid
 flowchart LR
@@ -65,11 +66,13 @@ Reduced χ² = **8.28e-4** — about **15× better** than the single Carreau —
 number 11.6: every parameter identified, no degeneracy. The two relaxation times sit ~90×
 apart, exactly the separation the data demanded.
 
-![Carreau–Carreau decomposition at 18 °C into polymer and WLM terms](walkthrough/fig4_cc_decomposition_18C.png)
+![Carreau–Carreau decomposition at 18 °C into polymer and WLM terms, with viscosity on a twin axis](walkthrough/fig4_cc_decomposition_18C.png)
 
 The decomposition tells the physical story: a slow polymer mode (λ ≈ 4 s) carrying the
 low-shear viscosity, plus a fast WLM mode (λ ≈ 0.05 s) that flattens into its stress
-plateau (σ → η₀,₂/λ₂ ≈ 112 Pa) at high shear rates.
+plateau ($\sigma \to \eta_{0,2}/\lambda_2 \approx 112\ \mathrm{Pa}$) at high shear rates.
+The twin axis shows the same fit as viscosity ($\eta = \sigma/\dot{\gamma}$) — for readers
+who prefer to think in viscosity rather than stress.
 
 ## 🌡️ Across temperatures: the parameters behave
 
