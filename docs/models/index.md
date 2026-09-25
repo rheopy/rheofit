@@ -24,21 +24,29 @@ once `RedChi2` is below `0.01`, and they cost identifiability.
 
 | Model | Equation | Page |
 | ----- | -------- | ---- |
-| `power_law` | $\sigma = K\dot{\gamma}^n$ | 🚧 coming soon |
-| `carreau` | $\sigma = \eta_0\dot{\gamma}[1+(\lambda\dot{\gamma})^2]^{(n-1)/2}$ | 🚧 coming soon |
+| `power_law` | $\sigma = K\dot{\gamma}^n$ | [📖 guide](power_law) |
+| `carreau` | $\sigma = \eta_0\dot{\gamma}[1+(\lambda\dot{\gamma})^2]^{(n-1)/2}$ | [📖 guide](carreau) |
 | `carreau_carreau` | $\sigma = \sum_{i=1,2} \eta_{0,i}\dot{\gamma}[1+(\lambda_i\dot{\gamma})^2]^{-1/4,-1/2}$ | [📖 guide](carreau_carreau) |
 
 ```{toctree}
 :maxdepth: 1
 :hidden:
+:caption: 🧱 With yield stress
 
 herschel_bulkley
 bingham
-tc
 casson
+tc
+tc_carreau
+tccc
+```
+
+```{toctree}
+:maxdepth: 1
+:hidden:
+:caption: 💧 No yield stress
+
 power_law
 carreau
 carreau_carreau
-tc_carreau
-tccc
 ```
