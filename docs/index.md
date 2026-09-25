@@ -120,7 +120,9 @@ rheofit install-skill
 
 New here? Read the **[Carbopol case study](walkthrough)** — a complete, reproducible
 head-to-head of the TC model against Herschel–Bulkley on real data, run the way the skill
-runs it. Then browse the **[API reference](api)**.
+runs it. Then see the **[wormlike-micelle + polymer case study](walkthrough-carreau-carreau)**,
+where the microstructure-informed `carreau_carreau` model resolves two relaxation times across
+a temperature series. Then browse the **[API reference](api)**.
 
 ## 🧪 Try it in your browser
 
@@ -143,6 +145,7 @@ bottom of the page.
 :caption: Case studies
 
 walkthrough
+walkthrough-carreau-carreau
 ```
 
 ```{toctree}
