@@ -122,7 +122,9 @@ New here? Read the **[Carbopol case study](walkthrough)** — a complete, reprod
 head-to-head of the TC model against Herschel–Bulkley on real data, run the way the skill
 runs it. Then see the **[wormlike-micelle + polymer case study](walkthrough-carreau-carreau)**,
 where the microstructure-informed `carreau_carreau` model resolves two relaxation times across
-a temperature series. Then browse the **[API reference](api)**.
+a temperature series. And don't miss the **[polymer solution case study](walkthrough-carreau)**,
+where a Carreau fit meets the Cox–Merz and Delaware–Rutgers rules on amplitude, flow, and
+frequency sweeps. Then browse the **[API reference](api)**.
 
 ## 🧪 Try it in your browser
 
@@ -146,6 +148,7 @@ bottom of the page.
 
 walkthrough
 walkthrough-carreau-carreau
+walkthrough-carreau
 ```
 
 ```{toctree}
