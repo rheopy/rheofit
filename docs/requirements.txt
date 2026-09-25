@@ -2,6 +2,8 @@
 sphinx>=7
 myst-parser>=2
 sphinx-rtd-theme>=2
+# sphinxcontrib-mermaid: renders ```mermaid fences as diagrams on the HTML site
+sphinxcontrib-mermaid>=0.9
 # marimo: exports the interactive model explorers to WebAssembly at build time
 # (docs/export_interactive.py). uv is needed on PATH for the export.
 marimo>=0.24

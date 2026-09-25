@@ -16,6 +16,7 @@ release = "0.1.0"
 
 extensions = [
     "myst_parser",
+    "sphinxcontrib.mermaid",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
@@ -35,8 +36,12 @@ myst_enable_extensions = [
     "colon_fence",
 ]
 
-# ```mermaid fences render as diagrams on GitHub; on RTD they fall back to
-# plain code blocks (no sphinxcontrib-mermaid dependency by design).
+# ```mermaid fences become {mermaid} directives (rendered by
+# sphinxcontrib-mermaid on HTML builders). For the EPUB — whose readers do
+# not run JavaScript — each diagram is wrapped in {only} blocks with a
+# pre-rendered SVG fallback (docs/walkthrough/*.svg).
+myst_fence_as_directive = ["mermaid"]
+
 suppress_warnings = ["misc.highlighting_failure"]
 
 # Don't document inherited / private members; keep API pages tight.
