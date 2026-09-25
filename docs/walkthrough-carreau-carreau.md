@@ -36,12 +36,18 @@ That is precisely the [`carreau_carreau`](models/carreau_carreau) model — a mi
 $$\sigma = \eta_{0,1}\,\dot{\gamma}\,\left[1 + (\lambda_1 \dot{\gamma})^2\right]^{-1/4}
 + \eta_{0,2}\,\dot{\gamma}\,\left[1 + (\lambda_2 \dot{\gamma})^2\right]^{-1/2}$$
 
+````{only} builder_html
 ```mermaid
 flowchart LR
     F["formulation<br/>(WLM + polymer)"] --> W["WLM network<br/>fast mode, n = 0<br/>stress plateau"]
     F --> P["polymer coils<br/>slow mode, n = 0.5"]
     W --> S["carreau–carreau<br/>σ = σ_WLM + σ_polymer"]
     P --> S
+```
+````
+
+```{only} not builder_html
+![Microstructure mapping: WLM and polymer modes feeding the carreau–carreau model](walkthrough/walkthrough_cc_mermaid.svg)
 ```
 
 ## 📉 One Carreau is not enough — 18 °C

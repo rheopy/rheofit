@@ -14,6 +14,7 @@ guardrails are. The skill lives in the same repo
 same domain experts. When the tool improves, the agent's behavior improves with it — no
 prompt engineering by the end user required.
 
+````{only} builder_html
 ```mermaid
 flowchart LR
     REPO["rheofit repo"]
@@ -26,6 +27,11 @@ flowchart LR
     CLI --> USER
     AGENT --> USER
     USER -.->|"learns while using"| USER
+```
+````
+
+```{only} not builder_html
+![Repository layout: the rheofit library and the flow-curve-analysis skill](walkthrough/walkthrough_mermaid_repo.svg)
 ```
 
 One implementation, three interfaces — and the agent's behavior is pinned to the same
@@ -76,6 +82,7 @@ Note what's happening: the agent isn't just taking orders — it's teaching the 
 decision structure (structured vs. unstructured is *the* branching question in flow-curve
 analysis) while collecting the choices it needs. The user learns the taxonomy by using it.
 
+````{only} builder_html
 ```mermaid
 flowchart TD
     DATA["📥 data"] --> DISCOVER["🔍 discover steps<br/>(read-only)"]
@@ -89,6 +96,11 @@ flowchart TD
     REPORT --> LEARN["🎓 user learns<br/>from their own data"]
     LEARN --> DATA2["📥 next sample"]
     DATA2 --> DISCOVER
+```
+````
+
+```{only} not builder_html
+![The flow-curve-analysis skill workflow, from data discovery to guarded report](walkthrough/walkthrough_mermaid_workflow.svg)
 ```
 
 ## 🎬 Act 3 — The run: reproducible by construction
