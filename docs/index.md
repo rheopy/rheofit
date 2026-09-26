@@ -124,7 +124,9 @@ runs it. Then see the **[wormlike-micelle + polymer case study](walkthrough-carr
 where the microstructure-informed `carreau_carreau` model resolves two relaxation times across
 a temperature series. And don't miss the **[polymer solution case study](walkthrough-carreau)**,
 where a Carreau fit meets the Cox–Merz and Delaware–Rutgers rules on amplitude, flow, and
-frequency sweeps. Then browse the **[API reference](api)**.
+frequency sweeps. For yield-stress fluids, the **[Carbopol in glycerin case study](walkthrough-carbopol-glycerin)**
+pits Herschel–Bulkley against the three-component model and shows how a viscous continuous
+phase rewrites the flow curve. Then browse the **[API reference](api)**.
 
 ## 🧪 Try it in your browser
 
@@ -149,6 +151,7 @@ bottom of the page.
 walkthrough
 walkthrough-carreau-carreau
 walkthrough-carreau
+walkthrough-carbopol-glycerin
 ```
 
 ```{toctree}
