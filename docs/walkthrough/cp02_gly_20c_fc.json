@@ -1,0 +1,2826 @@
+{
+  "Schema": {
+    "Url": "https://software.tainstruments.com/schemas/TRIOSJSONExportSchema"
+  },
+  "Operators": [],
+  "Sample": {
+    "Name": "cp02_gly_20c_fc",
+    "Density": {
+      "Value": 1000.0,
+      "Unit": {
+        "Name": "g/cm\u00b3"
+      }
+    }
+  },
+  "Procedure": {
+    "Name": "FLowCurve_to_0.001",
+    "Steps": [
+      {
+        "Name": "Flow-Sweep : \nTemperature 20 \u00b0C Inherit Set Point: Off \nSoak Time 0.0 s Wait For Temperature: Off \nLogarithmic sweep\nShear rate 100 to 1.0e-31/s\nPoints per decade 10  \nSteady state sensing: On Max. equilibration time 100.0 s \nSample period 10.0 s \n% tolerance 1.0 \nConsecutive within 3 \nScaled time average: Off Auto\nSave point display: On Save image: Off Enabled: Off Enabled: Off Enabled: Off\n\n",
+        "Id": "132ae93f-c758-4442-936a-7ccbd26444eb"
+      }
+    ],
+    "Configuration": {
+      "InstrumentConfigurations": [
+        {
+          "SerialNumber": "5333-0138",
+          "Name": "5333-0138",
+          "Type": "Discovery HR-3",
+          "Location": "NOT_SET",
+          "ETCCameraAvailable": false,
+          "Friction": {
+            "Value": 0.28202960000000005,
+            "Unit": {
+              "Name": "\u00b5N.m/(rad/s)"
+            }
+          },
+          "FrictionCalibrationDate": "2017-09-21T12:48:34.7275136Z",
+          "FrictionCorrectionEnabled": true,
+          "RotationalMappingDate": "2017-11-01T09:48:12.32131Z",
+          "RotationalMappingGeometry": "40mm 2.021\u00b0 cone plate, Peltier plate Steel  - 999031",
+          "RotationalMappingNumberOfIterations": 1,
+          "RotationalMappingType": "standard",
+          "SmartSwapDisabled": false,
+          "AxialForceControlOptions": {
+            "AxialForceActionOutsideRange": "Return to initial value",
+            "ControlAxialForceActive": false,
+            "ControlAxialForceMaxGapChangeUp": {
+              "Value": 1000.0,
+              "Unit": {
+                "Name": "\u00b5m"
+              }
+            },
+            "ControlAxialForceMinGapChangeDown": {
+              "Value": 1000.0,
+              "Unit": {
+                "Name": "\u00b5m"
+              }
+            },
+            "ControlAxialForceSensitivity": {
+              "Value": 0.1,
+              "Unit": {
+                "Name": "N"
+              }
+            },
+            "ControlAxialForceSetInitialValue": false,
+            "ControlAxialForceType": "Compression",
+            "ControlledAxialForce": {
+              "Value": 1.0,
+              "Unit": {
+                "Name": "N"
+              }
+            }
+          },
+          "ConditioningOptions": {
+            "ZeroAxialForceBeforeRun": false,
+            "ZeroSpeedAfterPreshear": "Leave as is",
+            "ZeroVelocityThreshold": {
+              "Value": 0.1,
+              "Unit": {
+                "Name": "rad/s"
+              }
+            }
+          },
+          "ExperimentOptions": {
+            "MaximumAxialForceLimit": {
+              "Value": 50.0,
+              "Unit": {
+                "Name": "N"
+              }
+            },
+            "MinimumAxialForceLimit": {
+              "Value": 0.1,
+              "Unit": {
+                "Name": "N"
+              }
+            },
+            "TemperatureToleranceResults": {
+              "Value": 1.0,
+              "Unit": {
+                "Name": "\u00b0C"
+              }
+            }
+          },
+          "FlowOptions": {
+            "FlowCollectAllPoints": false,
+            "FlowCollectNegativeShearRateData": true,
+            "FlowInertiaCorrection": true,
+            "FlowNonSteadyStateMinimumVelocity": {
+              "Value": 0.0001,
+              "Unit": {
+                "Name": "rad/s"
+              }
+            },
+            "FlowTorqueLimit": {
+              "Value": 0.099999999999999992,
+              "Unit": {
+                "Name": "\u00b5N.m"
+              }
+            },
+            "FlowVelocityLimit": {
+              "Value": 0.0001,
+              "Unit": {
+                "Name": "rad/s"
+              }
+            },
+            "FlowVelocityTolerance": {
+              "Value": 5.0,
+              "Unit": {
+                "Name": "%"
+              }
+            },
+            "FlowZeroStrainAtStartOfStep": true
+          },
+          "GapOptions": {
+            "AxialForceForSampleCompression": {
+              "Value": 1.0,
+              "Unit": {
+                "Name": "N"
+              }
+            },
+            "ClosureDistance": {
+              "Value": 1000.0,
+              "Unit": {
+                "Name": "\u00b5m"
+              }
+            },
+            "ClosureProfile": "linear",
+            "ClosureVelocity": {
+              "Value": 99.999999999999986,
+              "Unit": {
+                "Name": "\u00b5m/s"
+              }
+            },
+            "GapVelocityCoarse": {
+              "Value": 6000.0,
+              "Unit": {
+                "Name": "\u00b5m/s"
+              }
+            },
+            "GapVelocityFine": {
+              "Value": 1000.0,
+              "Unit": {
+                "Name": "\u00b5m/s"
+              }
+            },
+            "GapVelocityOther": {
+              "Value": 6000.0,
+              "Unit": {
+                "Name": "\u00b5m/s"
+              }
+            },
+            "GapZeroMode": "standard (DHR) or deceleration (AR)",
+            "GapHandlingAtStartOfTest": "Flag mismatches between geometry and instrument gap",
+            "GapTolerance": {
+              "Value": 4.0,
+              "Unit": {
+                "Name": "\u00b5m"
+              }
+            },
+            "GapWaitDuration": {
+              "Value": 2.0,
+              "Unit": {
+                "Name": "s"
+              }
+            },
+            "OverrideWaitForGap": false
+          },
+          "InertiaOptions": {
+            "InstrumentInertia": {
+              "Value": 20.915172674717791,
+              "Unit": {
+                "Name": "\u00b5N.m.s\u00b2"
+              }
+            },
+            "InstrumentInertiaCalibrationDate": "2017-09-21T12:44:07.0545121Z"
+          },
+          "OscillationOptions": {
+            "OscillationDisplacementLimit": {
+              "Value": 1E-05,
+              "Unit": {
+                "Name": "rad"
+              }
+            },
+            "OscillationDisplacementTolerance": {
+              "Value": 5.0,
+              "Unit": {
+                "Name": "%"
+              }
+            },
+            "OscillationRawPhaseLimit": {
+              "Value": 170.0,
+              "Unit": {
+                "Name": "\u00b0"
+              }
+            },
+            "OscillationTorqueLimit": {
+              "Value": 0.099999999999999992,
+              "Unit": {
+                "Name": "\u00b5N.m"
+              }
+            },
+            "OscillationTorqueTolerance": {
+              "Value": 1.0,
+              "Unit": {
+                "Name": "%"
+              }
+            },
+            "OscillationVelocityTolerance": {
+              "Value": 5.0,
+              "Unit": {
+                "Name": "%"
+              }
+            }
+          },
+          "TemperatureOptions": {
+            "CurrentTemperatureSystemCompensation": {
+              "Value": 0.0,
+              "Unit": {
+                "Name": "\u00b5m/\u00b0C"
+              }
+            },
+            "CurrentTemperatureSystemOffset": {
+              "Value": -0.328,
+              "Unit": {
+                "Name": "\u00b0C"
+              }
+            },
+            "CurrentTemperatureSystemSpan": {
+              "Value": 1.016
+            },
+            "GeometryGapTemperatureCompensationCalibrationDate": "0001-01-01T00:00:00Z",
+            "GapTemperatureCompensationEnabled": false,
+            "PurgeGasOnlyNoActiveCooling": false,
+            "TemperatureControlEnabled": true,
+            "TemperatureSystemControl": "Peltier plate",
+            "UpperTemperatureSystemFitted": false,
+            "TemperatureWaitDuration": {
+              "Value": 10.0,
+              "Unit": {
+                "Name": "s"
+              }
+            },
+            "TemperatureWaitTolerance": {
+              "Value": 0.2,
+              "Unit": {
+                "Name": "\u00b0C"
+              }
+            }
+          },
+          "Versions": {
+            "InstrumentFirmwareVersion": "9.43"
+          },
+          "Geometry": {
+            "Name": "40mm 2.021\u00b0 cone plate, Peltier plate Steel  - 999031",
+            "Diameter": {
+              "Value": 40.0,
+              "Unit": {
+                "Name": "mm"
+              }
+            },
+            "Angle": {
+              "Value": 7276.0,
+              "Unit": {
+                "Name": "sec"
+              }
+            },
+            "Truncation": {
+              "Value": 45.0,
+              "Unit": {
+                "Name": "\u00b5m"
+              }
+            },
+            "LoadingGap": {
+              "Value": 45000.0,
+              "Unit": {
+                "Name": "\u00b5m"
+              }
+            },
+            "TrimGapOffset": {
+              "Value": 50.0,
+              "Unit": {
+                "Name": "\u00b5m"
+              }
+            },
+            "ConePlateMaterial": "Steel",
+            "Material": "Stainless steel",
+            "SurfaceFinish": "Standard",
+            "PlateEnvironmentalSystem": "Peltier plate",
+            "SolventTrap": false,
+            "SerialNumber": "999031",
+            "GapTemperatureCompensation": {
+              "Value": 0.0,
+              "Unit": {
+                "Name": "\u00b5m/\u00b0C"
+              }
+            },
+            "GapTemperatureCompensationEnabled": false,
+            "Compliance": {
+              "Value": 1.03,
+              "Unit": {
+                "Name": "mrad/N.m"
+              }
+            },
+            "Inertia": {
+              "Value": 7.4644988659672009,
+              "Unit": {
+                "Name": "\u00b5N.m.s\u00b2"
+              }
+            },
+            "BearingFriction": {
+              "Value": 0.28202966666666662,
+              "Unit": {
+                "Name": "\u00b5N.m/(rad/s)"
+              }
+            },
+            "BearingFrictionCorrection": {
+              "Value": 1.0
+            },
+            "StressConstant": {
+              "Value": 59683.103624999989,
+              "Unit": {
+                "Name": "Pa/N.m"
+              }
+            },
+            "StrainConstant": {
+              "Value": 28.348653964691639,
+              "Unit": {
+                "Name": "1/rad"
+              }
+            },
+            "NormalForceFactor": {
+              "Value": 1591.5494307499998,
+              "Unit": {
+                "Name": "Pa/N"
+              }
+            },
+            "FluidDensityFactor": {
+              "Value": 4.7283122083153685E-11
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Analyses": [],
+  "Results": {
+    "Processed": {
+      "Classification": {
+        "Id": "Latest",
+        "Description": "Data may include user edits from transformation, visualization, and analysis"
+      },
+      "ResultsSteps": [
+        {
+          "Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "SourceProcedureStepId": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Name": "Flow sweep - 1"
+        }
+      ],
+      "ColumnHeaders": {
+        "Normal stress coefficient_Pa.s\u00b2": {
+          "DisplayName": "Normal stress coefficient",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "Pa.s\u00b2"
+          }
+        },
+        "Gap_\u00b5m": {
+          "DisplayName": "Gap",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "\u00b5m"
+          }
+        },
+        "Compliance_1/MPa": {
+          "DisplayName": "Compliance",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "1/MPa"
+          }
+        },
+        "Shear rate_1/s": {
+          "DisplayName": "Shear rate",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "1/s"
+          }
+        },
+        "Viscosity_Pa.s": {
+          "DisplayName": "Viscosity",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "Pa.s"
+          }
+        },
+        "Displacement (step)_rad": {
+          "DisplayName": "Displacement (step)",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "rad"
+          }
+        },
+        "Stress_Pa": {
+          "DisplayName": "Stress",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "Pa"
+          }
+        },
+        "Torque (step)_\u00b5N.m": {
+          "DisplayName": "Torque (step)",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "\u00b5N.m"
+          }
+        },
+        "Stress (step)_Pa": {
+          "DisplayName": "Stress (step)",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "Pa"
+          }
+        },
+        "Run time_s": {
+          "DisplayName": "Run time",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "s"
+          }
+        },
+        "Modulus_Pa": {
+          "DisplayName": "Modulus",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "Pa"
+          }
+        },
+        "Procedure Step Id": {
+          "DisplayName": "Procedure Step Id",
+          "ValueType": "Uuid"
+        },
+        "Results Step Id": {
+          "DisplayName": "Results Step Id",
+          "ValueType": "Uuid"
+        },
+        "Strain (step)_%": {
+          "DisplayName": "Strain (step)",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "%"
+          }
+        },
+        "Displacement_rad": {
+          "DisplayName": "Displacement",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "rad"
+          }
+        },
+        "Step time_s": {
+          "DisplayName": "Step time",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "s"
+          }
+        },
+        "Strain_%": {
+          "DisplayName": "Strain",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "%"
+          }
+        },
+        "Date and time": {
+          "DisplayName": "Date and time",
+          "ValueType": "DateTime"
+        },
+        "Time_s": {
+          "DisplayName": "Time",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "s"
+          }
+        },
+        "1/temperature_1/K": {
+          "DisplayName": "1/temperature",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "1/K"
+          }
+        },
+        "Axial force_N": {
+          "DisplayName": "Axial force",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "N"
+          }
+        },
+        "Velocity_rad/s": {
+          "DisplayName": "Velocity",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "rad/s"
+          }
+        },
+        "Normal stress_Pa": {
+          "DisplayName": "Normal stress",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "Pa"
+          }
+        },
+        "Torque_\u00b5N.m": {
+          "DisplayName": "Torque",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "\u00b5N.m"
+          }
+        },
+        "Strain constant_1/rad": {
+          "DisplayName": "Strain constant",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "1/rad"
+          }
+        },
+        "Termination reason": {
+          "DisplayName": "Termination reason",
+          "ValueType": "Text"
+        },
+        "Temperature_\u00b0C": {
+          "DisplayName": "Temperature",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "\u00b0C"
+          }
+        }
+      },
+      "Rows": [
+        {
+          "Displacement_rad": 178.893005371094,
+          "Axial force_N": 0.304797261953354,
+          "Gap_\u00b5m": 45.0303014076781,
+          "Shear rate_1/s": 100.000106811523,
+          "Normal stress_Pa": 485.099914550781,
+          "Normal stress coefficient_Pa.s\u00b2": 0.0485098883509636,
+          "Viscosity_Pa.s": 4.05596971511841,
+          "Torque (step)_\u00b5N.m": 6795.85011675954,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 178.893005371094,
+          "Torque_\u00b5N.m": 6795.85011675954,
+          "Step time_s": 51.3001289367676,
+          "1/temperature_1/K": 0.00341125554405153,
+          "Run time_s": 52.4522438049316,
+          "Compliance_1/MPa": 12503472.328186,
+          "Strain (step)_%": 507137.59765625,
+          "Modulus_Pa": 0.0799777805805206,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.997200012207,
+          "Stress (step)_Pa": 405.597412109375,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:06:12.4666271Z",
+          "Time_s": 51.3001289367676,
+          "Velocity_rad/s": 3.527508020401,
+          "Strain_%": 507137.59765625,
+          "Stress_Pa": 405.597412109375
+        },
+        {
+          "Displacement_rad": 114.571998596191,
+          "Axial force_N": 0.237922862172127,
+          "Gap_\u00b5m": 45.0644984084647,
+          "Shear rate_1/s": 79.4328231811523,
+          "Normal stress_Pa": 378.665985107422,
+          "Normal stress coefficient_Pa.s\u00b2": 0.0600145161151886,
+          "Viscosity_Pa.s": 4.23200702667236,
+          "Torque (step)_\u00b5N.m": 5632.41960480809,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 114.571998596191,
+          "Torque_\u00b5N.m": 5632.41960480809,
+          "Step time_s": 92.4062423706055,
+          "1/temperature_1/K": 0.00341118685901165,
+          "Run time_s": 93.5583572387695,
+          "Compliance_1/MPa": 9661944.38934326,
+          "Strain (step)_%": 324796.19140625,
+          "Modulus_Pa": 0.103498838841915,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0030994415283,
+          "Stress (step)_Pa": 336.160278320313,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:06:53.5726271Z",
+          "Time_s": 92.4062423706055,
+          "Velocity_rad/s": 2.8019962310791,
+          "Strain_%": 324796.19140625,
+          "Stress_Pa": 336.160278320313
+        },
+        {
+          "Displacement_rad": 90.8992004394531,
+          "Axial force_N": 0.189452052116394,
+          "Gap_\u00b5m": 45.0207990070339,
+          "Shear rate_1/s": 63.0957527160645,
+          "Normal stress_Pa": 301.522308349609,
+          "Normal stress coefficient_Pa.s\u00b2": 0.075738936662674,
+          "Viscosity_Pa.s": 4.44525194168091,
+          "Torque (step)_\u00b5N.m": 4699.42903146148,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 90.8992004394531,
+          "Torque_\u00b5N.m": 4699.42903146148,
+          "Step time_s": 133.526351928711,
+          "1/temperature_1/K": 0.00341113563627005,
+          "Run time_s": 134.678466796875,
+          "Compliance_1/MPa": 9187471.38977051,
+          "Strain (step)_%": 257686.987304688,
+          "Modulus_Pa": 0.108843877911568,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0074996948242,
+          "Stress (step)_Pa": 280.476501464844,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:07:34.6926271Z",
+          "Time_s": 133.526351928711,
+          "Velocity_rad/s": 2.22570538520813,
+          "Strain_%": 257686.987304688,
+          "Stress_Pa": 280.476501464844
+        },
+        {
+          "Displacement_rad": 72.1119003295898,
+          "Axial force_N": 0.149143397808075,
+          "Gap_\u00b5m": 45.0445986643899,
+          "Shear rate_1/s": 50.118766784668,
+          "Normal stress_Pa": 237.369094848633,
+          "Normal stress coefficient_Pa.s\u00b2": 0.0944981724023819,
+          "Viscosity_Pa.s": 4.67868375778198,
+          "Torque (step)_\u00b5N.m": 3928.91513183713,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 72.1119003295898,
+          "Torque_\u00b5N.m": 3928.91513183713,
+          "Step time_s": 174.624465942383,
+          "1/temperature_1/K": 0.0034111903514713,
+          "Run time_s": 175.776580810547,
+          "Compliance_1/MPa": 8717968.94073486,
+          "Strain (step)_%": 204427.526855469,
+          "Modulus_Pa": 0.114705614745617,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.002799987793,
+          "Stress (step)_Pa": 234.489852905273,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:08:15.7916271Z",
+          "Time_s": 174.624465942383,
+          "Velocity_rad/s": 1.76794171333313,
+          "Strain_%": 204427.526855469,
+          "Stress_Pa": 234.489852905273
+        },
+        {
+          "Displacement_rad": 57.1772994995117,
+          "Axial force_N": 0.116498567163944,
+          "Gap_\u00b5m": 44.9844992544968,
+          "Shear rate_1/s": 39.8107299804688,
+          "Normal stress_Pa": 185.413223266602,
+          "Normal stress coefficient_Pa.s\u00b2": 0.116987757384777,
+          "Viscosity_Pa.s": 4.92851972579956,
+          "Torque (step)_\u00b5N.m": 3287.49604523182,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 57.1772994995117,
+          "Torque_\u00b5N.m": 3287.49604523182,
+          "Step time_s": 215.686569213867,
+          "1/temperature_1/K": 0.00341126485727727,
+          "Run time_s": 216.838684082031,
+          "Compliance_1/MPa": 8261130.33294678,
+          "Strain (step)_%": 162089.94140625,
+          "Modulus_Pa": 0.121048822999001,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9964008331299,
+          "Stress (step)_Pa": 196.207962036133,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:08:56.8536271Z",
+          "Time_s": 215.686569213867,
+          "Velocity_rad/s": 1.40432524681091,
+          "Strain_%": 162089.94140625,
+          "Stress_Pa": 196.207962036133
+        },
+        {
+          "Displacement_rad": 45.749698638916,
+          "Axial force_N": 0.0907844305038452,
+          "Gap_\u00b5m": 45.035299990559,
+          "Shear rate_1/s": 31.6228103637695,
+          "Normal stress_Pa": 144.487915039063,
+          "Normal stress coefficient_Pa.s\u00b2": 0.144487604498863,
+          "Viscosity_Pa.s": 5.20004034042358,
+          "Torque (step)_\u00b5N.m": 2755.21678850055,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 45.749698638916,
+          "Torque_\u00b5N.m": 2755.21678850055,
+          "Step time_s": 256.74267578125,
+          "1/temperature_1/K": 0.00341127533465624,
+          "Run time_s": 257.894805908203,
+          "Compliance_1/MPa": 7887029.64782715,
+          "Strain (step)_%": 129694.23828125,
+          "Modulus_Pa": 0.126790434122086,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9955005645752,
+          "Stress (step)_Pa": 164.439895629883,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:09:37.9096271Z",
+          "Time_s": 256.74267578125,
+          "Velocity_rad/s": 1.11549603939056,
+          "Strain_%": 129694.23828125,
+          "Stress_Pa": 164.439895629883
+        },
+        {
+          "Displacement_rad": 36.2625007629395,
+          "Axial force_N": 0.0694240629673004,
+          "Gap_\u00b5m": 45.0197003374342,
+          "Shear rate_1/s": 25.1188735961914,
+          "Normal stress_Pa": 110.491828918457,
+          "Normal stress coefficient_Pa.s\u00b2": 0.175117611885071,
+          "Viscosity_Pa.s": 5.49150896072388,
+          "Torque (step)_\u00b5N.m": 2311.21550314128,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 36.2625007629395,
+          "Torque_\u00b5N.m": 2311.21550314128,
+          "Step time_s": 297.789764404297,
+          "1/temperature_1/K": 0.00341122061945498,
+          "Run time_s": 298.94189453125,
+          "Compliance_1/MPa": 7452437.40081787,
+          "Strain (step)_%": 102799.304199219,
+          "Modulus_Pa": 0.134184300899506,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0002002716064,
+          "Stress (step)_Pa": 137.940521240234,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:10:18.9566271Z",
+          "Time_s": 297.789764404297,
+          "Velocity_rad/s": 0.886069357395172,
+          "Strain_%": 102799.304199219,
+          "Stress_Pa": 137.940521240234
+        },
+        {
+          "Displacement_rad": 28.7059993743896,
+          "Axial force_N": 0.0542442314326763,
+          "Gap_\u00b5m": 45.0129009550437,
+          "Shear rate_1/s": 19.9526309967041,
+          "Normal stress_Pa": 86.3323745727539,
+          "Normal stress coefficient_Pa.s\u00b2": 0.216856956481934,
+          "Viscosity_Pa.s": 5.80865335464478,
+          "Torque (step)_\u00b5N.m": 1941.8882438913,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 28.7059993743896,
+          "Torque_\u00b5N.m": 1941.8882438913,
+          "Step time_s": 338.85888671875,
+          "1/temperature_1/K": 0.00341113330796361,
+          "Run time_s": 340.011016845703,
+          "Compliance_1/MPa": 7021492.95806885,
+          "Strain (step)_%": 81377.6428222656,
+          "Modulus_Pa": 0.142419844865799,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0076999664307,
+          "Stress (step)_Pa": 115.897918701172,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:11:00.0256271Z",
+          "Time_s": 338.85888671875,
+          "Velocity_rad/s": 0.703829944133759,
+          "Strain_%": 81377.6428222656,
+          "Stress_Pa": 115.897918701172
+        },
+        {
+          "Displacement_rad": 22.7630996704102,
+          "Axial force_N": 0.0390926003456116,
+          "Gap_\u00b5m": 45.0260995421559,
+          "Shear rate_1/s": 15.8489255905151,
+          "Normal stress_Pa": 62.2178039550781,
+          "Normal stress coefficient_Pa.s\u00b2": 0.247693732380867,
+          "Viscosity_Pa.s": 6.15783357620239,
+          "Torque (step)_\u00b5N.m": 1635.22071670741,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 22.7630996704102,
+          "Torque_\u00b5N.m": 1635.22071670741,
+          "Step time_s": 379.917999267578,
+          "1/temperature_1/K": 0.003411247394979,
+          "Run time_s": 381.070129394531,
+          "Compliance_1/MPa": 6612049.1027832,
+          "Strain (step)_%": 64530.322265625,
+          "Modulus_Pa": 0.151239052414894,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9979000091553,
+          "Stress (step)_Pa": 97.5950469970703,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:11:41.0846271Z",
+          "Time_s": 379.917999267578,
+          "Velocity_rad/s": 0.55907154083252,
+          "Strain_%": 64530.322265625,
+          "Stress_Pa": 97.5950469970703
+        },
+        {
+          "Displacement_rad": 18.1821994781494,
+          "Axial force_N": 0.0280502289533615,
+          "Gap_\u00b5m": 45.069999032421,
+          "Shear rate_1/s": 12.5892696380615,
+          "Normal stress_Pa": 44.6433258056641,
+          "Normal stress coefficient_Pa.s\u00b2": 0.281679660081863,
+          "Viscosity_Pa.s": 6.53447103500366,
+          "Torque (step)_\u00b5N.m": 1378.35019268095,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 18.1821994781494,
+          "Torque_\u00b5N.m": 1378.35019268095,
+          "Step time_s": 420.983093261719,
+          "1/temperature_1/K": 0.00341132073663175,
+          "Run time_s": 422.135223388672,
+          "Compliance_1/MPa": 6265675.06790161,
+          "Strain (step)_%": 51544.0856933594,
+          "Modulus_Pa": 0.159599736332893,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9916000366211,
+          "Stress (step)_Pa": 82.2642211914063,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:12:22.1496271Z",
+          "Time_s": 420.983093261719,
+          "Velocity_rad/s": 0.444087028503418,
+          "Strain_%": 51544.0856933594,
+          "Stress_Pa": 82.2642211914063
+        },
+        {
+          "Displacement_rad": 14.3572998046875,
+          "Axial force_N": 0.0213557723909616,
+          "Gap_\u00b5m": 44.9928993475623,
+          "Shear rate_1/s": 9.99999618530273,
+          "Normal stress_Pa": 33.9887657165527,
+          "Normal stress coefficient_Pa.s\u00b2": 0.339887917041779,
+          "Viscosity_Pa.s": 6.94388103485107,
+          "Torque (step)_\u00b5N.m": 1163.4579859674,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 14.3572998046875,
+          "Torque_\u00b5N.m": 1163.4579859674,
+          "Step time_s": 462.044189453125,
+          "1/temperature_1/K": 0.00341118569485843,
+          "Run time_s": 463.196319580078,
+          "Compliance_1/MPa": 5861423.49243164,
+          "Strain (step)_%": 40701.0131835938,
+          "Modulus_Pa": 0.170607015490532,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0032005310059,
+          "Stress (step)_Pa": 69.4387817382813,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:13:03.2106271Z",
+          "Time_s": 462.044189453125,
+          "Velocity_rad/s": 0.352750301361084,
+          "Strain_%": 40701.0131835938,
+          "Stress_Pa": 69.4387817382813
+        },
+        {
+          "Displacement_rad": 11.4366998672485,
+          "Axial force_N": 0.0149663770571351,
+          "Gap_\u00b5m": 45.0285006081685,
+          "Shear rate_1/s": 7.9432954788208,
+          "Normal stress_Pa": 23.8197288513184,
+          "Normal stress coefficient_Pa.s\u00b2": 0.377516001462936,
+          "Viscosity_Pa.s": 7.38998508453369,
+          "Torque (step)_\u00b5N.m": 983.54194778949,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 11.4366998672485,
+          "Torque_\u00b5N.m": 983.54194778949,
+          "Step time_s": 503.111297607422,
+          "1/temperature_1/K": 0.00341117987409234,
+          "Run time_s": 504.263427734375,
+          "Compliance_1/MPa": 5523175.71640015,
+          "Strain (step)_%": 32421.5057373047,
+          "Modulus_Pa": 0.181055247783661,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0037002563477,
+          "Stress (step)_Pa": 58.7008361816406,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:13:44.2776271Z",
+          "Time_s": 503.111297607422,
+          "Velocity_rad/s": 0.280200093984604,
+          "Strain_%": 32421.5057373047,
+          "Stress_Pa": 58.7008361816406
+        },
+        {
+          "Displacement_rad": 9.05591011047363,
+          "Axial force_N": 0.00748825957998633,
+          "Gap_\u00b5m": 45.0344014097936,
+          "Shear rate_1/s": 6.30957365036011,
+          "Normal stress_Pa": 11.9179353713989,
+          "Normal stress coefficient_Pa.s\u00b2": 0.299364984035492,
+          "Viscosity_Pa.s": 7.88033962249756,
+          "Torque (step)_\u00b5N.m": 833.093130495399,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 9.05591011047363,
+          "Torque_\u00b5N.m": 833.093130495399,
+          "Step time_s": 544.162414550781,
+          "1/temperature_1/K": 0.0034110622946173,
+          "Run time_s": 545.314514160156,
+          "Compliance_1/MPa": 5163207.53097534,
+          "Strain (step)_%": 25672.2869873047,
+          "Modulus_Pa": 0.193678051233292,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0137996673584,
+          "Stress (step)_Pa": 49.7215843200684,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:14:25.3296271Z",
+          "Time_s": 544.162414550781,
+          "Velocity_rad/s": 0.222570478916168,
+          "Strain_%": 25672.2869873047,
+          "Stress_Pa": 49.7215843200684
+        },
+        {
+          "Displacement_rad": 7.22683000564575,
+          "Axial force_N": 0.00459579518064857,
+          "Gap_\u00b5m": 45.0080988230184,
+          "Shear rate_1/s": 5.01188564300537,
+          "Normal stress_Pa": 7.31443500518799,
+          "Normal stress coefficient_Pa.s\u00b2": 0.29119136929512,
+          "Viscosity_Pa.s": 8.40555477142334,
+          "Torque (step)_\u00b5N.m": 705.856073182076,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 7.22683000564575,
+          "Torque_\u00b5N.m": 705.856073182076,
+          "Step time_s": 585.204528808594,
+          "1/temperature_1/K": 0.00341127533465624,
+          "Run time_s": 586.356628417969,
+          "Compliance_1/MPa": 4863094.80667114,
+          "Strain (step)_%": 20487.0895385742,
+          "Modulus_Pa": 0.205630391836166,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9955005645752,
+          "Stress (step)_Pa": 42.1276817321777,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:15:06.3716271Z",
+          "Time_s": 585.204528808594,
+          "Velocity_rad/s": 0.176794484257698,
+          "Strain_%": 20487.0895385742,
+          "Stress_Pa": 42.1276817321777
+        },
+        {
+          "Displacement_rad": 5.74161005020142,
+          "Axial force_N": -0.00183807208668441,
+          "Gap_\u00b5m": 45.0357001682278,
+          "Shear rate_1/s": 3.98108220100403,
+          "Normal stress_Pa": -2.92538261413574,
+          "Normal stress coefficient_Pa.s\u00b2": -0.184578195214272,
+          "Viscosity_Pa.s": 8.98085117340088,
+          "Torque (step)_\u00b5N.m": 599.055783823133,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 5.74161005020142,
+          "Torque_\u00b5N.m": 599.055783823133,
+          "Step time_s": 626.263610839844,
+          "1/temperature_1/K": 0.00341127999126911,
+          "Run time_s": 627.415710449219,
+          "Compliance_1/MPa": 4552474.02191162,
+          "Strain (step)_%": 16276.692199707,
+          "Modulus_Pa": 0.21966078877449,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9951000213623,
+          "Stress (step)_Pa": 35.7535095214844,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:15:47.4306271Z",
+          "Time_s": 626.263610839844,
+          "Velocity_rad/s": 0.140432849526405,
+          "Strain_%": 16276.692199707,
+          "Stress_Pa": 35.7535095214844
+        },
+        {
+          "Displacement_rad": 4.54481983184814,
+          "Axial force_N": -0.00336047494783998,
+          "Gap_\u00b5m": 45.0123989139684,
+          "Shear rate_1/s": 3.16227030754089,
+          "Normal stress_Pa": -5.34836196899414,
+          "Normal stress coefficient_Pa.s\u00b2": -0.534838676452637,
+          "Viscosity_Pa.s": 9.60892963409424,
+          "Torque (step)_\u00b5N.m": 509.122852236032,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 4.54481983184814,
+          "Torque_\u00b5N.m": 509.122852236032,
+          "Step time_s": 667.358703613281,
+          "1/temperature_1/K": 0.00341127882711589,
+          "Run time_s": 668.510803222656,
+          "Compliance_1/MPa": 4240090.37017822,
+          "Strain (step)_%": 12883.952331543,
+          "Modulus_Pa": 0.235844030976295,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9951992034912,
+          "Stress (step)_Pa": 30.3860321044922,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:16:28.5256271Z",
+          "Time_s": 667.358703613281,
+          "Velocity_rad/s": 0.111549220979214,
+          "Strain_%": 12883.952331543,
+          "Stress_Pa": 30.3860321044922
+        },
+        {
+          "Displacement_rad": 3.61777997016907,
+          "Axial force_N": -0.00506999855861068,
+          "Gap_\u00b5m": 45.0521001766901,
+          "Shear rate_1/s": 2.51188445091248,
+          "Normal stress_Pa": -8.06915378570557,
+          "Normal stress coefficient_Pa.s\u00b2": -1.27887666225433,
+          "Viscosity_Pa.s": 10.2927827835083,
+          "Torque (step)_\u00b5N.m": 433.19261749275,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 3.61777997016907,
+          "Torque_\u00b5N.m": 433.19261749275,
+          "Step time_s": 708.48583984375,
+          "1/temperature_1/K": 0.00341126718558371,
+          "Run time_s": 709.637939453125,
+          "Compliance_1/MPa": 3966816.66374207,
+          "Strain (step)_%": 10255.9188842773,
+          "Modulus_Pa": 0.252091318368912,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9962005615234,
+          "Stress (step)_Pa": 25.8542804718018,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:17:09.6526271Z",
+          "Time_s": 708.48583984375,
+          "Velocity_rad/s": 0.0886068344116211,
+          "Strain_%": 10255.9188842773,
+          "Stress_Pa": 25.8542804718018
+        },
+        {
+          "Displacement_rad": 2.86047005653381,
+          "Axial force_N": -0.00559793738648295,
+          "Gap_\u00b5m": 44.9705985374749,
+          "Shear rate_1/s": 1.99526369571686,
+          "Normal stress_Pa": -8.90939426422119,
+          "Normal stress coefficient_Pa.s\u00b2": -2.2379355430603,
+          "Viscosity_Pa.s": 11.0443096160889,
+          "Torque (step)_\u00b5N.m": 369.221903383732,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 2.86047005653381,
+          "Torque_\u00b5N.m": 369.221903383732,
+          "Step time_s": 749.576965332031,
+          "1/temperature_1/K": 0.00341126602143049,
+          "Run time_s": 750.729064941406,
+          "Compliance_1/MPa": 3679857.4924469,
+          "Strain (step)_%": 8109.04769897461,
+          "Modulus_Pa": 0.271749645471573,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9962997436523,
+          "Stress (step)_Pa": 22.0363082885742,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:17:50.7436271Z",
+          "Time_s": 749.576965332031,
+          "Velocity_rad/s": 0.0703830122947693,
+          "Strain_%": 8109.04769897461,
+          "Stress_Pa": 22.0363082885742
+        },
+        {
+          "Displacement_rad": 2.28149008750916,
+          "Axial force_N": -0.0147575587034225,
+          "Gap_\u00b5m": 45.0271982117556,
+          "Shear rate_1/s": 1.58489096164703,
+          "Normal stress_Pa": -23.4873847961426,
+          "Normal stress coefficient_Pa.s\u00b2": -9.35052299499512,
+          "Viscosity_Pa.s": 11.8717708587646,
+          "Torque (step)_\u00b5N.m": 315.256096655503,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 2.28149008750916,
+          "Torque_\u00b5N.m": 315.256096655503,
+          "Step time_s": 790.666076660156,
+          "1/temperature_1/K": 0.00341121247038245,
+          "Run time_s": 791.818176269531,
+          "Compliance_1/MPa": 3437448.02474976,
+          "Strain (step)_%": 6467.71697998047,
+          "Modulus_Pa": 0.290913492441177,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0009002685547,
+          "Stress (step)_Pa": 18.8154621124268,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:18:31.8326271Z",
+          "Time_s": 790.666076660156,
+          "Velocity_rad/s": 0.0559070967137814,
+          "Strain_%": 6467.71697998047,
+          "Stress_Pa": 18.8154621124268
+        },
+        {
+          "Displacement_rad": 1.81122004985809,
+          "Axial force_N": -0.0116560952737927,
+          "Gap_\u00b5m": 45.051499910187,
+          "Shear rate_1/s": 1.25892353057861,
+          "Normal stress_Pa": -18.5512523651123,
+          "Normal stress coefficient_Pa.s\u00b2": -11.7050838470459,
+          "Viscosity_Pa.s": 12.7646627426147,
+          "Torque (step)_\u00b5N.m": 269.250973360613,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 1.81122004985809,
+          "Torque_\u00b5N.m": 269.250973360613,
+          "Step time_s": 831.714172363281,
+          "1/temperature_1/K": 0.00341120664961636,
+          "Run time_s": 832.866271972656,
+          "Compliance_1/MPa": 3195177.31666565,
+          "Strain (step)_%": 5134.56497192383,
+          "Modulus_Pa": 0.31297168135643,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0013999938965,
+          "Stress (step)_Pa": 16.0697345733643,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:19:12.8806271Z",
+          "Time_s": 831.714172363281,
+          "Velocity_rad/s": 0.0444085821509361,
+          "Strain_%": 5134.56497192383,
+          "Stress_Pa": 16.0697345733643
+        },
+        {
+          "Displacement_rad": 1.44139003753662,
+          "Axial force_N": -0.013427940197289,
+          "Gap_\u00b5m": 45.0088009529281,
+          "Shear rate_1/s": 1.00000071525574,
+          "Normal stress_Pa": -21.3712310791016,
+          "Normal stress coefficient_Pa.s\u00b2": -21.3712005615234,
+          "Viscosity_Pa.s": 13.7676181793213,
+          "Torque (step)_\u00b5N.m": 230.678822845221,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 1.44139003753662,
+          "Torque_\u00b5N.m": 230.678822845221,
+          "Step time_s": 872.789245605469,
+          "1/temperature_1/K": 0.00341117521747947,
+          "Run time_s": 873.941345214844,
+          "Compliance_1/MPa": 2967938.18473816,
+          "Strain (step)_%": 4086.14654541016,
+          "Modulus_Pa": 0.336934268474579,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0041007995605,
+          "Stress (step)_Pa": 13.7676277160645,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:19:53.9556271Z",
+          "Time_s": 872.789245605469,
+          "Velocity_rad/s": 0.0352750681340694,
+          "Strain_%": 4086.14654541016,
+          "Stress_Pa": 13.7676277160645
+        },
+        {
+          "Displacement_rad": 1.14982998371124,
+          "Axial force_N": -0.0162887498736382,
+          "Gap_\u00b5m": 45.0119987362996,
+          "Shear rate_1/s": 0.794327437877655,
+          "Normal stress_Pa": -25.9243507385254,
+          "Normal stress coefficient_Pa.s\u00b2": -41.0874099731445,
+          "Viscosity_Pa.s": 14.8849220275879,
+          "Torque (step)_\u00b5N.m": 198.104680748656,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 1.14982998371124,
+          "Torque_\u00b5N.m": 198.104680748656,
+          "Step time_s": 913.861389160156,
+          "1/temperature_1/K": 0.0034112089779228,
+          "Run time_s": 915.013488769531,
+          "Compliance_1/MPa": 2756893.15795898,
+          "Strain (step)_%": 3259.61303710938,
+          "Modulus_Pa": 0.36272719502449,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.00119972229,
+          "Stress (step)_Pa": 11.8235025405884,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:20:35.0276271Z",
+          "Time_s": 913.861389160156,
+          "Velocity_rad/s": 0.0280199348926544,
+          "Strain_%": 3259.61303710938,
+          "Stress_Pa": 11.8235025405884
+        },
+        {
+          "Displacement_rad": 0.904899001121521,
+          "Axial force_N": -0.012993773445487,
+          "Gap_\u00b5m": 45.0373008789029,
+          "Shear rate_1/s": 0.630957186222076,
+          "Normal stress_Pa": -20.680233001709,
+          "Normal stress coefficient_Pa.s\u00b2": -51.9464225769043,
+          "Viscosity_Pa.s": 16.1090888977051,
+          "Torque (step)_\u00b5N.m": 170.301893376745,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.904899001121521,
+          "Torque_\u00b5N.m": 170.301893376745,
+          "Step time_s": 954.915466308594,
+          "1/temperature_1/K": 0.00341129046864808,
+          "Run time_s": 956.067565917969,
+          "Compliance_1/MPa": 2523839.23530579,
+          "Strain (step)_%": 2565.26679992676,
+          "Modulus_Pa": 0.39622175693512,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9941997528076,
+          "Stress (step)_Pa": 10.1641454696655,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:21:16.0826271Z",
+          "Time_s": 954.915466308594,
+          "Velocity_rad/s": 0.0222570411860943,
+          "Strain_%": 2565.26679992676,
+          "Stress_Pa": 10.1641454696655
+        },
+        {
+          "Displacement_rad": 0.714296996593475,
+          "Axial force_N": -0.0170116331428289,
+          "Gap_\u00b5m": 44.9971994385123,
+          "Shear rate_1/s": 0.501187264919281,
+          "Normal stress_Pa": -27.0748558044434,
+          "Normal stress coefficient_Pa.s\u00b2": -107.786926269531,
+          "Viscosity_Pa.s": 17.4874401092529,
+          "Torque (step)_\u00b5N.m": 146.850303281099,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.714296996593475,
+          "Torque_\u00b5N.m": 146.850303281099,
+          "Step time_s": 995.971557617188,
+          "1/temperature_1/K": 0.00341136730276048,
+          "Run time_s": 997.123657226563,
+          "Compliance_1/MPa": 2310388.56506348,
+          "Strain (step)_%": 2024.93591308594,
+          "Modulus_Pa": 0.432827591896057,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9876003265381,
+          "Stress (step)_Pa": 8.76448154449463,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:21:57.1386271Z",
+          "Time_s": 995.971557617188,
+          "Velocity_rad/s": 0.0176794026046991,
+          "Strain_%": 2024.93591308594,
+          "Stress_Pa": 8.76448154449463
+        },
+        {
+          "Displacement_rad": 0.575625002384186,
+          "Axial force_N": -0.0125793730840087,
+          "Gap_\u00b5m": 45.0381994596682,
+          "Shear rate_1/s": 0.398106634616852,
+          "Normal stress_Pa": -20.020694732666,
+          "Normal stress coefficient_Pa.s\u00b2": -126.322387695313,
+          "Viscosity_Pa.s": 19.0192756652832,
+          "Torque (step)_\u00b5N.m": 126.865052152425,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.575625002384186,
+          "Torque_\u00b5N.m": 126.865052152425,
+          "Step time_s": 1037.03967285156,
+          "1/temperature_1/K": 0.00341121247038245,
+          "Run time_s": 1038.19177246094,
+          "Compliance_1/MPa": 2155155.8971405,
+          "Strain (step)_%": 1631.81934356689,
+          "Modulus_Pa": 0.464003562927246,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0009002685547,
+          "Stress (step)_Pa": 7.57170009613037,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:22:38.2066271Z",
+          "Time_s": 1037.03967285156,
+          "Velocity_rad/s": 0.014043228700757,
+          "Strain_%": 1631.81934356689,
+          "Stress_Pa": 7.57170009613037
+        },
+        {
+          "Displacement_rad": 0.451929986476898,
+          "Axial force_N": -0.01377266459167,
+          "Gap_\u00b5m": 45.0016996182967,
+          "Shear rate_1/s": 0.316226691007614,
+          "Normal stress_Pa": -21.9198760986328,
+          "Normal stress coefficient_Pa.s\u00b2": -219.200256347656,
+          "Viscosity_Pa.s": 20.7627696990967,
+          "Torque (step)_\u00b5N.m": 110.010063508525,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.451929986476898,
+          "Torque_\u00b5N.m": 110.010063508525,
+          "Step time_s": 1078.10083007813,
+          "1/temperature_1/K": 0.00341129745356739,
+          "Run time_s": 1079.2529296875,
+          "Compliance_1/MPa": 1951280.83229065,
+          "Strain (step)_%": 1281.16064071655,
+          "Modulus_Pa": 0.512483894824982,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9936008453369,
+          "Stress (step)_Pa": 6.56574201583862,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:23:19.2676271Z",
+          "Time_s": 1078.10083007813,
+          "Velocity_rad/s": 0.0111549105495214,
+          "Strain_%": 1281.16064071655,
+          "Stress_Pa": 6.56574201583862
+        },
+        {
+          "Displacement_rad": 0.360807001590729,
+          "Axial force_N": -0.0155389942228794,
+          "Gap_\u00b5m": 44.9807012046222,
+          "Shear rate_1/s": 0.251189678907394,
+          "Normal stress_Pa": -24.7310771942139,
+          "Normal stress coefficient_Pa.s\u00b2": -391.957916259766,
+          "Viscosity_Pa.s": 22.7297306060791,
+          "Torque (step)_\u00b5N.m": 95.6631483859383,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.360807001590729,
+          "Torque_\u00b5N.m": 95.6631483859383,
+          "Step time_s": 1119.171875,
+          "1/temperature_1/K": 0.00341120664961636,
+          "Run time_s": 1120.32397460938,
+          "Compliance_1/MPa": 1791477.32257843,
+          "Strain (step)_%": 1022.83926010132,
+          "Modulus_Pa": 0.558198511600494,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0013999938965,
+          "Stress (step)_Pa": 5.70947360992432,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:24:00.3386271Z",
+          "Time_s": 1119.171875,
+          "Velocity_rad/s": 0.00886072684079409,
+          "Strain_%": 1022.83926010132,
+          "Stress_Pa": 5.70947360992432
+        },
+        {
+          "Displacement_rad": 0.286754012107849,
+          "Axial force_N": -0.0167776923626661,
+          "Gap_\u00b5m": 45.0219995400403,
+          "Shear rate_1/s": 0.199527576565742,
+          "Normal stress_Pa": -26.7025260925293,
+          "Normal stress coefficient_Pa.s\u00b2": -670.728088378906,
+          "Viscosity_Pa.s": 24.9484901428223,
+          "Torque (step)_\u00b5N.m": 83.4057136671618,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.286754012107849,
+          "Torque_\u00b5N.m": 83.4057136671618,
+          "Step time_s": 1160.23095703125,
+          "1/temperature_1/K": 0.00341122061945498,
+          "Run time_s": 1161.38305664063,
+          "Compliance_1/MPa": 1633032.08351135,
+          "Strain (step)_%": 812.909030914307,
+          "Modulus_Pa": 0.612357795238495,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0002002716064,
+          "Stress (step)_Pa": 4.97791194915771,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:24:41.3976271Z",
+          "Time_s": 1160.23095703125,
+          "Velocity_rad/s": 0.00703834369778633,
+          "Strain_%": 812.909030914307,
+          "Stress_Pa": 4.97791194915771
+        },
+        {
+          "Displacement_rad": 0.228578001260757,
+          "Axial force_N": -0.0171268973499537,
+          "Gap_\u00b5m": 45.0527004431933,
+          "Shear rate_1/s": 0.158489942550659,
+          "Normal stress_Pa": -27.2583045959473,
+          "Normal stress coefficient_Pa.s\u00b2": -1085.1640625,
+          "Viscosity_Pa.s": 27.5095729827881,
+          "Torque (step)_\u00b5N.m": 73.0523461243138,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.228578001260757,
+          "Torque_\u00b5N.m": 73.0523461243138,
+          "Step time_s": 1201.27416992188,
+          "1/temperature_1/K": 0.00341125321574509,
+          "Run time_s": 1202.42626953125,
+          "Compliance_1/MPa": 1486213.92250061,
+          "Strain (step)_%": 647.987842559814,
+          "Modulus_Pa": 0.672850668430328,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9974002838135,
+          "Stress (step)_Pa": 4.35999059677124,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:25:22.4406271Z",
+          "Time_s": 1201.27416992188,
+          "Velocity_rad/s": 0.00559073965996504,
+          "Strain_%": 647.987842559814,
+          "Stress_Pa": 4.35999059677124
+        },
+        {
+          "Displacement_rad": 0.180497005581856,
+          "Axial force_N": -0.014545432291925,
+          "Gap_\u00b5m": 45.0061015726533,
+          "Shear rate_1/s": 0.12589256465435,
+          "Normal stress_Pa": -23.1497745513916,
+          "Normal stress coefficient_Pa.s\u00b2": -1460.65148925781,
+          "Viscosity_Pa.s": 30.4473972320557,
+          "Torque (step)_\u00b5N.m": 64.2242230242118,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.180497005581856,
+          "Torque_\u00b5N.m": 64.2242230242118,
+          "Step time_s": 1242.31921386719,
+          "1/temperature_1/K": 0.00341119384393096,
+          "Run time_s": 1243.47131347656,
+          "Compliance_1/MPa": 1334910.63117981,
+          "Strain (step)_%": 511.684703826904,
+          "Modulus_Pa": 0.749113857746124,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0025005340576,
+          "Stress (step)_Pa": 3.83310103416443,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:26:03.4856271Z",
+          "Time_s": 1242.31921386719,
+          "Velocity_rad/s": 0.00444086594507098,
+          "Strain_%": 511.684703826904,
+          "Stress_Pa": 3.83310103416443
+        },
+        {
+          "Displacement_rad": 0.143931001424789,
+          "Axial force_N": -0.0159625802189112,
+          "Gap_\u00b5m": 45.0391016784124,
+          "Shear rate_1/s": 0.100000776350498,
+          "Normal stress_Pa": -25.4052352905273,
+          "Normal stress coefficient_Pa.s\u00b2": -2540.48413085938,
+          "Viscosity_Pa.s": 33.8268127441406,
+          "Torque (step)_\u00b5N.m": 56.6778071515728,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.143931001424789,
+          "Torque_\u00b5N.m": 56.6778071515728,
+          "Step time_s": 1283.38037109375,
+          "1/temperature_1/K": 0.0034111519344151,
+          "Run time_s": 1284.53247070313,
+          "Compliance_1/MPa": 1206208.46748352,
+          "Strain (step)_%": 408.025026321411,
+          "Modulus_Pa": 0.829044103622437,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0060997009277,
+          "Stress (step)_Pa": 3.38270735740662,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:26:44.5466271Z",
+          "Time_s": 1283.38037109375,
+          "Velocity_rad/s": 0.00352753163315356,
+          "Strain_%": 408.025026321411,
+          "Stress_Pa": 3.38270735740662
+        },
+        {
+          "Displacement_rad": 0.114676997065544,
+          "Axial force_N": -0.0146494163200259,
+          "Gap_\u00b5m": 45.0357001682278,
+          "Shear rate_1/s": 0.0794329568743706,
+          "Normal stress_Pa": -23.3152694702148,
+          "Normal stress coefficient_Pa.s\u00b2": -3695.20874023438,
+          "Viscosity_Pa.s": 37.7483062744141,
+          "Torque (step)_\u00b5N.m": 50.2396724186838,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.114676997065544,
+          "Torque_\u00b5N.m": 50.2396724186838,
+          "Step time_s": 1324.5234375,
+          "1/temperature_1/K": 0.00341121363453567,
+          "Run time_s": 1325.67553710938,
+          "Compliance_1/MPa": 1084202.88562775,
+          "Strain (step)_%": 325.093841552734,
+          "Modulus_Pa": 0.922336637973785,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0007991790771,
+          "Stress (step)_Pa": 2.99845957756042,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:27:25.6906271Z",
+          "Time_s": 1324.5234375,
+          "Velocity_rad/s": 0.00280200107954443,
+          "Strain_%": 325.093841552734,
+          "Stress_Pa": 2.99845957756042
+        },
+        {
+          "Displacement_rad": 0.0912059023976326,
+          "Axial force_N": -0.0158459637314081,
+          "Gap_\u00b5m": 45.0525985797867,
+          "Shear rate_1/s": 0.0630957335233688,
+          "Normal stress_Pa": -25.2196350097656,
+          "Normal stress coefficient_Pa.s\u00b2": -6334.88623046875,
+          "Viscosity_Pa.s": 42.2984924316406,
+          "Torque (step)_\u00b5N.m": 44.7170859843027,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.0912059023976326,
+          "Torque_\u00b5N.m": 44.7170859843027,
+          "Step time_s": 1365.60559082031,
+          "1/temperature_1/K": 0.00341117172501981,
+          "Run time_s": 1366.75769042969,
+          "Compliance_1/MPa": 968791.902065277,
+          "Strain (step)_%": 258.556461334229,
+          "Modulus_Pa": 1.03221344947815,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0044002532959,
+          "Stress (step)_Pa": 2.66885447502136,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:28:06.7726271Z",
+          "Time_s": 1365.60559082031,
+          "Velocity_rad/s": 0.0022257047239691,
+          "Strain_%": 258.556461334229,
+          "Stress_Pa": 2.66885447502136
+        },
+        {
+          "Displacement_rad": 0.0719583034515381,
+          "Axial force_N": -0.0146117433905602,
+          "Gap_\u00b5m": 45.0535007985309,
+          "Shear rate_1/s": 0.0501187592744827,
+          "Normal stress_Pa": -23.2553119659424,
+          "Normal stress coefficient_Pa.s\u00b2": -9258.0927734375,
+          "Viscosity_Pa.s": 47.6150245666504,
+          "Torque (step)_\u00b5N.m": 39.9846139771398,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.0719583034515381,
+          "Torque_\u00b5N.m": 39.9846139771398,
+          "Step time_s": 1406.69470214844,
+          "1/temperature_1/K": 0.0034111961722374,
+          "Run time_s": 1407.84680175781,
+          "Compliance_1/MPa": 854808.866977692,
+          "Strain (step)_%": 203.992104530334,
+          "Modulus_Pa": 1.16985213756561,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0023002624512,
+          "Stress (step)_Pa": 2.38640594482422,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:28:47.8616271Z",
+          "Time_s": 1406.69470214844,
+          "Velocity_rad/s": 0.00176794140134007,
+          "Strain_%": 203.992104530334,
+          "Stress_Pa": 2.38640594482422
+        },
+        {
+          "Displacement_rad": 0.0573147982358932,
+          "Axial force_N": -0.015583286061883,
+          "Gap_\u00b5m": 45.0053012173157,
+          "Shear rate_1/s": 0.0398110412061214,
+          "Normal stress_Pa": -24.801570892334,
+          "Normal stress coefficient_Pa.s\u00b2": -15648.478515625,
+          "Viscosity_Pa.s": 53.8354339599609,
+          "Torque (step)_\u00b5N.m": 35.9104087692685,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.0573147982358932,
+          "Torque_\u00b5N.m": 35.9104087692685,
+          "Step time_s": 1447.77673339844,
+          "1/temperature_1/K": 0.0034112217836082,
+          "Run time_s": 1448.92883300781,
+          "Compliance_1/MPa": 758101.642131805,
+          "Strain (step)_%": 162.479734420776,
+          "Modulus_Pa": 1.31908440589905,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0000991821289,
+          "Stress (step)_Pa": 2.14324474334717,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:29:28.9436271Z",
+          "Time_s": 1447.77673339844,
+          "Velocity_rad/s": 0.00140433618798852,
+          "Strain_%": 162.479734420776,
+          "Stress_Pa": 2.14324474334717
+        },
+        {
+          "Displacement_rad": 0.0456667989492416,
+          "Axial force_N": -0.0167847089469433,
+          "Gap_\u00b5m": 45.0373991043307,
+          "Shear rate_1/s": 0.0316252037882805,
+          "Normal stress_Pa": -26.7136936187744,
+          "Normal stress coefficient_Pa.s\u00b2": -26709.59375,
+          "Viscosity_Pa.s": 61.1183013916016,
+          "Torque (step)_\u00b5N.m": 32.3856947943568,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.0456667989492416,
+          "Torque_\u00b5N.m": 32.3856947943568,
+          "Step time_s": 1488.85681152344,
+          "1/temperature_1/K": 0.00341123226098716,
+          "Run time_s": 1490.00891113281,
+          "Compliance_1/MPa": 669774.174690247,
+          "Strain (step)_%": 129.459226131439,
+          "Modulus_Pa": 1.49304056167603,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9992008209229,
+          "Stress (step)_Pa": 1.93287873268127,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:30:10.0236271Z",
+          "Time_s": 1488.85681152344,
+          "Velocity_rad/s": 0.00111558043863624,
+          "Strain_%": 129.459226131439,
+          "Stress_Pa": 1.93287873268127
+        },
+        {
+          "Displacement_rad": 0.0449027009308338,
+          "Axial force_N": -0.017925912514329,
+          "Gap_\u00b5m": 45.0305997219402,
+          "Shear rate_1/s": 0.0251181963831186,
+          "Normal stress_Pa": -28.5299758911133,
+          "Normal stress coefficient_Pa.s\u00b2": -45219.37109375,
+          "Viscosity_Pa.s": 69.8139419555664,
+          "Torque (step)_\u00b5N.m": 29.3818538921187,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.0449027009308338,
+          "Torque_\u00b5N.m": 29.3818538921187,
+          "Step time_s": 1539.92395019531,
+          "1/temperature_1/K": 0.00341128697618842,
+          "Run time_s": 1541.07604980469,
+          "Compliance_1/MPa": 725895.822048187,
+          "Strain (step)_%": 127.293109893799,
+          "Modulus_Pa": 1.37760818004608,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.994499206543,
+          "Stress (step)_Pa": 1.75360023975372,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:31:01.0906271Z",
+          "Time_s": 1539.92395019531,
+          "Velocity_rad/s": 0.000886045454535633,
+          "Strain_%": 127.293109893799,
+          "Stress_Pa": 1.75360023975372
+        },
+        {
+          "Displacement_rad": 0.0357600003480911,
+          "Axial force_N": -0.0187004785984755,
+          "Gap_\u00b5m": 45.0215993623715,
+          "Shear rate_1/s": 0.0199524983763695,
+          "Normal stress_Pa": -29.7627353668213,
+          "Normal stress coefficient_Pa.s\u00b2": -74761.546875,
+          "Viscosity_Pa.s": 80.1533584594727,
+          "Torque (step)_\u00b5N.m": 26.7958548647584,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.0357600003480911,
+          "Torque_\u00b5N.m": 26.7958548647584,
+          "Step time_s": 1590.99304199219,
+          "1/temperature_1/K": 0.00341124273836613,
+          "Run time_s": 1592.14514160156,
+          "Compliance_1/MPa": 633885.681629181,
+          "Strain (step)_%": 101.374781131744,
+          "Modulus_Pa": 1.57757163047791,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9983005523682,
+          "Stress (step)_Pa": 1.59925973415375,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:31:52.1596271Z",
+          "Time_s": 1590.99304199219,
+          "Velocity_rad/s": 0.000703825266100466,
+          "Strain_%": 101.374781131744,
+          "Stress_Pa": 1.59925973415375
+        },
+        {
+          "Displacement_rad": 0.028482299298048,
+          "Axial force_N": -0.0212406497448683,
+          "Gap_\u00b5m": 45.0355000793934,
+          "Shear rate_1/s": 0.0158495306968689,
+          "Normal stress_Pa": -33.8055458068848,
+          "Normal stress coefficient_Pa.s\u00b2": -134572.140625,
+          "Viscosity_Pa.s": 92.3528594970703,
+          "Torque (step)_\u00b5N.m": 24.5253577304538,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.028482299298048,
+          "Torque_\u00b5N.m": 24.5253577304538,
+          "Step time_s": 1642.03857421875,
+          "1/temperature_1/K": 0.00341125088743865,
+          "Run time_s": 1643.19067382813,
+          "Compliance_1/MPa": 551620.960235596,
+          "Strain (step)_%": 80.7434856891632,
+          "Modulus_Pa": 1.81283903121948,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9976005554199,
+          "Stress (step)_Pa": 1.46374940872192,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:32:43.2056271Z",
+          "Time_s": 1642.03857421875,
+          "Velocity_rad/s": 0.000559092906769365,
+          "Strain_%": 80.7434856891632,
+          "Stress_Pa": 1.46374940872192
+        },
+        {
+          "Displacement_rad": 0.0226921997964382,
+          "Axial force_N": -0.0243963245302439,
+          "Gap_\u00b5m": 45.0316001661122,
+          "Shear rate_1/s": 0.0125885400921106,
+          "Normal stress_Pa": -38.8279571533203,
+          "Normal stress coefficient_Pa.s\u00b2": -245015.640625,
+          "Viscosity_Pa.s": 107.011413574219,
+          "Torque (step)_\u00b5N.m": 22.5711701205,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.0226921997964382,
+          "Torque_\u00b5N.m": 22.5711701205,
+          "Step time_s": 1693.11486816406,
+          "1/temperature_1/K": 0.00341134401969612,
+          "Run time_s": 1694.26696777344,
+          "Compliance_1/MPa": 477533.161640167,
+          "Strain (step)_%": 64.329332113266,
+          "Modulus_Pa": 2.09409523010254,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9895992279053,
+          "Stress (step)_Pa": 1.34711754322052,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:33:34.2816271Z",
+          "Time_s": 1693.11486816406,
+          "Velocity_rad/s": 0.000444061297457665,
+          "Strain_%": 64.329332113266,
+          "Stress_Pa": 1.34711754322052
+        },
+        {
+          "Displacement_rad": 0.017917400225997,
+          "Axial force_N": -0.0232230816036463,
+          "Gap_\u00b5m": 45.026699808659,
+          "Shear rate_1/s": 0.00999754201620817,
+          "Normal stress_Pa": -36.9606819152832,
+          "Normal stress coefficient_Pa.s\u00b2": -369788.59375,
+          "Viscosity_Pa.s": 124.967102050781,
+          "Torque (step)_\u00b5N.m": 20.933292034897,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.017917400225997,
+          "Torque_\u00b5N.m": 20.933292034897,
+          "Step time_s": 1744.17114257813,
+          "1/temperature_1/K": 0.00341116706840694,
+          "Run time_s": 1745.3232421875,
+          "Compliance_1/MPa": 406554.281711578,
+          "Strain (step)_%": 50.7934153079987,
+          "Modulus_Pa": 2.4596962928772,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0048007965088,
+          "Stress (step)_Pa": 1.24936378002167,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:34:25.3376271Z",
+          "Time_s": 1744.17114257813,
+          "Velocity_rad/s": 0.000352663744706661,
+          "Strain_%": 50.7934153079987,
+          "Stress_Pa": 1.24936378002167
+        },
+        {
+          "Displacement_rad": 0.0142628997564316,
+          "Axial force_N": -0.0219563860446215,
+          "Gap_\u00b5m": 45.0242005172186,
+          "Shear rate_1/s": 0.00794287770986557,
+          "Normal stress_Pa": -34.9446754455566,
+          "Normal stress coefficient_Pa.s\u00b2": -553892.1875,
+          "Viscosity_Pa.s": 145.717712402344,
+          "Torque (step)_\u00b5N.m": 19.3927244254155,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.0142628997564316,
+          "Torque_\u00b5N.m": 19.3927244254155,
+          "Step time_s": 1795.25256347656,
+          "1/temperature_1/K": 0.00341118802316487,
+          "Run time_s": 1796.40466308594,
+          "Compliance_1/MPa": 349341.39251709,
+          "Strain (step)_%": 40.4334008693695,
+          "Modulus_Pa": 2.86252951622009,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0030002593994,
+          "Stress (step)_Pa": 1.15741801261902,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:35:16.4196271Z",
+          "Time_s": 1795.25256347656,
+          "Velocity_rad/s": 0.000280185369774699,
+          "Strain_%": 40.4334008693695,
+          "Stress_Pa": 1.15741801261902
+        },
+        {
+          "Displacement_rad": 0.0113482996821404,
+          "Axial force_N": -0.0221467334777117,
+          "Gap_\u00b5m": 45.0236002507154,
+          "Shear rate_1/s": 0.00630882754921913,
+          "Normal stress_Pa": -35.2476196289063,
+          "Normal stress coefficient_Pa.s\u00b2": -885589.5625,
+          "Viscosity_Pa.s": 170.759521484375,
+          "Torque (step)_\u00b5N.m": 18.0502065632027,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.0113482996821404,
+          "Torque_\u00b5N.m": 18.0502065632027,
+          "Step time_s": 1846.31384277344,
+          "1/temperature_1/K": 0.00341117521747947,
+          "Run time_s": 1847.46594238281,
+          "Compliance_1/MPa": 298627.406358719,
+          "Strain (step)_%": 32.1709007024765,
+          "Modulus_Pa": 3.3486545085907,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0041007995605,
+          "Stress (step)_Pa": 1.07729232311249,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:36:07.4806271Z",
+          "Time_s": 1846.31384277344,
+          "Velocity_rad/s": 0.000222544171265326,
+          "Strain_%": 32.1709007024765,
+          "Stress_Pa": 1.07729232311249
+        },
+        {
+          "Displacement_rad": 0.00903258007019758,
+          "Axial force_N": -0.0225283000618219,
+          "Gap_\u00b5m": 45.0371007900685,
+          "Shear rate_1/s": 0.00501344026997685,
+          "Normal stress_Pa": -35.8549041748047,
+          "Normal stress coefficient_Pa.s\u00b2": -1426516.75,
+          "Viscosity_Pa.s": 200.613052368164,
+          "Torque (step)_\u00b5N.m": 16.8516962730791,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.00903258007019758,
+          "Torque_\u00b5N.m": 16.8516962730791,
+          "Step time_s": 1897.38916015625,
+          "1/temperature_1/K": 0.00341114262118936,
+          "Run time_s": 1898.54125976563,
+          "Compliance_1/MPa": 254594.624042511,
+          "Strain (step)_%": 25.6061494350433,
+          "Modulus_Pa": 3.92781233787537,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0069007873535,
+          "Stress (step)_Pa": 1.00576150417328,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:36:58.5556271Z",
+          "Time_s": 1897.38916015625,
+          "Velocity_rad/s": 0.000176849323906936,
+          "Strain_%": 25.6061494350433,
+          "Stress_Pa": 1.00576150417328
+        },
+        {
+          "Displacement_rad": 0.00713220005854964,
+          "Axial force_N": -0.0162648446857929,
+          "Gap_\u00b5m": 45.0580009783152,
+          "Shear rate_1/s": 0.00398112554103136,
+          "Normal stress_Pa": -25.8863048553467,
+          "Normal stress coefficient_Pa.s\u00b2": -1633271.25,
+          "Viscosity_Pa.s": 237.784591674805,
+          "Torque (step)_\u00b5N.m": 15.8612783707213,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.00713220005854964,
+          "Torque_\u00b5N.m": 15.8612783707213,
+          "Step time_s": 1948.44616699219,
+          "1/temperature_1/K": 0.00341115309856832,
+          "Run time_s": 1949.59826660156,
+          "Compliance_1/MPa": 213582.843542099,
+          "Strain (step)_%": 20.2188268303871,
+          "Modulus_Pa": 4.6820240020752,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0060005187988,
+          "Stress (step)_Pa": 0.946650326251984,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:37:49.6126271Z",
+          "Time_s": 1948.44616699219,
+          "Velocity_rad/s": 0.000140434378408827,
+          "Strain_%": 20.2188268303871,
+          "Stress_Pa": 0.946650326251984
+        },
+        {
+          "Displacement_rad": 0.00567923998460174,
+          "Axial force_N": -0.0200037509202957,
+          "Gap_\u00b5m": 45.0375991931651,
+          "Shear rate_1/s": 0.00316110486164689,
+          "Normal stress_Pa": -31.8369579315186,
+          "Normal stress coefficient_Pa.s\u00b2": -3186058.5,
+          "Viscosity_Pa.s": 283.080139160156,
+          "Torque (step)_\u00b5N.m": 14.9932893691584,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.00567923998460174,
+          "Torque_\u00b5N.m": 14.9932893691584,
+          "Step time_s": 1999.50390625,
+          "1/temperature_1/K": 0.00341127067804337,
+          "Run time_s": 2000.65600585938,
+          "Compliance_1/MPa": 179917.886853218,
+          "Strain (step)_%": 16.0998806357384,
+          "Modulus_Pa": 5.55809116363525,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9958992004395,
+          "Stress (step)_Pa": 0.894846022129059,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:38:40.6706271Z",
+          "Time_s": 1999.50390625,
+          "Velocity_rad/s": 0.00011150811042171,
+          "Strain_%": 16.0998806357384,
+          "Stress_Pa": 0.894846022129059
+        },
+        {
+          "Displacement_rad": 0.00452227983623743,
+          "Axial force_N": -0.020395515486598,
+          "Gap_\u00b5m": 45.0305997219402,
+          "Shear rate_1/s": 0.00251389550976455,
+          "Normal stress_Pa": -32.4604721069336,
+          "Normal stress coefficient_Pa.s\u00b2": -5136418.5,
+          "Viscosity_Pa.s": 337.963043212891,
+          "Torque (step)_\u00b5N.m": 14.2352473631036,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.00452227983623743,
+          "Torque_\u00b5N.m": 14.2352473631036,
+          "Step time_s": 2050.56665039063,
+          "1/temperature_1/K": 0.00341126718558371,
+          "Run time_s": 2051.71875,
+          "Compliance_1/MPa": 150894.50776577,
+          "Strain (step)_%": 12.8200545907021,
+          "Modulus_Pa": 6.62714624404907,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9962005615234,
+          "Stress (step)_Pa": 0.849603772163391,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:39:31.7336271Z",
+          "Time_s": 2050.56665039063,
+          "Velocity_rad/s": 8.86777706909925E-05,
+          "Strain_%": 12.8200545907021,
+          "Stress_Pa": 0.849603772163391
+        },
+        {
+          "Displacement_rad": 0.00357293989509344,
+          "Axial force_N": -0.0175599884241819,
+          "Gap_\u00b5m": 45.0293991889339,
+          "Shear rate_1/s": 0.00199526664800942,
+          "Normal stress_Pa": -27.9475898742676,
+          "Normal stress coefficient_Pa.s\u00b2": -7020086.5,
+          "Viscosity_Pa.s": 405.688690185547,
+          "Torque (step)_\u00b5N.m": 13.5625841721776,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.00357293989509344,
+          "Torque_\u00b5N.m": 13.5625841721776,
+          "Step time_s": 2101.62646484375,
+          "1/temperature_1/K": 0.0034113172441721,
+          "Run time_s": 2102.77856445313,
+          "Compliance_1/MPa": 125130.817294121,
+          "Strain (step)_%": 10.1288035511971,
+          "Modulus_Pa": 7.99163627624512,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9918994903564,
+          "Stress (step)_Pa": 0.809457123279572,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:40:22.7936271Z",
+          "Time_s": 2101.62646484375,
+          "Velocity_rad/s": 7.03831174178049E-05,
+          "Strain_%": 10.1288035511971,
+          "Stress_Pa": 0.809457123279572
+        },
+        {
+          "Displacement_rad": 0.00284467008896172,
+          "Axial force_N": -0.0172539800405502,
+          "Gap_\u00b5m": 45.0234983873088,
+          "Shear rate_1/s": 0.00158624968025833,
+          "Normal stress_Pa": -27.4605617523193,
+          "Normal stress coefficient_Pa.s\u00b2": -10913557,
+          "Viscosity_Pa.s": 486.871948242188,
+          "Torque (step)_\u00b5N.m": 12.9400186779094,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.00284467008896172,
+          "Torque_\u00b5N.m": 12.9400186779094,
+          "Step time_s": 2152.73120117188,
+          "1/temperature_1/K": 0.00341126369312406,
+          "Run time_s": 2153.88330078125,
+          "Compliance_1/MPa": 104418.642818928,
+          "Strain (step)_%": 8.06425660848618,
+          "Modulus_Pa": 9.57683372497559,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9965000152588,
+          "Stress (step)_Pa": 0.772300481796265,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:41:13.8976271Z",
+          "Time_s": 2152.73120117188,
+          "Velocity_rad/s": 5.5955028074095E-05,
+          "Strain_%": 8.06425660848618,
+          "Stress_Pa": 0.772300481796265
+        },
+        {
+          "Displacement_rad": 0.002262830035761,
+          "Axial force_N": -0.020305709913373,
+          "Gap_\u00b5m": 45.0225998065434,
+          "Shear rate_1/s": 0.00125926116015762,
+          "Normal stress_Pa": -32.3175392150879,
+          "Normal stress coefficient_Pa.s\u00b2": -20380116,
+          "Viscosity_Pa.s": 588.666564941406,
+          "Torque (step)_\u00b5N.m": 12.4203488667263,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.002262830035761,
+          "Torque_\u00b5N.m": 12.4203488667263,
+          "Step time_s": 2203.86010742188,
+          "1/temperature_1/K": 0.0034112730063498,
+          "Run time_s": 2205.01220703125,
+          "Compliance_1/MPa": 86536.4745259285,
+          "Strain (step)_%": 6.41481876373291,
+          "Modulus_Pa": 11.5558204650879,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9957008361816,
+          "Stress (step)_Pa": 0.741284966468811,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:42:05.0266271Z",
+          "Time_s": 2203.86010742188,
+          "Velocity_rad/s": 4.44204924860969E-05,
+          "Strain_%": 6.41481876373291,
+          "Stress_Pa": 0.741284966468811
+        },
+        {
+          "Displacement_rad": 0.00180047005414963,
+          "Axial force_N": -0.0160527005791664,
+          "Gap_\u00b5m": 45.0195984740276,
+          "Shear rate_1/s": 0.00100114825181663,
+          "Normal stress_Pa": -25.5486660003662,
+          "Normal stress coefficient_Pa.s\u00b2": -25490094,
+          "Viscosity_Pa.s": 711.427612304688,
+          "Torque (step)_\u00b5N.m": 11.9337710202672,
+          "Strain constant_1/rad": 28.348653793335,
+          "Displacement (step)_rad": 0.00180047005414963,
+          "Torque_\u00b5N.m": 11.9337710202672,
+          "Step time_s": 2254.96801757813,
+          "1/temperature_1/K": 0.00341125437989831,
+          "Run time_s": 2256.1201171875,
+          "Compliance_1/MPa": 71662.0534658432,
+          "Strain (step)_%": 5.10409027338028,
+          "Modulus_Pa": 13.9543867111206,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9972991943359,
+          "Stress (step)_Pa": 0.712244510650635,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Date and time": "2017-11-03T14:42:56.1346271Z",
+          "Time_s": 2254.96801757813,
+          "Velocity_rad/s": 3.53155483026057E-05,
+          "Strain_%": 5.10409027338028,
+          "Stress_Pa": 0.712244510650635
+        }
+      ]
+    },
+    "Original": {
+      "Classification": {
+        "Id": "Unmodified",
+        "Description": "Data from the original experiment"
+      },
+      "ResultsSteps": [
+        {
+          "Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "SourceProcedureStepId": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Name": "Flow sweep - 1"
+        }
+      ],
+      "ColumnHeaders": {
+        "Gap_\u00b5m": {
+          "DisplayName": "Gap",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "\u00b5m"
+          }
+        },
+        "Procedure Step Id": {
+          "DisplayName": "Procedure Step Id",
+          "ValueType": "Uuid"
+        },
+        "Results Step Id": {
+          "DisplayName": "Results Step Id",
+          "ValueType": "Uuid"
+        },
+        "Displacement_rad": {
+          "DisplayName": "Displacement",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "rad"
+          }
+        },
+        "Step time_s": {
+          "DisplayName": "Step time",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "s"
+          }
+        },
+        "Axial force_N": {
+          "DisplayName": "Axial force",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "N"
+          }
+        },
+        "Velocity_rad/s": {
+          "DisplayName": "Velocity",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "rad/s"
+          }
+        },
+        "Torque_\u00b5N.m": {
+          "DisplayName": "Torque",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "\u00b5N.m"
+          }
+        },
+        "Termination reason": {
+          "DisplayName": "Termination reason",
+          "ValueType": "Text"
+        },
+        "Temperature_\u00b0C": {
+          "DisplayName": "Temperature",
+          "ValueType": "Number",
+          "Unit": {
+            "Name": "\u00b0C"
+          }
+        }
+      },
+      "Rows": [
+        {
+          "Displacement_rad": 178.893005371094,
+          "Axial force_N": 0.304797261953354,
+          "Gap_\u00b5m": 45.0303014076781,
+          "Torque_\u00b5N.m": 6795.85011675954,
+          "Step time_s": 51.3001289367676,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.997200012207,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 3.527508020401
+        },
+        {
+          "Displacement_rad": 114.571998596191,
+          "Axial force_N": 0.237922862172127,
+          "Gap_\u00b5m": 45.0644984084647,
+          "Torque_\u00b5N.m": 5632.41960480809,
+          "Step time_s": 92.4062423706055,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0030994415283,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 2.8019962310791
+        },
+        {
+          "Displacement_rad": 90.8992004394531,
+          "Axial force_N": 0.189452052116394,
+          "Gap_\u00b5m": 45.0207990070339,
+          "Torque_\u00b5N.m": 4699.42903146148,
+          "Step time_s": 133.526351928711,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0074996948242,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 2.22570538520813
+        },
+        {
+          "Displacement_rad": 72.1119003295898,
+          "Axial force_N": 0.149143397808075,
+          "Gap_\u00b5m": 45.0445986643899,
+          "Torque_\u00b5N.m": 3928.91513183713,
+          "Step time_s": 174.624465942383,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.002799987793,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 1.76794171333313
+        },
+        {
+          "Displacement_rad": 57.1772994995117,
+          "Axial force_N": 0.116498567163944,
+          "Gap_\u00b5m": 44.9844992544968,
+          "Torque_\u00b5N.m": 3287.49604523182,
+          "Step time_s": 215.686569213867,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9964008331299,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 1.40432524681091
+        },
+        {
+          "Displacement_rad": 45.749698638916,
+          "Axial force_N": 0.0907844305038452,
+          "Gap_\u00b5m": 45.035299990559,
+          "Torque_\u00b5N.m": 2755.21678850055,
+          "Step time_s": 256.74267578125,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9955005645752,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 1.11549603939056
+        },
+        {
+          "Displacement_rad": 36.2625007629395,
+          "Axial force_N": 0.0694240629673004,
+          "Gap_\u00b5m": 45.0197003374342,
+          "Torque_\u00b5N.m": 2311.21550314128,
+          "Step time_s": 297.789764404297,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0002002716064,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.886069357395172
+        },
+        {
+          "Displacement_rad": 28.7059993743896,
+          "Axial force_N": 0.0542442314326763,
+          "Gap_\u00b5m": 45.0129009550437,
+          "Torque_\u00b5N.m": 1941.8882438913,
+          "Step time_s": 338.85888671875,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0076999664307,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.703829944133759
+        },
+        {
+          "Displacement_rad": 22.7630996704102,
+          "Axial force_N": 0.0390926003456116,
+          "Gap_\u00b5m": 45.0260995421559,
+          "Torque_\u00b5N.m": 1635.22071670741,
+          "Step time_s": 379.917999267578,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9979000091553,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.55907154083252
+        },
+        {
+          "Displacement_rad": 18.1821994781494,
+          "Axial force_N": 0.0280502289533615,
+          "Gap_\u00b5m": 45.069999032421,
+          "Torque_\u00b5N.m": 1378.35019268095,
+          "Step time_s": 420.983093261719,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9916000366211,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.444087028503418
+        },
+        {
+          "Displacement_rad": 14.3572998046875,
+          "Axial force_N": 0.0213557723909616,
+          "Gap_\u00b5m": 44.9928993475623,
+          "Torque_\u00b5N.m": 1163.4579859674,
+          "Step time_s": 462.044189453125,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0032005310059,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.352750301361084
+        },
+        {
+          "Displacement_rad": 11.4366998672485,
+          "Axial force_N": 0.0149663770571351,
+          "Gap_\u00b5m": 45.0285006081685,
+          "Torque_\u00b5N.m": 983.54194778949,
+          "Step time_s": 503.111297607422,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0037002563477,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.280200093984604
+        },
+        {
+          "Displacement_rad": 9.05591011047363,
+          "Axial force_N": 0.00748825957998633,
+          "Gap_\u00b5m": 45.0344014097936,
+          "Torque_\u00b5N.m": 833.093130495399,
+          "Step time_s": 544.162414550781,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0137996673584,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.222570478916168
+        },
+        {
+          "Displacement_rad": 7.22683000564575,
+          "Axial force_N": 0.00459579518064857,
+          "Gap_\u00b5m": 45.0080988230184,
+          "Torque_\u00b5N.m": 705.856073182076,
+          "Step time_s": 585.204528808594,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9955005645752,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.176794484257698
+        },
+        {
+          "Displacement_rad": 5.74161005020142,
+          "Axial force_N": -0.00183807208668441,
+          "Gap_\u00b5m": 45.0357001682278,
+          "Torque_\u00b5N.m": 599.055783823133,
+          "Step time_s": 626.263610839844,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9951000213623,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.140432849526405
+        },
+        {
+          "Displacement_rad": 4.54481983184814,
+          "Axial force_N": -0.00336047494783998,
+          "Gap_\u00b5m": 45.0123989139684,
+          "Torque_\u00b5N.m": 509.122852236032,
+          "Step time_s": 667.358703613281,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9951992034912,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.111549220979214
+        },
+        {
+          "Displacement_rad": 3.61777997016907,
+          "Axial force_N": -0.00506999855861068,
+          "Gap_\u00b5m": 45.0521001766901,
+          "Torque_\u00b5N.m": 433.19261749275,
+          "Step time_s": 708.48583984375,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9962005615234,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.0886068344116211
+        },
+        {
+          "Displacement_rad": 2.86047005653381,
+          "Axial force_N": -0.00559793738648295,
+          "Gap_\u00b5m": 44.9705985374749,
+          "Torque_\u00b5N.m": 369.221903383732,
+          "Step time_s": 749.576965332031,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9962997436523,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.0703830122947693
+        },
+        {
+          "Displacement_rad": 2.28149008750916,
+          "Axial force_N": -0.0147575587034225,
+          "Gap_\u00b5m": 45.0271982117556,
+          "Torque_\u00b5N.m": 315.256096655503,
+          "Step time_s": 790.666076660156,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0009002685547,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.0559070967137814
+        },
+        {
+          "Displacement_rad": 1.81122004985809,
+          "Axial force_N": -0.0116560952737927,
+          "Gap_\u00b5m": 45.051499910187,
+          "Torque_\u00b5N.m": 269.250973360613,
+          "Step time_s": 831.714172363281,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0013999938965,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.0444085821509361
+        },
+        {
+          "Displacement_rad": 1.44139003753662,
+          "Axial force_N": -0.013427940197289,
+          "Gap_\u00b5m": 45.0088009529281,
+          "Torque_\u00b5N.m": 230.678822845221,
+          "Step time_s": 872.789245605469,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0041007995605,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.0352750681340694
+        },
+        {
+          "Displacement_rad": 1.14982998371124,
+          "Axial force_N": -0.0162887498736382,
+          "Gap_\u00b5m": 45.0119987362996,
+          "Torque_\u00b5N.m": 198.104680748656,
+          "Step time_s": 913.861389160156,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.00119972229,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.0280199348926544
+        },
+        {
+          "Displacement_rad": 0.904899001121521,
+          "Axial force_N": -0.012993773445487,
+          "Gap_\u00b5m": 45.0373008789029,
+          "Torque_\u00b5N.m": 170.301893376745,
+          "Step time_s": 954.915466308594,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9941997528076,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.0222570411860943
+        },
+        {
+          "Displacement_rad": 0.714296996593475,
+          "Axial force_N": -0.0170116331428289,
+          "Gap_\u00b5m": 44.9971994385123,
+          "Torque_\u00b5N.m": 146.850303281099,
+          "Step time_s": 995.971557617188,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9876003265381,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.0176794026046991
+        },
+        {
+          "Displacement_rad": 0.575625002384186,
+          "Axial force_N": -0.0125793730840087,
+          "Gap_\u00b5m": 45.0381994596682,
+          "Torque_\u00b5N.m": 126.865052152425,
+          "Step time_s": 1037.03967285156,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0009002685547,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.014043228700757
+        },
+        {
+          "Displacement_rad": 0.451929986476898,
+          "Axial force_N": -0.01377266459167,
+          "Gap_\u00b5m": 45.0016996182967,
+          "Torque_\u00b5N.m": 110.010063508525,
+          "Step time_s": 1078.10083007813,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9936008453369,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.0111549105495214
+        },
+        {
+          "Displacement_rad": 0.360807001590729,
+          "Axial force_N": -0.0155389942228794,
+          "Gap_\u00b5m": 44.9807012046222,
+          "Torque_\u00b5N.m": 95.6631483859383,
+          "Step time_s": 1119.171875,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0013999938965,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.00886072684079409
+        },
+        {
+          "Displacement_rad": 0.286754012107849,
+          "Axial force_N": -0.0167776923626661,
+          "Gap_\u00b5m": 45.0219995400403,
+          "Torque_\u00b5N.m": 83.4057136671618,
+          "Step time_s": 1160.23095703125,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0002002716064,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.00703834369778633
+        },
+        {
+          "Displacement_rad": 0.228578001260757,
+          "Axial force_N": -0.0171268973499537,
+          "Gap_\u00b5m": 45.0527004431933,
+          "Torque_\u00b5N.m": 73.0523461243138,
+          "Step time_s": 1201.27416992188,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9974002838135,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.00559073965996504
+        },
+        {
+          "Displacement_rad": 0.180497005581856,
+          "Axial force_N": -0.014545432291925,
+          "Gap_\u00b5m": 45.0061015726533,
+          "Torque_\u00b5N.m": 64.2242230242118,
+          "Step time_s": 1242.31921386719,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0025005340576,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.00444086594507098
+        },
+        {
+          "Displacement_rad": 0.143931001424789,
+          "Axial force_N": -0.0159625802189112,
+          "Gap_\u00b5m": 45.0391016784124,
+          "Torque_\u00b5N.m": 56.6778071515728,
+          "Step time_s": 1283.38037109375,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0060997009277,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.00352753163315356
+        },
+        {
+          "Displacement_rad": 0.114676997065544,
+          "Axial force_N": -0.0146494163200259,
+          "Gap_\u00b5m": 45.0357001682278,
+          "Torque_\u00b5N.m": 50.2396724186838,
+          "Step time_s": 1324.5234375,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0007991790771,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.00280200107954443
+        },
+        {
+          "Displacement_rad": 0.0912059023976326,
+          "Axial force_N": -0.0158459637314081,
+          "Gap_\u00b5m": 45.0525985797867,
+          "Torque_\u00b5N.m": 44.7170859843027,
+          "Step time_s": 1365.60559082031,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0044002532959,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.0022257047239691
+        },
+        {
+          "Displacement_rad": 0.0719583034515381,
+          "Axial force_N": -0.0146117433905602,
+          "Gap_\u00b5m": 45.0535007985309,
+          "Torque_\u00b5N.m": 39.9846139771398,
+          "Step time_s": 1406.69470214844,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0023002624512,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.00176794140134007
+        },
+        {
+          "Displacement_rad": 0.0573147982358932,
+          "Axial force_N": -0.015583286061883,
+          "Gap_\u00b5m": 45.0053012173157,
+          "Torque_\u00b5N.m": 35.9104087692685,
+          "Step time_s": 1447.77673339844,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0000991821289,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.00140433618798852
+        },
+        {
+          "Displacement_rad": 0.0456667989492416,
+          "Axial force_N": -0.0167847089469433,
+          "Gap_\u00b5m": 45.0373991043307,
+          "Torque_\u00b5N.m": 32.3856947943568,
+          "Step time_s": 1488.85681152344,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9992008209229,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.00111558043863624
+        },
+        {
+          "Displacement_rad": 0.0449027009308338,
+          "Axial force_N": -0.017925912514329,
+          "Gap_\u00b5m": 45.0305997219402,
+          "Torque_\u00b5N.m": 29.3818538921187,
+          "Step time_s": 1539.92395019531,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.994499206543,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.000886045454535633
+        },
+        {
+          "Displacement_rad": 0.0357600003480911,
+          "Axial force_N": -0.0187004785984755,
+          "Gap_\u00b5m": 45.0215993623715,
+          "Torque_\u00b5N.m": 26.7958548647584,
+          "Step time_s": 1590.99304199219,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9983005523682,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.000703825266100466
+        },
+        {
+          "Displacement_rad": 0.028482299298048,
+          "Axial force_N": -0.0212406497448683,
+          "Gap_\u00b5m": 45.0355000793934,
+          "Torque_\u00b5N.m": 24.5253577304538,
+          "Step time_s": 1642.03857421875,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9976005554199,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.000559092906769365
+        },
+        {
+          "Displacement_rad": 0.0226921997964382,
+          "Axial force_N": -0.0243963245302439,
+          "Gap_\u00b5m": 45.0316001661122,
+          "Torque_\u00b5N.m": 22.5711701205,
+          "Step time_s": 1693.11486816406,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9895992279053,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.000444061297457665
+        },
+        {
+          "Displacement_rad": 0.017917400225997,
+          "Axial force_N": -0.0232230816036463,
+          "Gap_\u00b5m": 45.026699808659,
+          "Torque_\u00b5N.m": 20.933292034897,
+          "Step time_s": 1744.17114257813,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0048007965088,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.000352663744706661
+        },
+        {
+          "Displacement_rad": 0.0142628997564316,
+          "Axial force_N": -0.0219563860446215,
+          "Gap_\u00b5m": 45.0242005172186,
+          "Torque_\u00b5N.m": 19.3927244254155,
+          "Step time_s": 1795.25256347656,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0030002593994,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.000280185369774699
+        },
+        {
+          "Displacement_rad": 0.0113482996821404,
+          "Axial force_N": -0.0221467334777117,
+          "Gap_\u00b5m": 45.0236002507154,
+          "Torque_\u00b5N.m": 18.0502065632027,
+          "Step time_s": 1846.31384277344,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0041007995605,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.000222544171265326
+        },
+        {
+          "Displacement_rad": 0.00903258007019758,
+          "Axial force_N": -0.0225283000618219,
+          "Gap_\u00b5m": 45.0371007900685,
+          "Torque_\u00b5N.m": 16.8516962730791,
+          "Step time_s": 1897.38916015625,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0069007873535,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.000176849323906936
+        },
+        {
+          "Displacement_rad": 0.00713220005854964,
+          "Axial force_N": -0.0162648446857929,
+          "Gap_\u00b5m": 45.0580009783152,
+          "Torque_\u00b5N.m": 15.8612783707213,
+          "Step time_s": 1948.44616699219,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 20.0060005187988,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.000140434378408827
+        },
+        {
+          "Displacement_rad": 0.00567923998460174,
+          "Axial force_N": -0.0200037509202957,
+          "Gap_\u00b5m": 45.0375991931651,
+          "Torque_\u00b5N.m": 14.9932893691584,
+          "Step time_s": 1999.50390625,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9958992004395,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 0.00011150811042171
+        },
+        {
+          "Displacement_rad": 0.00452227983623743,
+          "Axial force_N": -0.020395515486598,
+          "Gap_\u00b5m": 45.0305997219402,
+          "Torque_\u00b5N.m": 14.2352473631036,
+          "Step time_s": 2050.56665039063,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9962005615234,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 8.86777706909925E-05
+        },
+        {
+          "Displacement_rad": 0.00357293989509344,
+          "Axial force_N": -0.0175599884241819,
+          "Gap_\u00b5m": 45.0293991889339,
+          "Torque_\u00b5N.m": 13.5625841721776,
+          "Step time_s": 2101.62646484375,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9918994903564,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 7.03831174178049E-05
+        },
+        {
+          "Displacement_rad": 0.00284467008896172,
+          "Axial force_N": -0.0172539800405502,
+          "Gap_\u00b5m": 45.0234983873088,
+          "Torque_\u00b5N.m": 12.9400186779094,
+          "Step time_s": 2152.73120117188,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9965000152588,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 5.5955028074095E-05
+        },
+        {
+          "Displacement_rad": 0.002262830035761,
+          "Axial force_N": -0.020305709913373,
+          "Gap_\u00b5m": 45.0225998065434,
+          "Torque_\u00b5N.m": 12.4203488667263,
+          "Step time_s": 2203.86010742188,
+          "Results Step Id": "1fe0ced9-5160-47f4-bc46-07fb8f12b721",
+          "Termination reason": "Steady state",
+          "Temperature_\u00b0C": 19.9957008361816,
+          "Procedure Step Id": "132ae93f-c758-4442-936a-7ccbd26444eb",
+          "Velocity_rad/s": 4.44204924860969E-05
+        }
+      ]
+    }
+  },
+  "StartTime": "2017-11-03T14:05:20.0146271Z",
+  "Log": [
+    {
+      "Type": "Analysis",
+      "Description": "Step: 'Flow sweep - 1' Analysis Id: '290a9a9a-f9bc-43ff-b5d8-7a183732bb0d' Message Code: '12100' Message: 'TC analysis performed'",
+      "CreatedOn": "2017-11-03T14:37:41.5525145Z",
+      "CreatedBy": {
+        "Name": "NA\\mucrew.im"
+      }
+    },
+    {
+      "Type": "Analysis",
+      "Description": "Step: 'Flow sweep - 1' Analysis Id: '290a9a9a-f9bc-43ff-b5d8-7a183732bb0d' Message Code: '12101' Message: 'TC analysis deleted'",
+      "CreatedOn": "2017-11-03T14:40:34.7578665Z",
+      "CreatedBy": {
+        "Name": "NA\\mucrew.im"
+      }
+    },
+    {
+      "Type": "Analysis",
+      "Description": "Step: 'Flow sweep - 1' Analysis Id: 'b3224dfa-4608-4949-ba65-f45851ca1376' Message Code: '12100' Message: 'Best fit flow (stress vs. rate) analysis performed'",
+      "CreatedOn": "2026-09-25T23:41:56.8422446Z",
+      "CreatedBy": {
+        "Name": "INT\\caggioni.m"
+      }
+    },
+    {
+      "Type": "Analysis",
+      "Description": "Step: 'Flow sweep - 1' Analysis Id: '2fef78e4-c966-4e1f-82e6-89125adb4f9d' Message Code: '12100' Message: 'TC analysis performed'",
+      "CreatedOn": "2026-09-25T23:42:04.9616158Z",
+      "CreatedBy": {
+        "Name": "INT\\caggioni.m"
+      }
+    },
+    {
+      "Type": "Analysis",
+      "Description": "Step: 'Flow sweep - 1' Analysis Id: 'b3224dfa-4608-4949-ba65-f45851ca1376' Message Code: '12101' Message: 'Best fit flow (stress vs. rate) analysis deleted'",
+      "CreatedOn": "2026-09-25T23:42:13.6752735Z",
+      "CreatedBy": {
+        "Name": "INT\\caggioni.m"
+      }
+    },
+    {
+      "Type": "Analysis",
+      "Description": "Step: 'Flow sweep - 1' Analysis Id: '98da4366-aec6-47cb-b341-5845ee3bd5e8' Message Code: '12101' Message: 'Herschel-Bulkley analysis deleted'",
+      "CreatedOn": "2026-09-25T23:42:13.6827873Z",
+      "CreatedBy": {
+        "Name": "INT\\caggioni.m"
+      }
+    },
+    {
+      "Type": "Analysis",
+      "Description": "Step: 'Flow sweep - 1' Analysis Id: '2fef78e4-c966-4e1f-82e6-89125adb4f9d' Message Code: '12101' Message: 'TC analysis deleted'",
+      "CreatedOn": "2026-09-25T23:42:13.689787Z",
+      "CreatedBy": {
+        "Name": "INT\\caggioni.m"
+      }
+    },
+    {
+      "Type": "Analysis",
+      "Description": "Step: 'Flow sweep - 1' Analysis Id: '973f3ad9-6bab-4379-8c09-336de830158b' Message Code: '12100' Message: 'TC analysis performed'",
+      "CreatedOn": "2026-09-25T23:42:17.2999345Z",
+      "CreatedBy": {
+        "Name": "INT\\caggioni.m"
+      }
+    },
+    {
+      "Type": "Analysis",
+      "Description": "Step: 'Flow sweep - 1' Analysis Id: '973f3ad9-6bab-4379-8c09-336de830158b' Message Code: '12101' Message: 'TC analysis deleted'",
+      "CreatedOn": "2026-09-25T23:42:18.6163395Z",
+      "CreatedBy": {
+        "Name": "INT\\caggioni.m"
+      }
+    },
+    {
+      "Type": "Analysis",
+      "Description": "Step: 'Flow sweep - 1' Analysis Id: 'efef0aab-ff05-47d7-8541-6df5365d3ac5' Message Code: '12100' Message: 'TC analysis performed'",
+      "CreatedOn": "2026-09-25T23:42:22.6921023Z",
+      "CreatedBy": {
+        "Name": "INT\\caggioni.m"
+      }
+    },
+    {
+      "Type": "Analysis",
+      "Description": "Step: 'Flow sweep - 1' Analysis Id: 'efef0aab-ff05-47d7-8541-6df5365d3ac5' Message Code: '12101' Message: 'TC analysis deleted'",
+      "CreatedOn": "2026-09-25T23:42:38.0695813Z",
+      "CreatedBy": {
+        "Name": "INT\\caggioni.m"
+      }
+    },
+    {
+      "Type": "Analysis",
+      "Description": "Step: 'Flow sweep - 1' Analysis Id: 'e54413de-d01b-4613-bee3-3ae119e0c990' Message Code: '12100' Message: 'Herschel-Bulkley analysis performed'",
+      "CreatedOn": "2026-09-25T23:42:46.6125978Z",
+      "CreatedBy": {
+        "Name": "INT\\caggioni.m"
+      }
+    },
+    {
+      "Type": "Analysis",
+      "Description": "Step: 'Flow sweep - 1' Analysis Id: 'e54413de-d01b-4613-bee3-3ae119e0c990' Message Code: '12101' Message: 'Herschel-Bulkley analysis deleted'",
+      "CreatedOn": "2026-09-25T23:42:52.1447044Z",
+      "CreatedBy": {
+        "Name": "INT\\caggioni.m"
+      }
+    }
+  ]
+}

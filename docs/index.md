@@ -120,9 +120,11 @@ rheofit install-skill
 
 New here? Read the **[Carbopol case study](walkthrough)** — a complete, reproducible
 head-to-head of the TC model against Herschel–Bulkley on real data, run the way the skill
-runs it. Then see the **[wormlike-micelle + polymer case study](walkthrough-carreau-carreau)**,
-where the microstructure-informed `carreau_carreau` model resolves two relaxation times across
-a temperature series. And don't miss the **[polymer solution case study](walkthrough-carreau)**,
+runs it. Then see the **[Carbopol-in-glycerin walkthrough](walkthrough-carbopol-glycerin)**,
+which shows how a viscous continuous phase changes the reading of HB and TC parameters. Then
+see the **[wormlike-micelle + polymer case study](walkthrough-carreau-carreau)**, where the
+microstructure-informed `carreau_carreau` model resolves two relaxation times across a
+temperature series. And don't miss the **[polymer solution case study](walkthrough-carreau)**,
 where a Carreau fit meets the Cox–Merz and Delaware–Rutgers rules on amplitude, flow, and
 frequency sweeps. Then browse the **[API reference](api)**.
 
@@ -147,6 +149,7 @@ bottom of the page.
 :caption: Case studies
 
 walkthrough
+walkthrough-carbopol-glycerin
 walkthrough-carreau-carreau
 walkthrough-carreau
 ```
