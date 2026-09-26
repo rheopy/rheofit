@@ -1,107 +1,121 @@
-# 🍯 Walkthrough: yield stress in a viscous sea — HB vs TC on 2% Carbopol in glycerin
+# 🍯🌡️ Walkthrough: the viscous background, measured at four temperatures — HB vs TC on Carbopol in glycerin
 
-*Carbopol in water is the textbook yield-stress fluid. Put the same microgel in glycerin —
-a continuous phase a thousand times more viscous — and the flow curve changes character.
-This case study fits Herschel–Bulkley and the three-component (TC) model side by side and
-shows how the TC decomposition isolates exactly what the viscous background is doing.*
+*A single flow curve can tell you a viscous background exists. A temperature series lets you
+prove it: fit the TC model at 20, 30, 40 and 50 °C, extract the background viscosity
+η_bg(T), and check whether it follows the solvent's Arrhenius law. It does — with a twist
+that reveals the microgel's own contribution.*
 
 ## 🧪 The dataset
 
-`cp02_gly_20c_fc.json` (attached to [issue #27](https://github.com/rheopy/rheofit/issues/27), archived here
-as `walkthrough/cp02_gly_20c_fc.json`) holds an equilibrium flow curve of **2% Carbopol in
-glycerin** at **20 °C**: 51 points from 0.001 to 100 s⁻¹.
+`cp05_gly_newsample.json` (attached to [issue #27](https://github.com/rheopy/rheofit/issues/27),
+archived here as `walkthrough/cp05_gly_newsample.json`) holds **four equilibrium flow
+curves of Carbopol in glycerin at 20, 30, 40 and 50 °C** — 51 points each, 0.001 to
+100 s⁻¹, measured on a Peltier plate with 200 s thermal soaks between steps.
 
 ```python
 import rheofit
 
-rheofit.print_steps("walkthrough/cp02_gly_20c_fc.json")
-df = rheofit.load_step("walkthrough/cp02_gly_20c_fc.json", 0)  # flow curve
+rheofit.print_steps("walkthrough/cp05_gly_newsample.json")
+dfs = {T: rheofit.load_step("walkthrough/cp05_gly_newsample.json", i)
+       for i, T in enumerate([50, 40, 30, 20])}
 ```
-
-Compare with the [original Carbopol case study](walkthrough) — same polymer, but there the
-continuous phase was water (≈1 mPa·s) and here it is glycerin (≈1.41 Pa·s at 20 °C). That
-single change rewrites the high-shear half of the flow curve.
 
 ````{only} builder_html
 ```mermaid
 flowchart TD
-    A["cp02_gly_20c_fc.json<br/>2% Carbopol in glycerin, 20 °C<br/>γ̇ = 0.001–100 s⁻¹"]
-    A --> B["Herschel–Bulkley fit<br/>σ = σ_y + Kγ̇ⁿ"]
-    A --> C["TC fit<br/>σ = σ_y + σ_y(γ̇/γ̇_c)½ + η_bgγ̇"]
-    B --> D["Compare:<br/>RedChi², residuals,<br/>parameter meaning"]
-    C --> D
-    D --> E["Decompose TC:<br/>elastic / plastic / viscous"]
-    E --> F["✅ η_bg isolates the<br/>viscous continuous phase"]
+    A["cp05_gly_newsample.json<br/>Carbopol in glycerin<br/>flow curves at 20 / 30 / 40 / 50 °C"]
+    A --> B["Fit HB and TC<br/>at each temperature<br/>(thorough, seed 0)"]
+    B --> C["Head-to-head:<br/>RedChi², parameters"]
+    B --> D["Track TC parameters<br/>vs T"]
+    D --> E["Arrhenius plot:<br/>ln η_bg vs 1/T"]
+    E --> F["Compare with public<br/>glycerol η(T) data"]
+    F --> G["✅ η_bg follows the solvent<br/>with the microgel on top"]
 ```
 ````
 
 ```{only} not builder_html
-![Analysis workflow: HB and TC fits of the Carbopol-in-glycerin flow curve, comparison, and TC decomposition](walkthrough/walkthrough_hb_tc_gly_workflow.svg)
+![Analysis workflow: HB/TC fits at four temperatures, parameter trends, and Arrhenius check of the background viscosity](walkthrough/walkthrough_hb_tc_gly_workflow.svg)
 ```
 
-## 🥊 Head-to-head: HB vs TC
+## 🥊 Head-to-head: HB vs TC at every temperature
 
 ```python
-hb = rheofit.fit(df, "herschel_bulkley", effort="thorough", seed=0)
-tc = rheofit.fit(df, "tc", effort="thorough", seed=0)
+fits = {T: {"hb": rheofit.fit(df, "herschel_bulkley", effort="thorough", seed=0),
+            "tc": rheofit.fit(df, "tc", effort="thorough", seed=0)}
+        for T, df in dfs.items()}
 ```
 
-| Model | σ_y (Pa) | 2nd param | 3rd param | RedChi² | cond |
-|-------|----------|-----------|-----------|---------|------|
-| Herschel–Bulkley | 0.674 ± 0.014 | K = 13.65 ± 0.12 Pa·sⁿ | n = 0.713 ± 0.004 | 1.83×10⁻³ | 3.5 |
-| TC | 0.376 ± 0.021 | γ̇_c = 0.00182 ± 0.00027 s⁻¹ | η_bg = 3.71 ± 0.10 Pa·s | 3.55×10⁻³ | 16.2 |
+| T (°C) | HB RedChi² | TC RedChi² | TC σ_y (Pa) | TC γ̇_c (s⁻¹) | TC η_bg (Pa·s) |
+|--------|-----------|-----------|-------------|---------------|----------------|
+| 50 | 1.45×10⁻⁴ | **5.26×10⁻⁵** | 5.368 ± 0.016 | 0.03464 ± 0.00034 | 0.538 ± 0.017 |
+| 40 | 4.20×10⁻⁴ | **1.22×10⁻⁴** | 5.358 ± 0.027 | 0.01564 ± 0.00025 | 0.663 ± 0.037 |
+| 30 | 5.85×10⁻⁴ | **2.05×10⁻⁴** | 6.314 ± 0.046 | 0.00956 ± 0.00021 | 1.060 ± 0.072 |
+| 20 | 6.12×10⁻⁴ | **1.42×10⁻⁴** | 7.494 ± 0.052 | 0.00564 ± 0.00011 | 2.169 ± 0.093 |
 
-Both fits are clean and fully identified. Honestly, HB wins on statistics alone — but the
-two models disagree on the *physics*, and that disagreement is the interesting part:
+On this dataset there is no contest: **TC beats HB by 3–4× at every temperature**, and
+every parameter is tightly identified (worst relative error ≈ 7% on η_bg at 30 °C).
+The HB fits are respectable — n ≈ 0.52 at all temperatures, the classic Carbopol
+shear-thinning signature, independent of T — but TC's explicit background term earns its
+keep here.
 
-![HB vs TC fits of the 2% Carbopol in glycerin flow curve, with relative residuals](walkthrough/fig11_hb_tc_glycerin.png)
+![Flow curves at 20–50 °C with TC fits](walkthrough/fig14_temp_series_tc.png)
 
-## 🔍 Reading the parameters: where the glycerin shows up
+## 📈 Every TC parameter trends the physical way
 
-**HB's exponent tells on the background.** In water, Carbopol thins hard (n ≈ 0.4–0.5).
-Here n = 0.713 — the curve thins *less* steeply because a large Newtonian background props
-up the high-shear stress. HB has no separate knob for that background, so it smears the
-effect into K and n.
+![TC parameters vs temperature](walkthrough/fig16_tc_params_vs_T.png)
 
-**TC names the background.** The TC model splits the stress into three additive
-contributions — a constant elastic term (the yield stress), a plastic term growing as
-√γ̇, and a Newtonian viscous term:
+- **σ_y grows on cooling** (5.37 → 7.49 Pa): the microgel network strengthens.
+- **γ̇_c falls on cooling** (0.035 → 0.0056 s⁻¹): the plastic √γ̇ term takes over at
+  progressively lower shear rates as the background thickens.
+- **η_bg thickens on cooling** (0.54 → 2.17 Pa·s): the background viscosity itself is
+  strongly temperature-dependent — which is exactly what you expect if it is the solvent.
 
-$$\sigma = \sigma_y + \sigma_y\left(\frac{\dot{\gamma}}{\dot{\gamma}_c}\right)^{1/2} + \eta_{bg}\,\dot{\gamma}$$
+## 🌡️ The Arrhenius test
 
-![TC three-term decomposition of the Carbopol-in-glycerin flow curve](walkthrough/fig12_tc_decomposition_gly.png)
+If η_bg really is the continuous phase (plus whatever the microgel adds at high shear),
+it should follow the solvent's temperature law. Glycerol is famously Arrhenius-like:
 
-The decomposition shows the handoff directly: the plastic term carries the mid-range, and
-above $\dot{\gamma} \approx$ 10 s⁻¹ the **viscous term $\eta_{bg}\dot{\gamma}$ dominates**.
-The fitted background viscosity is **η_bg = 3.71 Pa·s** — about 2.6× the viscosity of
-pure glycerin at 20 °C (≈1.41 Pa·s). The excess is the Carbopol microgel's own
-contribution to the high-shear viscosity, riding on top of the solvent.
+$$\ln \eta = \ln A + \frac{E_a}{R\,T}$$
 
-**The two yield stresses differ, and TC's is the honest one.** HB reports σ_y = 0.67 Pa;
-TC reports σ_y = 0.38 Pa. Part of what HB attributes to yielding is, in TC's accounting,
-viscous stress from the glycerin background that is already present at low shear rates.
-When the continuous phase is this viscous, "yield stress" from a two-parameter-style fit
-is partly background in disguise.
+Public glycerol data (Segur & Oberstar 1951: 1.412, 0.612, 0.284, 0.142 Pa·s at
+20/30/40/50 °C) give a textbook straight line with **E_a = 60.4 kJ/mol** (R² = 0.9998).
+The TC background viscosities fall on a clean line too — with **E_a = 36.9 kJ/mol**
+(R² = 0.957).
 
-The viscosity view makes the same point from the other side: the data levels off toward
-the TC background instead of thinning toward zero, and HB — with no plateau parameter —
-is forced to keep bending downward.
+![Arrhenius plot: TC background viscosity vs literature glycerol viscosity](walkthrough/fig15_arrhenius_bg.png)
 
-![Viscosity view: HB vs TC, with the TC background viscosity and pure-glycerin reference lines](walkthrough/fig13_viscosity_glycerin.png)
+Two things to read off this plot:
+
+1. **η_bg tracks the solvent, always above it.** The ratio η_bg/η_glycerol runs
+   1.54 (20 °C) → 1.73 → 2.33 → 3.79 (50 °C): the background is glycerin *plus* the
+   Carbopol microgel's own high-shear contribution.
+2. **The slope is weaker (36.9 vs 60.4 kJ/mol) — and that makes sense.** The microgel
+   contribution is only weakly temperature-dependent, so it dilutes the solvent's steep
+   Arrhenius slope. At 20 °C the thick solvent dominates the background; at 50 °C the
+   solvent has thinned tenfold and the microgel carries a larger share — hence the
+   growing ratio.
+
+This is the payoff of the three-component decomposition: a single number per
+temperature, η_bg, that you can hold up against an independent physical measurement and
+have it check out.
 
 ## 🎯 Takeaways
 
-- **The continuous phase sets the high-shear story.** In water the background is
-  negligible; in glycerin it dominates above ~10 s⁻¹. Same microgel, different fluid.
-- **HB fits slightly better here (RedChi² 1.8×10⁻³ vs 3.6×10⁻³) but explains less.**
-  Its n = 0.713 quietly absorbs the background viscosity into the power law.
-- **TC's η_bg = 3.71 Pa·s isolates the physics the issue asked about**: a viscous
-  background ≈2.6× pure glycerin, with the microgel contributing the rest.
-- **Yield stress is model-dependent when the background is viscous.** TC's σ_y = 0.38 Pa
-  vs HB's 0.67 Pa — the difference is background viscous stress that HB books as yield.
+- **TC beats HB 3–4× on RedChi² at every temperature** — when the continuous phase is
+  viscous, the explicit η_bg term is not a luxury, it is the model.
+- **η_bg(T) is Arrhenius with E_a = 36.9 kJ/mol**, weaker than pure glycerol's
+  60.4 kJ/mol — the microgel's own high-shear contribution dilutes the solvent slope.
+- **η_bg/η_glycerol = 1.5 → 3.8 from 20 to 50 °C**: the solvent dominates the
+  background when cold; the microgel matters relatively more when hot.
+- **HB's n ≈ 0.52 is T-independent** — the microstructure's shear-thinning signature —
+  while its K and σ_y absorb everything else. TC separates the physics instead of
+  smearing it.
 
 ## 📚 References
 
 - W. H. Herschel & R. Bulkley, "Konsistenzmessungen von Gummi-Benzollösungen",
   *Kolloid-Z.* **39**, 291–300 (1926). [doi:10.1007/BF01432034](https://doi.org/10.1007/BF01432034)
+- J. B. Segur & H. E. Oberstar, "Viscosity of Glycerol and Its Aqueous Solutions",
+  *Ind. Eng. Chem.* **43**, 2117–2120 (1951). [doi:10.1021/ie50501a040](https://doi.org/10.1021/ie50501a040)
+- Glycerol data page (viscosity 1.412 Pa·s at 20 °C): <https://en.wikipedia.org/wiki/Glycerol_(data_page)>
 - The TC (three-component) model is documented in rheofit's [TC model page](models/tc).

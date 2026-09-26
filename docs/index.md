@@ -125,8 +125,9 @@ where the microstructure-informed `carreau_carreau` model resolves two relaxatio
 a temperature series. And don't miss the **[polymer solution case study](walkthrough-carreau)**,
 where a Carreau fit meets the Cox–Merz and Delaware–Rutgers rules on amplitude, flow, and
 frequency sweeps. For yield-stress fluids, the **[Carbopol in glycerin case study](walkthrough-carbopol-glycerin)**
-pits Herschel–Bulkley against the three-component model and shows how a viscous continuous
-phase rewrites the flow curve. Then browse the **[API reference](api)**.
+fits Herschel–Bulkley against the three-component model on flow curves at 20–50 °C, then
+puts the TC background viscosity through an Arrhenius check against public glycerol data.
+Then browse the **[API reference](api)**.
 
 ## 🧪 Try it in your browser
 
