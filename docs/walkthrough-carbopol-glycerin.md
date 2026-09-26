@@ -1,15 +1,15 @@
 # 🍯🌡️ Walkthrough: the viscous background, measured at four temperatures — HB vs TC on Carbopol in glycerin
 
 *A single flow curve can tell you a viscous background exists. A temperature series lets you
-prove it: fit the TC model at 20, 30, 40 and 50 °C, extract the background viscosity
+prove it: fit the TC model at 20, 30 and 40 °C, extract the background viscosity
 η_bg(T), and check whether it follows the solvent's Arrhenius law. It does — with a twist
 that reveals the microgel's own contribution.*
 
 ## 🧪 The dataset
 
 `cp05_gly_newsample.json` (attached to [issue #27](https://github.com/rheopy/rheofit/issues/27),
-archived here as `walkthrough/cp05_gly_newsample.json`) holds **four equilibrium flow
-curves of Carbopol in glycerin at 20, 30, 40 and 50 °C** — 51 points each, 0.001 to
+archived here as `walkthrough/cp05_gly_newsample.json`) holds **three equilibrium flow
+curves of Carbopol in glycerin at 20, 30 and 40 °C** — 51 points each, 0.001 to
 100 s⁻¹, measured on a Peltier plate with 200 s thermal soaks between steps.
 
 ```python
@@ -17,13 +17,13 @@ import rheofit
 
 rheofit.print_steps("walkthrough/cp05_gly_newsample.json")
 dfs = {T: rheofit.load_step("walkthrough/cp05_gly_newsample.json", i)
-       for i, T in enumerate([50, 40, 30, 20])}
+       for i, T in enumerate([40, 30, 20])}
 ```
 
 ````{only} builder_html
 ```mermaid
 flowchart TD
-    A["cp05_gly_newsample.json<br/>Carbopol in glycerin<br/>flow curves at 20 / 30 / 40 / 50 °C"]
+    A["cp05_gly_newsample.json<br/>Carbopol in glycerin<br/>flow curves at 20 / 30 / 40 °C"]
     A --> B["Fit HB and TC<br/>at each temperature<br/>(thorough, seed 0)"]
     B --> C["Head-to-head:<br/>RedChi², parameters"]
     B --> D["Track TC parameters<br/>vs T"]
@@ -47,7 +47,6 @@ fits = {T: {"hb": rheofit.fit(df, "herschel_bulkley", effort="thorough", seed=0)
 
 | T (°C) | HB RedChi² | TC RedChi² | TC σ_y (Pa) | TC γ̇_c (s⁻¹) | TC η_bg (Pa·s) |
 |--------|-----------|-----------|-------------|---------------|----------------|
-| 50 | 1.45×10⁻⁴ | **5.26×10⁻⁵** | 5.368 ± 0.016 | 0.03464 ± 0.00034 | 0.538 ± 0.017 |
 | 40 | 4.20×10⁻⁴ | **1.22×10⁻⁴** | 5.358 ± 0.027 | 0.01564 ± 0.00025 | 0.663 ± 0.037 |
 | 30 | 5.85×10⁻⁴ | **2.05×10⁻⁴** | 6.314 ± 0.046 | 0.00956 ± 0.00021 | 1.060 ± 0.072 |
 | 20 | 6.12×10⁻⁴ | **1.42×10⁻⁴** | 7.494 ± 0.052 | 0.00564 ± 0.00011 | 2.169 ± 0.093 |
@@ -58,16 +57,16 @@ The HB fits are respectable — n ≈ 0.52 at all temperatures, the classic Carb
 shear-thinning signature, independent of T — but TC's explicit background term earns its
 keep here.
 
-![Flow curves at 20–50 °C with TC fits](walkthrough/fig14_temp_series_tc.png)
+![Flow curves at 20–40 °C with TC fits](walkthrough/fig14_temp_series_tc.png)
 
 ## 📈 Every TC parameter trends the physical way
 
 ![TC parameters vs temperature](walkthrough/fig16_tc_params_vs_T.png)
 
-- **σ_y grows on cooling** (5.37 → 7.49 Pa): the microgel network strengthens.
-- **γ̇_c falls on cooling** (0.035 → 0.0056 s⁻¹): the plastic √γ̇ term takes over at
+- **σ_y grows on cooling** (5.36 → 7.49 Pa): the microgel network strengthens.
+- **γ̇_c falls on cooling** (0.0156 → 0.0056 s⁻¹): the plastic √γ̇ term takes over at
   progressively lower shear rates as the background thickens.
-- **η_bg thickens on cooling** (0.54 → 2.17 Pa·s): the background viscosity itself is
+- **η_bg thickens on cooling** (0.66 → 2.17 Pa·s): the background viscosity itself is
   strongly temperature-dependent — which is exactly what you expect if it is the solvent.
 
 ## 🌡️ The Arrhenius test
@@ -77,22 +76,22 @@ it should follow the solvent's temperature law. Glycerol is famously Arrhenius-l
 
 $$\ln \eta = \ln A + \frac{E_a}{R\,T}$$
 
-Public glycerol data (Segur & Oberstar 1951: 1.412, 0.612, 0.284, 0.142 Pa·s at
-20/30/40/50 °C) give a textbook straight line with **E_a = 60.4 kJ/mol** (R² = 0.9998).
-The TC background viscosities fall on a clean line too — with **E_a = 36.9 kJ/mol**
-(R² = 0.957).
+Public glycerol data (Segur & Oberstar 1951: 1.412, 0.612, 0.284 Pa·s at
+20/30/40 °C) give a textbook straight line with **E_a = 61.2 kJ/mol** (R² = 1.0000).
+The TC background viscosities fall on a clean line too — with **E_a = 45.3 kJ/mol**
+(R² = 0.9900).
 
 ![Arrhenius plot: TC background viscosity vs literature glycerol viscosity](walkthrough/fig15_arrhenius_bg.png)
 
 Two things to read off this plot:
 
 1. **η_bg tracks the solvent, always above it.** The ratio η_bg/η_glycerol runs
-   1.54 (20 °C) → 1.73 → 2.33 → 3.79 (50 °C): the background is glycerin *plus* the
+   1.54 (20 °C) → 1.73 → 2.33 (40 °C): the background is glycerin *plus* the
    Carbopol microgel's own high-shear contribution.
-2. **The slope is weaker (36.9 vs 60.4 kJ/mol) — and that makes sense.** The microgel
+2. **The slope is weaker (45.3 vs 61.2 kJ/mol) — and that makes sense.** The microgel
    contribution is only weakly temperature-dependent, so it dilutes the solvent's steep
-   Arrhenius slope. At 20 °C the thick solvent dominates the background; at 50 °C the
-   solvent has thinned tenfold and the microgel carries a larger share — hence the
+   Arrhenius slope. At 20 °C the thick solvent dominates the background; at 40 °C the
+   solvent has thinned fivefold and the microgel carries a larger share — hence the
    growing ratio.
 
 This is the payoff of the three-component decomposition: a single number per
@@ -103,9 +102,9 @@ have it check out.
 
 - **TC beats HB 3–4× on RedChi² at every temperature** — when the continuous phase is
   viscous, the explicit η_bg term is not a luxury, it is the model.
-- **η_bg(T) is Arrhenius with E_a = 36.9 kJ/mol**, weaker than pure glycerol's
-  60.4 kJ/mol — the microgel's own high-shear contribution dilutes the solvent slope.
-- **η_bg/η_glycerol = 1.5 → 3.8 from 20 to 50 °C**: the solvent dominates the
+- **η_bg(T) is Arrhenius with E_a = 45.3 kJ/mol**, weaker than pure glycerol's
+  61.2 kJ/mol — the microgel's own high-shear contribution dilutes the solvent slope.
+- **η_bg/η_glycerol = 1.5 → 2.3 from 20 to 40 °C**: the solvent dominates the
   background when cold; the microgel matters relatively more when hot.
 - **HB's n ≈ 0.52 is T-independent** — the microstructure's shear-thinning signature —
   while its K and σ_y absorb everything else. TC separates the physics instead of
