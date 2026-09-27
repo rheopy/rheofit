@@ -25,11 +25,16 @@ jobs:
 
       - uses: astral-sh/setup-uv@v5
 
-      - name: Install marimo
-        run: pip install marimo
+      - name: Install marimo and Playwright
+        run: |
+          pip install "marimo>=0.25" playwright
+          python -m playwright install chromium --with-deps
 
-      - name: Export app to WebAssembly
-        run: marimo export html-wasm app/fit_app.py -o dist --mode run
+      - name: Export app to WebAssembly (offline bundle)
+        # --offline bundles the Python runtime and all dependency wheels
+        # (incl. rheofit) with the page: the app boots with no network
+        # access and never touches a package index at runtime.
+        run: marimo export html-wasm app/fit_app.py -o dist --mode run --offline
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

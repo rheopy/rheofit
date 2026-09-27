@@ -21,6 +21,9 @@ jobs:
           pip install -r docs/requirements.txt
           pip install -e .
 
+      - name: Install Chromium (offline WASM export)
+        run: python -m playwright install chromium --with-deps
+
       - name: Export interactive notebooks
         run: python docs/export_interactive.py
 

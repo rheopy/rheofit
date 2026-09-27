@@ -6,6 +6,14 @@ notebook sources under ``docs/interactive/`` are always what readers get.
 Generated HTML goes to ``docs/_static/interactive/<name>/`` (gitignored);
 static preview PNGs are committed next to the model pages.
 
+Each explorer is exported as an *offline* bundle (``--offline``): the Python
+runtime, Pyodide, and every dependency wheel ship with the page, so the
+explorers boot with no network access and never touch a package index at
+runtime. The identical runtime directories (``assets/``, ``pyodide/``,
+``packages/``, ``lockfile/``) are shared: the first explorer's copy is moved
+to ``docs/_static/interactive/_shared/`` and every ``index.html`` is
+rewritten to reference it relatively, so nine explorers cost one runtime.
+
 To add a model: write ``docs/interactive/<name>_explorer.py`` (marimo
 notebook, same layout as the others), add an entry to ``MODELS`` below,
 and add the iframe section to the model page.
@@ -103,6 +111,8 @@ MODELS = {
 
 def export_wasm(name: str, notebook: Path) -> None:
     # marimo's wasm export shells out to `uv`; make sure it's on PATH.
+    # `--offline` bundles the Python runtime and all dependency wheels with
+    # the page (needs a headless Chromium: `playwright install chromium`).
     bindir = Path(sys.prefix) / ("Scripts" if os.name == "nt" else "bin")
     os.environ["PATH"] = str(bindir) + os.pathsep + os.environ["PATH"]
     out = STATIC_OUT / name
@@ -110,10 +120,50 @@ def export_wasm(name: str, notebook: Path) -> None:
         shutil.rmtree(out)
     subprocess.run(
         [sys.executable, "-m", "marimo", "export", "html-wasm",
-         str(notebook), "-o", str(out), "--mode", "run"],
+         str(notebook), "-o", str(out), "--mode", "run", "--offline"],
         check=True,
     )
     print(f"exported {notebook.name} -> {out}")
+
+
+# Runtime directories every --offline export produces. Identical across
+# explorers (same marimo version, same dependency set), so they are shared.
+OFFLINE_RUNTIME_DIRS = ("assets", "pyodide", "packages", "lockfile")
+SHARED = STATIC_OUT / "_shared"
+
+
+def share_offline_runtime(names: list[str]) -> None:
+    """Share one offline runtime across all explorer exports.
+
+    Moves the first explorer's runtime directories into ``_shared/`` and
+    rewrites every explorer's ``index.html`` to reference them via relative
+    URLs, deleting the per-explorer copies. The model pages' iframes keep
+    working unchanged: ``<name>/index.html`` still exists, it just loads the
+    runtime from ``../_shared/``.
+    """
+    first = STATIC_OUT / names[0]
+    SHARED.mkdir(parents=True, exist_ok=True)
+    for dirname in OFFLINE_RUNTIME_DIRS:
+        src, dest = first / dirname, SHARED / dirname
+        if not src.is_dir():
+            raise RuntimeError(f"offline runtime missing from export: {src}")
+        if dest.exists():
+            shutil.rmtree(dest)
+        shutil.move(str(src), str(dest))
+    for name in names:
+        out = STATIC_OUT / name
+        html = out / "index.html"
+        text = html.read_text(encoding="utf-8")
+        for dirname in OFFLINE_RUNTIME_DIRS:
+            text = text.replace(f'"./{dirname}/', f'"../_shared/{dirname}/')
+        if '"./pyodide/' in text or '"./packages/' in text:
+            raise RuntimeError(f"unrewritten runtime URLs left in {html}")
+        html.write_text(text, encoding="utf-8")
+        for dirname in OFFLINE_RUNTIME_DIRS:
+            d = out / dirname
+            if d.is_dir():
+                shutil.rmtree(d)
+    print(f"shared offline runtime -> {SHARED}")
 
 
 def preview_png(spec: dict) -> None:
@@ -150,6 +200,7 @@ def main() -> None:
     for name, spec in MODELS.items():
         export_wasm(name, spec["notebook"])
         preview_png(spec)
+    share_offline_runtime(list(MODELS))
 
 
 if __name__ == "__main__":
