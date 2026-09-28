@@ -3,15 +3,15 @@
 [![Documentation Status](https://readthedocs.org/projects/rheofit/badge/?version=latest)](https://rheofit.readthedocs.io/en/latest/?badge=latest)
 
 **Turn flow curves into material physics.** `rheofit` fits viscosity–vs–shear-rate data to
-constitutive models whose parameters have a direct or intuitive *material properties connection* — yield stress, zero-shear viscosity,
-relaxation time, shear thinning index — and hands you quantified material properties that connect the fingerprint to the material. We start with the equilibrium flow curve of a material which is clearly not a complete fingerprint, there are many material properties we are still missing but we believe is a goo pragmatic way to start the efort.
+constitutive models whose parameters have often a direct or intuitive *material properties connection* — yield stress, zero-shear viscosity,
+relaxation time, shear thinning index — and hands you quantified material properties that connect the fingerprint to the material. We start with the equilibrium flow curve of a material which is clearly not a complete fingerprint, there are many material properties we are still missing but we believe is a good pragmatic way to start the efort.
 
 📖 **Documentation:** [rheofit.readthedocs.io](https://rheofit.readthedocs.io/) — install, quickstart, the Carbopol walkthrough, and the full API reference.
 
-## 🧪 The idea
+## 🧪 The assumptions
 
-We consider a equilibrium flow curve the fingerprint of a non-Newtonian fluid 🔍: shear thinning, yield stress,
-low-shear plateaus and relaxation times all show up as features of that single curve. Fitting it
+We consider an equilibrium flow curve the fingerprint of a non-Newtonian fluid 🔍: shear thinning, yield stress,
+low-shear plateaus and relaxation times all show up as features (or parameters) of that single curve. Fitting it
 with a rheologicla model does three things:
 
 - 🎯 **Quantifies material properties** — $\sigma_y$, $\eta_0$, $\lambda$, $n$ — the parameter of the model are typically linked to material properties
@@ -31,17 +31,17 @@ with a rheologicla model does three things:
 Data is read directly from TA Instruments **TRIOS** JSON 📥, but `fit()` accepts any DataFrame
 with shear-rate and stress columns.
 
-## 🎯 The problem we're solving
+## 🎯 The problem we're addressing 
 
-Measuring a flow curve is already a big step that involve the proper choice of instrument, geometries, protocols and data acquisition strategy. We assumet this hard work was succesfull and we try to solve the next challange: *interpreting*. The inverse problem of model parameter "fitting"— recovering
+Measuring a flow curve is already a big step that involves the proper choice of instrument, geometries, protocols and data acquisition strategy. We assume this hard work was succesfull and we try to solve the next challange: *interpreting* the data . The inverse problem of model parameter "fitting"— recovering
 constitutive parameters from $(\dot\gamma, \sigma)$ data — is ill-conditioned: parameters span
-many decades, the objective landscape is riddled with local minima, and a naive least-squares fit
+many decades, the objective landscape is riddled with local minima, and a too simplistic least-squares fit
 from a hand-picked guess will happily converge to a physically meaningless answer behind a
-pretty curve. `rheofit` exists to make the fit *trustworthy*: scale-free search,
+pretty curve. `rheofit` tries to make the fit *trustworthy*: scale-free search,
 physics-informed starting points, and self-diagnostics that tell you when a parameter isn't
-earned by the data.
+earned by the data. The iterative process to increase the quality of the fit is well defined but not always simple to implement especially if the user perform this type of analysis for the first time or sporadically. 
 
-## 🔬 The fitting engine
+## 🔬 The fitting process
 
 Every fit minimises the **relative** residual $(f(\dot\gamma;p)-\sigma)/|\sigma|$ 📏, so each
 decade of stress counts equally and `RedChi2` is dimensionless — comparable across steps,
@@ -157,14 +157,14 @@ rheofit/
 ## 🤖 Agent skill
 
 [.github/skills/flow-curve-analysis/SKILL.md](.github/skills/flow-curve-analysis/SKILL.md) is the
-agent-facing companion to this library: it documents the models, the fitting contract and a guided
+agent-facing companion to this library: it documents the models, the fitting process and a guided
 interview workflow (is the sample structured? which model? which steps?), and drives the same CLI.
 Use the library directly, or let the skill walk you through it — they are the same code. Keep the
 skill in sync when the library's models, flags or outputs change.
 
 ## 🗺️ Model map
 
-Models split into two families by whether the constitutive equation carries a yield stress
+Models split into two families for now, by whether the constitutive equation carries a yield stress
 $\sigma_y$. Arrows point from the simpler model to the model that reduces to it (the ladder used
 for parent seeding); dashed arrows are advisory seeds only, not exact reductions.
 
@@ -197,5 +197,5 @@ flowchart LR
     style Yield fill:#fff4e6,stroke:#c98a2e
 ```
 
-Prefer the simplest model that fits; climb the ladder only when the residuals show structure the
+As a rule, we prefer the simplest model that fits; climb the ladder only when the residuals show structure the
 simpler model missed.
