@@ -25,8 +25,13 @@ import rheodata, rheofit
 flow = rheodata.to_rheofit("caggioni_linear_polymer_flow", "linear_polymer")
 ```
 
-The amplitude and frequency sweeps from the same session appear in the Cox–Merz and
-Delaware–Rutgers comparisons below (their datasets are being added to rheodata).
+The amplitude and frequency sweeps from the same session are in rheodata too — they
+feed the Cox–Merz and Delaware–Rutgers comparisons below:
+
+```python
+amp = rheodata.load("caggioni_linear_polymer_amplitude_sweep")    # γ₀ = 0.1–1000 % @ ω = 1 rad/s
+freq = rheodata.load("caggioni_linear_polymer_frequency_sweep")   # ω = 0.1–100 rad/s @ γ₀ = 0.5 %
+```
 
 ````{only} builder_html
 ```mermaid
@@ -92,6 +97,21 @@ linear oscillations. No deep theory demanded it; the data did
 Plotting $|\eta^*(\omega)|$ from the frequency sweep directly onto $\eta(\dot{\gamma})$
 from the flow curve:
 
+```python
+import numpy as np
+
+f = freq.df
+w = f["omega_rad/s"].to_numpy()
+eta_star = np.hypot(f["Gp_Pa"], f["Gpp_Pa"]) / w        # |η*(ω)|
+
+gd = flow["Shear rate / 1/s"].to_numpy()
+eta = flow["Stress / Pa"].to_numpy() / gd              # η(γ̇)
+eta_ss = np.exp(np.interp(np.log(w), np.log(gd), np.log(eta)))
+
+log_rms = np.sqrt(np.mean((np.log(eta_star) - np.log(eta_ss))**2))
+print(f"Cox–Merz log-RMS: {log_rms*100:.1f} %")        # → 2.3 %
+```
+
 ![Cox–Merz superposition: complex viscosity from the frequency sweep overlaid on the steady-shear flow curve](walkthrough/fig8_cox_merz.png)
 
 The two curves coincide to within **2.3 %** (log-RMS) over three decades, 0.1–100 s⁻¹.
@@ -111,6 +131,20 @@ $$\eta(\dot{\gamma}) = \eta'(\gamma_0 \omega)\Big|_{\dot{\gamma}=\gamma_0\omega}
 
 Here the amplitude sweep ran at ω = 1 rad/s, so $\gamma_0\omega$ spans 0.001–10 s⁻¹ —
 right across the Carreau plateau and into the thinning regime:
+
+```python
+a = amp.df
+g0 = a["strain_pct"].to_numpy() / 100        # strain fraction
+eta_prime = a["Gpp_Pa"].to_numpy() / 1.0      # η' = G″/ω at ω = 1 rad/s
+gdot = g0 * 1.0                              # γ̇ = γ₀ω
+
+gd = flow["Shear rate / 1/s"].to_numpy()
+eta = flow["Stress / Pa"].to_numpy() / gd    # η(γ̇)
+overlap = gdot >= gd.min()                   # stay inside the flow curve's range
+eta_ss = np.exp(np.interp(np.log(gdot[overlap]), np.log(gd), np.log(eta)))
+log_rms = np.sqrt(np.mean((np.log(eta_prime[overlap]) - np.log(eta_ss))**2))
+print(f"Delaware–Rutgers log-RMS: {log_rms*100:.0f} %")  # → 9 %
+```
 
 ![Delaware–Rutgers superposition: dynamic viscosity from the amplitude sweep overlaid on the steady-shear flow curve](walkthrough/fig9_delaware_rutgers.png)
 
