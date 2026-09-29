@@ -41,8 +41,9 @@ code the experts maintain.
 
 A single flow sweep of **2% Carbopol Ultrez 21 dispersed in propylene glycol**
 (61 points, shear rates 10⁻³–10³ s⁻¹, 20 °C, concentric-cylinder geometry). The data
-ships with the repo: `rheofit/data/pgpol_2pc_ultrez21.xlsx` (original export) and
-`rheofit/data/pgpol_2pc_ultrez21.json` (TRIOS-shaped conversion used below).
+lives in the [`rheodata`](https://github.com/rheopy/rheodata) package as dataset
+`caggioni_pg_carbopol_2pct` (`pip install rheopy-rheodata`) — rheofit no longer bundles
+example data, it loads it from rheodata.
 
 Why this system? Carbopol is a jammed microgel — a soft-particle glass — and propylene
 glycol is a *viscous* continuous phase. That combination is exactly where the TC
@@ -56,7 +57,7 @@ gives each dissipation mechanism its own parameter.
 
 The user points at the data file. Behind the scenes, the harness:
 
-1. 📥 Locates the dataset (`rheofit/data/pgpol_2pc_ultrez21.xlsx`)
+1. 📥 Locates the dataset (`rheodata` → `caggioni_pg_carbopol_2pct`)
 2. ⚙️ Installs the pinned environment (`uv sync` — numpy, scipy, matplotlib, pandas, exact versions from `uv.lock`)
 3. 📘 Loads the skill — the agent now knows the models, the fitting contract, and the workflow
 
@@ -109,14 +110,15 @@ Once approved, the agent runs both fits — thorough effort, relative-weighted o
 (every decade of stress counts equally), Sobol multi-start with a fixed seed. The exact
 commands, reproducible anywhere:
 
-```bash
-python -m rheofit rheofit/data/pgpol_2pc_ultrez21.json --steps 0 --model tc \
-    --effort thorough --seed 0
-python -m rheofit rheofit/data/pgpol_2pc_ultrez21.json --steps 0 --model herschel_bulkley \
-    --effort thorough --seed 0
+```python
+import rheodata, rheofit
+
+flow = rheodata.to_rheofit("caggioni_pg_carbopol_2pct", "carbopol_2pct")
+res_tc = rheofit.fit(flow, "tc", effort="thorough", seed=0)
+res_hb = rheofit.fit(flow, "herschel_bulkley", effort="thorough", seed=0)
 ```
 
-Reproducibility isn't a hope, it's a flag: `--seed` makes any run exactly repeatable,
+Reproducibility isn't a hope, it's a flag: `seed=0` makes any run exactly repeatable,
 `uv.lock` pins the environment, and the skill, the CLI, and the Python API all call the
 same `rheofit` functions. *Skill and library are one thing* — the agent cannot drift from
 the documented behavior, because it *is* the documented behavior.

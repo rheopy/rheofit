@@ -7,18 +7,18 @@ temperature like they mean it.*
 
 ## 🧪 The dataset
 
-`aos_2_1.json` (attached to [issue #20](https://github.com/rheopy/rheofit/issues/20), archived here
-as `walkthrough/aos_2_1.json`) holds equilibrium flow curves of a mixed surfactant system:
-**wormlike micelles (WLM) plus a polymer solution**. Seven flow sweeps at
-**18, 20, 22, 24, 26, 28 °C — plus a repeat at 18 °C** — 41 points each from 0.01 to 100 1/s.
-The curves carry at least two distinct relaxation times, and that is exactly what makes them
-interesting.
+Dataset `caggioni_wlm_polymer_temp_series` in the [`rheodata`](https://github.com/rheopy/rheodata)
+package (`pip install rheopy-rheodata`) — attached to
+[issue #20](https://github.com/rheopy/rheofit/issues/20) — holds equilibrium flow curves of a
+mixed surfactant system: **wormlike micelles (WLM) plus a polymer solution**. Seven flow
+sweeps at **18, 20, 22, 24, 26, 28 °C — plus a repeat at 18 °C** — 41 points each from
+0.01 to 100 1/s. The curves carry at least two distinct relaxation times, and that is
+exactly what makes them interesting.
 
 ```python
-import rheofit
+import rheodata, rheofit
 
-rheofit.print_steps("walkthrough/aos_2_1.json")
-df18 = rheofit.load_step("walkthrough/aos_2_1.json", 0)  # 18 °C
+df18 = rheodata.to_rheofit("caggioni_wlm_polymer_temp_series", "T_18")  # 18 °C
 res = rheofit.fit(df18, "carreau_carreau", effort="thorough", seed=0)
 ```
 
@@ -112,5 +112,5 @@ an exponent of 0.61 that describes neither the micelles nor the polymer. The
 microstructure-informed sum fits the physics instead of averaging it, and its parameters
 repay the effort by moving with temperature the way real material parameters should.
 
-*Dataset: `walkthrough/aos_2_1.json` (via issue #20). Fits: `rheofit.fit(...,
+*Dataset: `rheodata:caggioni_wlm_polymer_temp_series` (via issue #20). Fits: `rheofit.fit(...,
 "carreau_carreau", effort="thorough", seed=0)` with rheofit 1.0.2.*

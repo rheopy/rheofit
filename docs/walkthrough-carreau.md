@@ -6,29 +6,32 @@ and with `rheofit` you can check, quantitatively, that they are.*
 
 ## 🧪 The dataset
 
-`a_remake_dhr2.json` (attached to [issue #25](https://github.com/rheopy/rheofit/issues/25), archived here
-as `walkthrough/a_remake_dhr2.json`) holds three equilibrium experiments on a **high molecular
-weight linear polymer in aqueous solution** at **25 °C**:
+The measurement session (attached to [issue #25](https://github.com/rheopy/rheofit/issues/25))
+ran three equilibrium experiments on a **high molecular weight linear polymer in aqueous
+solution** at **25 °C**:
 
-| # | Step | Range | Points |
+| # | Experiment | Range | Points |
 |---|------|-------|--------|
 | 0 | Amplitude sweep | strain 0.1 → 1000 % at ω = 1 rad/s | 41 |
 | 1 | Flow sweep | shear rate 1000 → 0.01 s⁻¹ | 51 |
 | 2 | Frequency sweep | ω = 100 → 0.1 rad/s at γ = 0.5 % | 31 |
 
-```python
-import rheofit
+The flow sweep lives in the [`rheodata`](https://github.com/rheopy/rheodata) package as
+dataset `caggioni_linear_polymer_flow` (`pip install rheopy-rheodata`):
 
-rheofit.print_steps("walkthrough/a_remake_dhr2.json")
-flow = rheofit.load_step("walkthrough/a_remake_dhr2.json", 1)  # flow curve
-amp  = rheofit.load_step("walkthrough/a_remake_dhr2.json", 0)  # amplitude sweep
-freq = rheofit.load_step("walkthrough/a_remake_dhr2.json", 2)  # frequency sweep
+```python
+import rheodata, rheofit
+
+flow = rheodata.to_rheofit("caggioni_linear_polymer_flow", "linear_polymer")
 ```
+
+The amplitude and frequency sweeps from the same session appear in the Cox–Merz and
+Delaware–Rutgers comparisons below (their datasets are being added to rheodata).
 
 ````{only} builder_html
 ```mermaid
 flowchart TD
-    A["a_remake_dhr2.json<br/>high-MW linear polymer, 25 °C"]
+    A["high-MW linear polymer, 25 °C<br/>flow curve via rheodata"]
     A --> B["Amplitude sweep<br/>γ₀ = 0.1–1000 % @ ω = 1 rad/s"]
     A --> C["Flow sweep<br/>γ̇ = 0.01–1000 s⁻¹"]
     A --> D["Frequency sweep<br/>ω = 0.1–100 rad/s @ γ = 0.5 %"]
