@@ -17,9 +17,9 @@ from urllib.error import HTTPError, URLError
 
 import pandas as pd
 
-DATA_DIR = Path(__file__).resolve().parent / "data"
-DEMO_JSON_FILE = DATA_DIR / "structured_shampoo.json"
-DEMO_SAMPLE_NAME = "Structured Shampoo (demo)"
+DEMO_DATASET_ID = "caggioni_pg_carbopol_2pct"
+DEMO_SAMPLE_ID = "carbopol_2pct"
+DEMO_SAMPLE_NAME = "Carbopol 2% in PG (demo)"
 
 COLUMN_RENAME = {
     # flow curve
@@ -109,10 +109,38 @@ def detect_test_type(df: pd.DataFrame, name: str | None = None) -> str:
 
 
 def demo_source() -> str:
-    """Bundled demo TRIOS JSON."""
-    if DEMO_JSON_FILE.is_file():
-        return str(DEMO_JSON_FILE)
-    raise FileNotFoundError(f"Demo file not found at {DEMO_JSON_FILE}")
+    """Demo TRIOS JSON, materialized from the rheodata package.
+
+    The example datasets moved to the ``rheodata`` package (``pip install
+    rheopy-rheodata``), which ships its data inside the wheel — so this still
+    needs no network. The Carbopol demo dataset is converted to a TRIOS-shaped
+    JSON cached in the system temp dir, keeping the CLI ``--demo`` flow working
+    on a plain file path.
+    """
+    import rheodata
+
+    cache = Path(tempfile.gettempdir()) / "rheofit_demo_pg_carbopol.json"
+    if not cache.is_file():
+        df = rheodata.to_rheofit(DEMO_DATASET_ID, DEMO_SAMPLE_ID)
+        rows = [
+            {
+                "Results Step Id": 1,
+                "Shear rate / 1/s": float(gr),
+                "Stress / Pa": float(s),
+                "Viscosity / Pa.s": float(s / gr),
+            }
+            for gr, s in zip(df["Shear rate / 1/s"], df["Stress / Pa"])
+        ]
+        doc = {
+            "Results": {
+                "Processed": {
+                    "ResultsSteps": [{"Id": 1, "Name": "Flow sweep - 1"}],
+                    "Rows": rows,
+                }
+            }
+        }
+        cache.write_text(json.dumps(doc))
+    return str(cache)
 
 
 def is_http_url(path_or_url: str) -> bool:

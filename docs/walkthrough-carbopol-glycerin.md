@@ -7,23 +7,23 @@ that reveals the microgel's own contribution.*
 
 ## 🧪 The dataset
 
-`cp05_gly_newsample.json` (attached to [issue #27](https://github.com/rheopy/rheofit/issues/27),
-archived here as `walkthrough/cp05_gly_newsample.json`) holds **three equilibrium flow
+Dataset `caggioni_carbopol_glycerin_temp` in the [`rheodata`](https://github.com/rheopy/rheodata)
+package (`pip install rheopy-rheodata`) — attached to
+[issue #27](https://github.com/rheopy/rheofit/issues/27) — holds **three equilibrium flow
 curves of Carbopol in glycerin at 20, 30 and 40 °C** — 51 points each, 0.001 to
 100 s⁻¹, measured on a Peltier plate with 200 s thermal soaks between steps.
 
 ```python
-import rheofit
+import rheodata, rheofit
 
-rheofit.print_steps("walkthrough/cp05_gly_newsample.json")
-dfs = {T: rheofit.load_step("walkthrough/cp05_gly_newsample.json", i)
-       for i, T in enumerate([40, 30, 20])}
+dfs = {T: rheodata.to_rheofit("caggioni_carbopol_glycerin_temp", f"T_{T}")
+       for T in [40, 30, 20]}
 ```
 
 ````{only} builder_html
 ```mermaid
 flowchart TD
-    A["cp05_gly_newsample.json<br/>Carbopol in glycerin<br/>flow curves at 20 / 30 / 40 °C"]
+    A["rheodata: caggioni_carbopol_glycerin_temp<br/>Carbopol in glycerin<br/>flow curves at 20 / 30 / 40 °C"]
     A --> B["Fit HB and TC<br/>at each temperature<br/>(thorough, seed 0)"]
     B --> C["Head-to-head:<br/>RedChi², parameters"]
     B --> D["Track TC parameters<br/>vs T"]

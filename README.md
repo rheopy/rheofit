@@ -109,7 +109,7 @@ a.outputs      # saved PNG / CSV / PPTX paths
 ```
 
 `analyze(..., output="none")` fits without writing files. Inputs may be a local path or an
-HTTP(S) URL. `rheofit.demo_source()` returns the bundled demo flow-curve file.
+HTTP(S) URL. `rheofit.demo_source()` materializes the demo dataset (from the `rheodata` package) as a TRIOS JSON in the system temp dir.
 
 It also **plots** oscillatory data 📊 — frequency and amplitude sweeps (visualization only, no
 models to fit yet): `rheofit.plot(df)` picks the right view from the step's test type, and reads

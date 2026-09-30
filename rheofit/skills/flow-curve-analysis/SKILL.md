@@ -87,7 +87,7 @@ import rheofit
 
 rheofit.list_models()                    # ['carreau', 'carreau_carreau', 'herschel_bulkley', ...]
 rheofit.model_info("tccc")               # equation, params, scorecard params, nested parent
-rheofit.demo_source()                    # path to the bundled demo TRIOS JSON
+rheofit.demo_source()                    # path to the demo TRIOS JSON (from rheodata)
 
 rheofit.print_steps("sample.json")       # step table incl. test type (Step 1 of the workflow below)
 rheofit.discover_steps("sample.json")    # same, as a list of dicts
@@ -131,36 +131,30 @@ When the skill is first introduced, offer an optional guided demo before asking 
 
 Before running anything, ask the user which data source they want to use:
 
-- [ ] **Use bundled demo file** (quick walkthrough, no network needed)
+- [ ] **Use demo dataset** (quick walkthrough, no network needed)
 - [ ] **Upload local JSON file**
 - [ ] **Provide JSON URL**
 
 If the host chat UI does not support clickable checkboxes/buttons, ask for a simple reply:
 `demo` / `upload` / `url`.
 
-The demo data ships with the library, as package data:
+The demo dataset comes from the [`rheodata`](https://github.com/rheopy/rheodata) package
+(a rheofit dependency, so it is always installed and needs no network):
 
-`rheofit/data/structured_shampoo.json` — a structured shampoo, flow curves at two temperatures
+`caggioni_pg_carbopol_2pct` — 2% Carbopol Ultrez 21 in propylene glycol, one equilibrium
+flow sweep (61 points, 10⁻³–10³ s⁻¹).
 
-A second bundled sample covers the oscillatory views:
-
-`rheofit/data/linear_polymer_HA_solution.json` — a hyaluronic-acid solution with an amplitude
-sweep (step 0), a flow sweep (step 1) and a frequency sweep (step 2). Use this one when the user
-wants to see frequency/amplitude plotting.
-
-Never resolve either path relative to the user's working directory — use `--demo` on the CLI or
-`rheofit.demo_source()` in Python, both of which locate the file inside the installed package.
-
-Online fallback, used only if the bundled file is missing:
-
-`https://pgone.sharepoint.com/:u:/s/i2iAcceleratedPrototypingScale/IQAW80L5GqglQIciUmYPko4CAU-CMKivBmKC78iY4VD0gdc`
+Never resolve the demo path relative to the user's working directory — use `--demo` on the CLI or
+`rheofit.demo_source()` in Python, which materializes the dataset as a TRIOS JSON in the
+system temp dir.
 
 Suggested prompt:
 
-> "If you want, I can run a quick end-to-end demo using the test TRIOS JSON bundled with this skill,
-> so you can see the workflow before we analyze your own sample. Shall I run that demo?"
+> "If you want, I can run a quick end-to-end demo using an example dataset from the
+> rheodata package, so you can see the workflow before we analyze your own sample.
+> Shall I run that demo?"
 
-If the user says yes, follow the normal approval flow with `--demo` as the input source and default output mode `png_csv`. Demo artifacts are written to `results/structured_shampoo/` under the current working directory, so the skill folder stays clean.
+If the user says yes, follow the normal approval flow with `--demo` as the input source and default output mode `png_csv`. Demo artifacts are written to `results/` under the current working directory, so the skill folder stays clean.
 
 ### Demo walkthrough script (recommended)
 
@@ -172,26 +166,23 @@ When running the online demo, explain the workflow step-by-step:
 4. Propose plan (steps, labels, model, effort, output mode) and wait for approval.
 5. Run fit and report results/warnings.
 
-The demo sample is `structured_shampoo` — a structured shampoo with Thixin. Its steps are
-`0` (Flow sweep - 1), `1` (Temperature ramp - 2, not fittable) and `2` (Flow sweep - 3).
-When asked whether the sample is expected to have a yield stress, the expected answer is:
+The demo sample is 2% Carbopol Ultrez 21 in propylene glycol — a jammed microgel, a
+soft-particle glass. Its single step is `0` (Flow sweep - 1). When asked whether the
+sample is expected to have a yield stress, the expected answer is:
 
-> **Yes** — this is a **structured shampoo** sample with **Thixin**
-> (hydrogenated castor oil fibers, internally developed as a structurant),
-> so the yield-stress family should be used.
+> **Yes** — this is a **Carbopol gel**, so the yield-stress family should be used.
 
-If the user accepts that framing, recommend `tccc` as the demo model and explain why:
+If the user accepts that framing, recommend `tc` vs `herschel_bulkley` head-to-head as the
+demo and explain why:
 
-- The shampoo base is well represented by a **Carreau–Carreau viscosity background**
-  (two fixed-exponent relaxation contributions: $n=0$ for the worm-like micelles of the
-  surfactant base, $n=1/2$ for polymer–surfactant interaction / branched WLM).
-- Thixin adds a **structured network with yield behavior**, captured by the `tc` term
-  ($\sigma_y + \sigma_y\sqrt{\dot\gamma/\dot\gamma_c}$).
-- `tccc` combines both physics in one model:
-  yield-stress structure + two-component shear-thinning background.
+- Carbopol is a jammed microgel in a *viscous* continuous phase (propylene glycol) —
+  exactly where the TC (three-component) model earns its keep over Herschel–Bulkley.
+- HB has no explicit viscous term, so its exponent drifts with the continuous-phase
+  viscosity; TC gives each dissipation mechanism its own parameter
+  ($\sigma_y$ + elastoplastic term + $\eta_{bg}$ viscous background).
 
-So for this demo, prefer `tccc` first; only step down the ladder if residuals/identifiability
-show the extra terms are not needed.
+So for this demo, fit both and compare — the documented result is TC winning ~6× on
+RedChi² (6.02e-04 vs 3.65e-03), every TC parameter tightly identified.
 
 When you present the demo plan (before asking for approval), include this workflow preview so the user can follow the steps while waiting for the fit:
 
@@ -682,8 +673,8 @@ uv run rheofit "sample.json" --steps 0 --model carreau --labels "25C"
 # Structured sample, three steps, Herschel-Bulkley
 uv run rheofit "sample.json" --steps 0 2 4 --model herschel_bulkley
 
-# Bundled demo sample (structured shampoo with Thixin), TCCC
-uv run rheofit --demo --steps 0 2 --model tccc --labels "Flow sweep 1" "Flow sweep 3"
+# Demo dataset (2% Carbopol in propylene glycol), TC
+uv run rheofit --demo --steps 0 --model tc
 ```
 
 Same runs from Python:
@@ -692,8 +683,7 @@ Same runs from Python:
 import rheofit
 
 rheofit.analyze("sample.json", steps=[0, 2], model="tc", labels=["25C", "40C"])
-rheofit.analyze(rheofit.demo_source(), steps=[0, 2], model="tccc",
-                labels=["Flow sweep 1", "Flow sweep 3"])
+rheofit.analyze(rheofit.demo_source(), steps=[0], model="tc")
 ```
 
 ---
@@ -804,7 +794,7 @@ rheofit/
                   load_step, load_steps, fit, analyze, demo_source,
                   plot, list_plots, plot_info, get_plot
   io.py           TRIOS JSON reading, column standardisation, test-type detection,
-                  URL download, demo data resolution
+                  URL download, rheodata-backed demo
   models/         one module per model + _fitcore.py (the shared fitting engine)
   visualization/  one module per measurement type + _plotcore.py (shared plot primitives)
   report.py       PNG scorecard, parameter summary, PPTX builder
