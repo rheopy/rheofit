@@ -29,7 +29,7 @@ once `RedChi2` is below `0.01`, and they cost identifiability.
 | `carreau_carreau` | $\sigma = \sum_{i=1,2} \eta_{0,i}\dot{\gamma}[1+(\lambda_i\dot{\gamma})^2]^{-1/4,-1/2}$ | [📖 guide](carreau_carreau) |
 
 ```{toctree}
-:maxdepth: 1
+:maxdepth: 2
 :hidden:
 :caption: 🧱 With yield stress
 
@@ -42,7 +42,7 @@ tccc
 ```
 
 ```{toctree}
-:maxdepth: 1
+:maxdepth: 2
 :hidden:
 :caption: 💧 No yield stress
 
