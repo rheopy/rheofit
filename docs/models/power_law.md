@@ -2,13 +2,50 @@
 
 # Fitting the power law model
 
-> 🧬 **The model itself lives in [rheomodel](https://rheomodel.readthedocs.io/en/latest/models/power_law.html).** Equations, parameters, history, applicability, and references are documented there. In code, `rheofit.models.power_law` is a thin adapter over `rheomodel` — same physics, same parameters. This page is about *fitting* it to your data.
+> 🧬 **The model itself lives in [rheomodel](https://rheomodel.readthedocs.io/en/latest/models/power_law.html).** Equations, parameters, history, applicability, and references are documented there. In code, `rheofit.models.power_law` is a thin adapter over `rheomodel` — same physics, same parameters. This page is about *fitting* it to data.
 
 The constitutive equation, for reference:
 
 $$
 \sigma = K\dot{\gamma}^n
 $$
+
+## Worked example
+
+Generate a flow curve from `rheomodel` with known parameters, add 2% noise, and fit it with `rheofit`:
+
+```python
+import numpy as np
+import pandas as pd
+from rheomodel import get_model
+import rheofit
+
+# 1. synthetic flow curve from rheomodel: known truth + 2% noise
+model = get_model("power_law")
+gamma_dot = np.logspace(-2, 2, 25)
+true = {"K": 10.0, "n": 0.4}
+rng = np.random.default_rng(0)
+stress = model.equation(gamma_dot, **true)
+stress = stress * (1 + 0.02 * rng.standard_normal(gamma_dot.size))
+
+# 2. fit it with rheofit
+df = pd.DataFrame({"Shear rate / 1/s": gamma_dot, "Stress / Pa": stress})
+res = rheofit.fit(df, "power_law", effort="fast", seed=0)
+
+for name, p in res["params"].items():
+    print(f"{name:12s} true={true[name]:8.3g}  fit={p['value']:8.3g} ± {p['stderr']:.2g}")
+print(f"RedChi2 = {res['redchi']:.2e}")
+```
+
+Output:
+
+```
+K            true=      10  fit=    9.98 ± 0.036
+n            true=     0.4  fit=     0.4 ± 0.0013
+RedChi2 = 3.23e-04
+```
+
+![power law — fit to synthetic data](power_law_fit_example.png)
 
 ## 🔬 Interactive explorer
 
@@ -29,15 +66,3 @@ $\eta = \sigma/\dot{\gamma}$.
 ($K$ = 10 Pa·sⁿ, $n$ = 0.6):*
 
 ![Power Law model explorer preview](power_law_explorer_preview.png)
-
----
-
-## Parameter Fitting Best Practices
-
-1. **Fit in log–log space:** $\log \sigma = \log K + n \log \dot{\gamma}$ is linear,
-   so ordinary least squares on logarithms gives $n$ (slope) and $K$ (intercept) —
-   and weights each decade of shear rate equally.
-2. **Check the residuals:** systematic curvature on log–log axes means the fluid has
-   a plateau the Power Law cannot follow — step up to [Carreau](carreau).
-3. **Low-shear cutoff:** exclude the yield-dominated or slip-corrupted low-rate tail
-   before fitting; it bends the log–log line and corrupts $n$.

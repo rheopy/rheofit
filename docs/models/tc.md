@@ -2,13 +2,51 @@
 
 # Fitting the TC (three-component) model
 
-> 🧬 **The model itself lives in [rheomodel](https://rheomodel.readthedocs.io/en/latest/models/tc.html).** Equations, parameters, history, applicability, and references are documented there. In code, `rheofit.models.tc` is a thin adapter over `rheomodel` — same physics, same parameters. This page is about *fitting* it to your data.
+> 🧬 **The model itself lives in [rheomodel](https://rheomodel.readthedocs.io/en/latest/models/tc.html).** Equations, parameters, history, applicability, and references are documented there. In code, `rheofit.models.tc` is a thin adapter over `rheomodel` — same physics, same parameters. This page is about *fitting* it to data.
 
 The constitutive equation, for reference:
 
 $$
 \sigma = \sigma_y + \sigma_y(\dot{\gamma}/\dot{\gamma}_c)^{1/2} + \eta_{bg}\dot{\gamma}
 $$
+
+## Worked example
+
+Generate a flow curve from `rheomodel` with known parameters, add 2% noise, and fit it with `rheofit`:
+
+```python
+import numpy as np
+import pandas as pd
+from rheomodel import get_model
+import rheofit
+
+# 1. synthetic flow curve from rheomodel: known truth + 2% noise
+model = get_model("tc")
+gamma_dot = np.logspace(-2, 3, 25)
+true = {"sigma_y": 10.0, "gamma_dot_c": 1.0, "eta_bg": 2.0}
+rng = np.random.default_rng(0)
+stress = model.equation(gamma_dot, **true)
+stress = stress * (1 + 0.02 * rng.standard_normal(gamma_dot.size))
+
+# 2. fit it with rheofit
+df = pd.DataFrame({"Shear rate / 1/s": gamma_dot, "Stress / Pa": stress})
+res = rheofit.fit(df, "tc", effort="fast", seed=0)
+
+for name, p in res["params"].items():
+    print(f"{name:12s} true={true[name]:8.3g}  fit={p['value']:8.3g} ± {p['stderr']:.2g}")
+print(f"RedChi2 = {res['redchi']:.2e}")
+```
+
+Output:
+
+```
+sigma_y      true=      10  fit=    10.2 ± 0.083
+gamma_dot_c  true=       1  fit=    1.13 ± 0.05
+eta_bg       true=       2  fit=    2.05 ± 0.02
+RedChi2 = 2.34e-04
+```
+
+![TC (three-component) — fit to synthetic data](tc_fit_example.png)
 
 ## 🔬 Interactive explorer
 
@@ -30,40 +68,3 @@ the apparent viscosity η = τ/γ̇.
 (τ₀ = 20 Pa, γ̇_c = 1.0 s⁻¹, η_bg = 0.5 Pa·s):*
 
 ![Three-Component model explorer preview](tc_explorer_preview.png)
-
----
-
-## Parameter Fitting Challenges and Objective Functions
-
-Non-linear optimization to extract $(\tau_0, \dot{\gamma}_c, \eta_{bg})$ requires careful selection of objective functions.
-
-### Objective Function Formulations
-
-#### 1. Absolute Residual Sum of Squares ($S_{abs}$)
-
-$$
-S_{abs} = \sum_{i=1}^{N} \left( \tau_{i, \text{meas}} - \left[ \tau_0 + \tau_0 \left(\frac{\dot{\gamma}_i}{\dot{\gamma}_c}\right)^{1/2} + \eta_{bg} \dot{\gamma}_i \right] \right)^2
-$$
-
-* **Drawback:** Disproportionately weights high shear rate stress values ($\tau > 100 \text{ Pa}$), leading to precise determination of $\eta_{bg}$ at the expense of severe errors in the yield stress intercept ($\tau_0$).
-
-#### 2. Relative Residual Sum of Squares ($S_{rel}$)
-
-$$
-S_{rel} = \sum_{i=1}^{N} \left( \frac{\tau_{i, \text{meas}} - \tau_{i, \text{pred}}}{\tau_{i, \text{meas}}} \right)^2 = \sum_{i=1}^{N} \left( 1 - \frac{\tau_0 + \tau_0 (\dot{\gamma}_i/\dot{\gamma}_c)^{1/2} + \eta_{bg} \dot{\gamma}_i}{\tau_i} \right)^2
-$$
-
-* **Advantage:** Gives equal relative weight to each decade of shear rate, enabling balanced, highly accurate extraction of all three parameters ($\tau_0, \dot{\gamma}_c, \eta_{bg}$).
-
----
-
-(tc-fitting)=
-
-## Recommended Fitting Best Practices
-
-1. **Independent Solvent Viscosity Anchor:** Measure the viscosity of the pure continuous phase ($\eta_{sol}$) independently. Use $\eta_{sol}$ as an initial seed value or lower bound constraint for $\eta_{bg}$ during non-linear regression.
-2. **Truncate Slip-Corrupted Low-Shear Data:** Inspect raw flow curves on logarithmic axes. Exclude points at low shear rates where wall slip causes artificial stress drops.
-3. **Multi-Stage Sequential Initialization:**
-   * Step A: Estimate $\tau_0$ from low-shear stress plateau data.
-   * Step B: Estimate $\eta_{bg}$ from the high-shear differential slope ($\text{d}\tau / \text{d}\dot{\gamma}$ at maximum $\dot{\gamma}$).
-   * Step C: Perform non-linear optimization (Levenberg–Marquardt or Nelder-Mead algorithm) using $S_{rel}$ to solve for all three parameters simultaneously.

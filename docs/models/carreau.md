@@ -2,13 +2,51 @@
 
 # Fitting the Carreau model
 
-> 🧬 **The model itself lives in [rheomodel](https://rheomodel.readthedocs.io/en/latest/models/carreau.html).** Equations, parameters, history, applicability, and references are documented there. In code, `rheofit.models.carreau` is a thin adapter over `rheomodel` — same physics, same parameters. This page is about *fitting* it to your data.
+> 🧬 **The model itself lives in [rheomodel](https://rheomodel.readthedocs.io/en/latest/models/carreau.html).** Equations, parameters, history, applicability, and references are documented there. In code, `rheofit.models.carreau` is a thin adapter over `rheomodel` — same physics, same parameters. This page is about *fitting* it to data.
 
 The constitutive equation, for reference:
 
 $$
 \sigma = \eta_0\dot{\gamma}[1+(\lambda\dot{\gamma})^2]^{(n-1)/2}
 $$
+
+## Worked example
+
+Generate a flow curve from `rheomodel` with known parameters, add 2% noise, and fit it with `rheofit`:
+
+```python
+import numpy as np
+import pandas as pd
+from rheomodel import get_model
+import rheofit
+
+# 1. synthetic flow curve from rheomodel: known truth + 2% noise
+model = get_model("carreau")
+gamma_dot = np.logspace(-3, 3, 25)
+true = {"eta_0": 50.0, "lambda_val": 2.0, "n": 0.4}
+rng = np.random.default_rng(0)
+stress = model.equation(gamma_dot, **true)
+stress = stress * (1 + 0.02 * rng.standard_normal(gamma_dot.size))
+
+# 2. fit it with rheofit
+df = pd.DataFrame({"Shear rate / 1/s": gamma_dot, "Stress / Pa": stress})
+res = rheofit.fit(df, "carreau", effort="fast", seed=0)
+
+for name, p in res["params"].items():
+    print(f"{name:12s} true={true[name]:8.3g}  fit={p['value']:8.3g} ± {p['stderr']:.2g}")
+print(f"RedChi2 = {res['redchi']:.2e}")
+```
+
+Output:
+
+```
+eta_0        true=      50  fit=    50.1 ± 0.24
+lambda_val   true=       2  fit=    2.11 ± 0.04
+n            true=     0.4  fit=   0.406 ± 0.002
+RedChi2 = 2.29e-04
+```
+
+![Carreau — fit to synthetic data](carreau_fit_example.png)
 
 ## 🔬 Interactive explorer
 
@@ -29,15 +67,3 @@ the bend between them. The blue axis shows the apparent viscosity $\eta = \sigma
 ($\eta_0$ = 100 Pa·s, $\lambda$ = 1.0 s, $n$ = 0.5):*
 
 ![Carreau model explorer preview](carreau_explorer_preview.png)
-
----
-
-## Parameter Fitting Best Practices
-
-1. **Anchor $\eta_0$ first:** the low-shear plateau is the most robust parameter —
-   read it off the data before optimizing, and bound it tightly.
-2. **$\lambda$ needs the bend:** if the data never reach $\dot{\gamma} \sim 1/\lambda$,
-   $\lambda$ is unidentifiable — fix or bound it rather than fit it blindly.
-3. **Step up, don't force:** systematic S-shaped residuals around a single bend mean a
-   second microstructure is present — try [Carreau-Carreau](carreau_carreau) rather
-   than torturing $n$.
