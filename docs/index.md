@@ -139,10 +139,10 @@ WebAssembly.
 
 ## 📥 Download
 
-Prefer to read offline? Every docs build produces **PDF** and **EPUB** versions of
-these pages, attached as `rheofit-pdf` and `rheofit-epub` artifacts on the
+Prefer to read offline? Every docs build produces a **PDF** version of
+these pages, attached as the `rheofit-pdf` artifact on the
 [latest docs CI run](https://github.com/rheopy/rheofit/actions/workflows/docs.yml) —
-open the most recent successful run and grab them from the Artifacts section at the
+open the most recent successful run and grab it from the Artifacts section at the
 bottom of the page.
 
 ```{toctree}
