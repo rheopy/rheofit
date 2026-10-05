@@ -151,5 +151,5 @@ $$\ln(\tau - \tau_0) = \ln K + n \ln \dot{\gamma}$$
 * **Herschel, W. H., & Bulkley, R.** (1926). Konsistenzmessungen von Gummi-Benzollösungen. *Kolloid-Zeitschrift*, 39(4), 291–300. [https://doi.org/10.1007/BF01432034](https://doi.org/10.1007/BF01432034)
 * **Macosko, C. W.** (1994). *Rheology: Principles, Measurements, and Applications*. Wiley-VCH.
 * **Magnon, E., & Cayeux, E.** (2021). Precise method to estimate the Herschel-Bulkley parameters from pipe rheometer measurements. *Fluids*, 6(4), 157. [https://doi.org/10.3390/fluids6040157](https://doi.org/10.3390/fluids6040157)
-* **Mullineux, G.** (2008). Linearization method for fitting the Herschel–Bulkley model. *Applied Mathematical Modelling*, 32(12), 2538–2547. [https://doi.org/10.1016/j.apm.2007.09.009](https://doi.org/10.1016/j.apm.2007.09.009)
-* **Papanastasiou, T. C.** (1987). Flows of materials with yield stress. *Journal of Rheology*, 31(5), 385–404. [https://doi.org/10.1122/1.549926](https://doi.org/10.1122/1.549926)
+* **Mullineux, G.** (2008). Non-linear least squares fitting of coefficients in the Herschel–Bulkley model. *Applied Mathematical Modelling*, 32(12), 2538–2551. [https://doi.org/10.1016/j.apm.2007.09.010](https://doi.org/10.1016/j.apm.2007.09.010)
+* **Papanastasiou, T. C.** (1987). Flows of Materials with Yield. *Journal of Rheology*, 31(5), 385–404. [https://doi.org/10.1122/1.549926](https://doi.org/10.1122/1.549926)
