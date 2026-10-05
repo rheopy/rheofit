@@ -256,7 +256,7 @@ $$
 
 * **Bocquet, L., Colin, A., & Ajdari, A.** (2009). Kinetic theory of plastic flow in soft glassy materials. *Physical Review Letters*, 103(3), 036001. [https://doi.org/10.1103/PhysRevLett.103.036001](https://doi.org/10.1103/PhysRevLett.103.036001)
 
-* **Caggioni, M., Trappe, V., & Spicer, P. T.** (2020). Variations of the Herschel-Bulkley exponent reflecting contributions of the viscous continuous phase to the shear rate-dependent stress of soft glassy materials. *Journal of Rheology*, 64(2), 413–422. [https://doi.org/10.1122/1.5120633](https://doi.org/10.1122/1.5120633)
+* **Caggioni, M., Trappe, V., & Spicer, P. T.** (2020). Variations of the Herschel-Bulkley exponent reflecting contributions of the viscous continuous phase to the shear rate-dependent stress of soft glassy materials. *Journal of Rheology*, 64(2), 413–422. [https://doi.org/10.1122/1.5127805](https://doi.org/10.1122/1.5127805)
 
 * **Casson, N.** (1959). A flow equation for pigment-oil suspensions of the printing ink type. In C. Mill (Ed.), *Rheology of Disperse Systems* (pp. 84–104). Pergamon Press.
 
