@@ -124,6 +124,6 @@ viscoelastic transients.
 
 ## Verified Literature References
 
-* **Caggioni, M., et al.** (2020). On the elastoplastic transition in soft solids: Unifying the rheology of soft glassy materials. *Journal of Rheology*, 64(3). [https://doi.org/10.1122/8.0000011](https://doi.org/10.1122/8.0000011)
+* **Caggioni, M., Trappe, V., & Spicer, P. T.** (2020). Variations of the Herschel-Bulkley exponent reflecting contributions of the viscous continuous phase to the shear rate-dependent stress of soft glassy materials. *Journal of Rheology*, 64(2), 413–422. [https://doi.org/10.1122/1.5120633](https://doi.org/10.1122/1.5120633)
 
 * **Carreau, P. J.** (1972). Rheological equations from molecular network theories. *Transactions of the Society of Rheology*, 16(1), 99–127. [https://doi.org/10.1122/1.549276](https://doi.org/10.1122/1.549276)
