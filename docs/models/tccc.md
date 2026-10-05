@@ -41,5 +41,3 @@ $\eta_{0,2}$ = 7 Pa·s, $\lambda_2$ = 20 s):*
    viscosity curve at $\dot{\gamma} \sim 1/\lambda_i$; bound them apart.
 3. **Kill degenerate modes:** if a Carreau term's relative uncertainty exceeds ~50%,
    drop it and step back down the ladder — parsimony wins.
-
----

@@ -40,5 +40,3 @@ The blue axis shows the apparent viscosity $\eta = \sigma/\dot{\gamma}$.
    measured shear-rate range, or $\lambda$ floats.
 3. **Climb the ladder deliberately:** if the extra term's uncertainty exceeds its
    value, the data only support [TC](tc) — step back down.
-
----

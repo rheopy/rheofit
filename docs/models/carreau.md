@@ -41,5 +41,3 @@ the bend between them. The blue axis shows the apparent viscosity $\eta = \sigma
 3. **Step up, don't force:** systematic S-shaped residuals around a single bend mean a
    second microstructure is present — try [Carreau-Carreau](carreau_carreau) rather
    than torturing $n$.
-
----

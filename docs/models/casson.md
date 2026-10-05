@@ -72,5 +72,3 @@ $$
 2. **Perform Non-Linear Regression on Raw Stress Data:** Refine parameters using Non-Linear Least Squares (NLLS) optimization applied directly to the un-transformed stress equation ($\tau = \tau_0 + 2\sqrt{\tau_0 \eta_{bg} \dot{\gamma}} + \eta_{bg} \dot{\gamma}$) using a relative objective function ($S_{rel}$).
 3. **Filter Wall Slip Artifacts:** Inspect low-shear rate data on logarithmic axes. Exclude non-homogeneous slip-corrupted points prior to optimization.
 4. **Model Comparison Step:** If Casson fits exhibit systematic residual deviations across intermediate shear rates, unconstrain the intermediate parameter by upgrading to the **Three-Component (TC) model**.
-
----

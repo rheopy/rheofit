@@ -66,5 +66,3 @@ $$S_{log} = \sum_{i=1}^{N} \left( \ln \tau_{i, \text{measured}} - \ln(\tau_0 + K
 2. **Hybrid / Sequential Determination:** Measure $\tau_0$ independently using static yield stress methods (such as vane geometry, stress growth tests, or low-shear creep tests). Fix $\tau_0$ as a constant, and then solve for $K$ and $n$ using a simple 2-parameter linear regression in log-space:
 
 $$\ln(\tau - \tau_0) = \ln K + n \ln \dot{\gamma}$$
-
----

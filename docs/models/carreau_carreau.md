@@ -40,5 +40,3 @@ bends. The blue axis shows the apparent viscosity $\eta = \sigma/\dot{\gamma}$.
    optimizer from swapping the components mid-fit.
 3. **Read the bends:** initial guesses for $\lambda_i$ come straight off the viscosity
    curve — each bend sits near $\dot{\gamma} \sim 1/\lambda_i$.
-
----

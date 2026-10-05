@@ -41,5 +41,3 @@ $\eta = \sigma/\dot{\gamma}$.
    a plateau the Power Law cannot follow — step up to [Carreau](carreau).
 3. **Low-shear cutoff:** exclude the yield-dominated or slip-corrupted low-rate tail
    before fitting; it bends the log–log line and corrupts $n$.
-
----
