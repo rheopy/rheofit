@@ -795,7 +795,8 @@ rheofit/
                   plot, list_plots, plot_info, get_plot
   io.py           TRIOS JSON reading, column standardisation, test-type detection,
                   URL download, rheodata-backed demo
-  models/         one module per model + _fitcore.py (the shared fitting engine)
+  models/         one thin adapter per model + _fitcore.py (the shared fitting engine);
+                  equations, parameters, bounds and citations come from rheomodel
   visualization/  one module per measurement type + _plotcore.py (shared plot primitives)
   report.py       PNG scorecard, parameter summary, PPTX builder
   analysis.py     analyze() — load → fit → summarise → save artifacts (flow curves only)
@@ -837,21 +838,26 @@ See the **Fitting Contract** at the top of this file — that section is the aut
 
 ## Adding a New Model
 
-All fitting logic lives in `rheofit/models/_fitcore.py`. A model module supplies only its physics:
+Model physics (equation, parameters, bounds, citations, nesting) lives in
+**rheomodel** — add the model there first. The rheofit side is a thin adapter
+in `rheofit/models/<name>.py` that re-exports the physics and supplies only the
+fitting hooks:
 
 ```python
-MODEL_NAME, PARAMS, SCORECARD_PARAMS
-LOG_PARAMS   # names fitted in log10 space
-BOUNDS       # name -> (lo, hi) in physical units; lo > 0 for log params
-PARENT       # simpler nested model name, or None
-PARENT_EXACT # True only if the parent is an exact reduction
-_func(x, *params)
+from rheomodel import get_model as _get_model
+_model = _get_model("<name>")
+MODEL_NAME, PARAMS, SCORECARD_PARAMS, LOG_PARAMS, BOUNDS = ...
+PARENT, PARENT_EXACT, CITATION, PARAM_INFO = ...
+equation = _func = _model.equation
+get_equation_latex = _model.get_equation_latex
+
 initial_guess(x, y, eta) -> dict
 seed_from_parent(parent_values, x, y, eta) -> dict   # if PARENT
 fit_model(df, effort, seed) -> robust_fit(sys.modules[__name__], ...)
 ```
 
-Register it in `rheofit/models/__init__.py`. Relative weighting, log-space search, multi-start, ladder seeding, polish, and error propagation are inherited automatically — never reimplement them in a model file. A newly registered model appears immediately in `rheofit.list_models()`, in `--model` on the CLI, and in this skill — but **add it to the model tables above in the same change**, otherwise the skill stops describing the library accurately.
+All fitting logic lives in `rheofit/models/_fitcore.py`. Register the adapter in
+`rheofit/models/__init__.py`. Relative weighting, log-space search, multi-start, ladder seeding, polish, and error propagation are inherited automatically — never reimplement them in a model file. A newly registered model appears immediately in `rheofit.list_models()`, in `--model` on the CLI, and in this skill — but **add it to the model tables above in the same change**, otherwise the skill stops describing the library accurately.
 
 ## Adding a New Measurement Type
 

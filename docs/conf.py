@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.abspath(".."))
 project = "rheofit"
 copyright = "2026, rheopy"
 author = "rheopy"
-release = "0.1.0"
+release = "1.1.0"
 
 extensions = [
     "myst_parser",

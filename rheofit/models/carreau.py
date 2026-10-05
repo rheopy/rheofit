@@ -4,30 +4,29 @@ Carreau — single shear-thinning component
 """
 import numpy as np
 
+from rheomodel import get_model as _get_model
+
 from ._fitcore import (DEFAULT_EFFORT, est_eta_0, est_lambda, est_power_law,
                        robust_fit)
+_model = _get_model("carreau")
 
-MODEL_NAME = "carreau"
-PARAMS = ["eta_0", "lambda_val", "n"]
-SCORECARD_PARAMS = ["eta_0"]
+# --- model physics (equations, parameters, bounds, citations): rheomodel ---
+MODEL_NAME = _model.MODEL_NAME
+PARAMS = _model.PARAMS
+SCORECARD_PARAMS = _model.SCORECARD_PARAMS
+LOG_PARAMS = _model.LOG_PARAMS
+BOUNDS = _model.BOUNDS
+PARENT = _model.PARENT
+PARENT_EXACT = getattr(_model, "PARENT_EXACT", False)
+CITATION = _model.CITATION
+PARAM_INFO = _model.PARAM_INFO
 
-LOG_PARAMS = ("eta_0", "lambda_val")
-BOUNDS = {
-    "eta_0": (1e-12, np.inf),
-    "lambda_val": (1e-12, np.inf),
-    "n": (0.01, 1.0),
-}
-PARENT = None
-
-
-def _func(x, eta_0, lambda_val, n):
-    return eta_0 * x * (1.0 + (lambda_val * x) ** 2) ** ((n - 1.0) / 2.0)
-
-
-def get_equation_latex() -> str:
-    return "σ = η₀·γ̇·[1+(λ·γ̇)²]^((n-1)/2)"
+equation = _model.equation
+_func = equation  # the name _fitcore calls
+get_equation_latex = _model.get_equation_latex
 
 
+# --- fitting machinery (stays in rheofit) ---
 def initial_guess(x, y, eta) -> dict:
     # the high-rate power-law slope of stress is the Carreau exponent n
     _, n_hi = est_power_law(x, y)

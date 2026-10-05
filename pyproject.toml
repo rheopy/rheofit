@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "rheofit"
-version = "1.0.2"
+version = "1.1.0"
 description = "Fit flow curves (viscosity vs shear rate) to physically-based rheological models and quantify material properties."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -25,6 +25,7 @@ dependencies = [
     "matplotlib>=3.6,<4",
     "openpyxl>=3.1.5",
     "rheopy-rheodata>=0.1",
+    "rheopy-rheomodel>=0.1",
 ]
 
 [project.urls]

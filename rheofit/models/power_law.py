@@ -2,7 +2,8 @@
 Power Law — simple shear-thinning, no yield stress
   σ = K·γ̇ⁿ
 """
-import numpy as np
+
+from rheomodel import get_model as _get_model
 
 from ._fitcore import DEFAULT_EFFORT, est_power_law, robust_fit
 
@@ -11,21 +12,25 @@ PARAMS = ["K", "n"]
 SCORECARD_PARAMS = ["K", "n"]
 
 LOG_PARAMS = ("K",)
-BOUNDS = {
-    "K": (1e-12, np.inf),
-    "n": (0.01, 2.0),
-}
-PARENT = None
+_model = _get_model("power_law")
+
+# --- model physics (equations, parameters, bounds, citations): rheomodel ---
+MODEL_NAME = _model.MODEL_NAME
+PARAMS = _model.PARAMS
+SCORECARD_PARAMS = _model.SCORECARD_PARAMS
+LOG_PARAMS = _model.LOG_PARAMS
+BOUNDS = _model.BOUNDS
+PARENT = _model.PARENT
+PARENT_EXACT = getattr(_model, "PARENT_EXACT", False)
+CITATION = _model.CITATION
+PARAM_INFO = _model.PARAM_INFO
+
+equation = _model.equation
+_func = equation  # the name _fitcore calls
+get_equation_latex = _model.get_equation_latex
 
 
-def _func(x, K, n):
-    return K * x ** n
-
-
-def get_equation_latex() -> str:
-    return "σ = K·γ̇ⁿ"
-
-
+# --- fitting machinery (stays in rheofit) ---
 def initial_guess(x, y, eta) -> dict:
     K, n = est_power_law(x, y)
     return {"K": K, "n": n}

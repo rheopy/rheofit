@@ -2,32 +2,30 @@
 TC — Two-Component (yield stress + Newtonian background)
   σ = σ_y + σ_y·(γ̇/γ̇_c)^½ + η_bg·γ̇
 """
-import numpy as np
+
+from rheomodel import get_model as _get_model
 
 from ._fitcore import (DEFAULT_EFFORT, est_eta_bg, est_gamma_dot_c,
                        est_sigma_y, robust_fit)
+_model = _get_model("tc")
 
-MODEL_NAME = "tc"
-PARAMS = ["sigma_y", "gamma_dot_c", "eta_bg"]
-SCORECARD_PARAMS = ["sigma_y", "eta_bg"]
+# --- model physics (equations, parameters, bounds, citations): rheomodel ---
+MODEL_NAME = _model.MODEL_NAME
+PARAMS = _model.PARAMS
+SCORECARD_PARAMS = _model.SCORECARD_PARAMS
+LOG_PARAMS = _model.LOG_PARAMS
+BOUNDS = _model.BOUNDS
+PARENT = _model.PARENT
+PARENT_EXACT = getattr(_model, "PARENT_EXACT", False)
+CITATION = _model.CITATION
+PARAM_INFO = _model.PARAM_INFO
 
-LOG_PARAMS = ("sigma_y", "gamma_dot_c", "eta_bg")
-BOUNDS = {
-    "sigma_y": (1e-12, np.inf),
-    "gamma_dot_c": (1e-6, np.inf),
-    "eta_bg": (1e-12, np.inf),
-}
-PARENT = None
-
-
-def _func(x, sigma_y, gamma_dot_c, eta_bg):
-    return sigma_y + sigma_y * np.sqrt(x / gamma_dot_c) + eta_bg * x
-
-
-def get_equation_latex() -> str:
-    return "σ = σ_y + σ_y·(γ̇/γ̇_c)^½ + η_bg·γ̇"
+equation = _model.equation
+_func = equation  # the name _fitcore calls
+get_equation_latex = _model.get_equation_latex
 
 
+# --- fitting machinery (stays in rheofit) ---
 def initial_guess(x, y, eta) -> dict:
     return {
         "sigma_y": est_sigma_y(x, y),

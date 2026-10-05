@@ -147,7 +147,8 @@ is worse than a slightly poorer fit with parameters that map onto the formula.
 ```
 rheofit/
   io.py            TRIOS JSON reading, URL download, demo data
-  models/          one module per model + _fitcore.py (shared fitting engine)
+  models/          one thin adapter per model + _fitcore.py (shared fitting engine)
+                 (equations, parameters, bounds, citations come from rheomodel)
   visualization/   flow-curve, frequency-sweep and amplitude-sweep plots
   report.py        plots, PNG scorecard, parameter summary, PPTX
   analysis.py      analyze()

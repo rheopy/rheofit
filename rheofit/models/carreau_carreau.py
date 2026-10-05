@@ -2,7 +2,8 @@
 Carreau-Carreau — two shear-thinning components, no yield stress
   σ = η₀,₁·γ̇·[1+(λ₁·γ̇)²]^(-¼) + η₀,₂·γ̇·[1+(λ₂·γ̇)²]^(-½)
 """
-import numpy as np
+
+from rheomodel import get_model as _get_model
 
 from ._fitcore import DEFAULT_EFFORT, est_eta_0, est_lambda, robust_fit
 
@@ -11,27 +12,25 @@ PARAMS = ["eta_0_1", "lambda_val_1", "eta_0_2", "lambda_val_2"]
 SCORECARD_PARAMS = ["eta_0_1", "eta_0_2"]
 
 LOG_PARAMS = ("eta_0_1", "lambda_val_1", "eta_0_2", "lambda_val_2")
-BOUNDS = {
-    "eta_0_1": (1e-12, np.inf),
-    "lambda_val_1": (1e-12, np.inf),
-    "eta_0_2": (1e-12, np.inf),
-    "lambda_val_2": (1e-12, np.inf),
-}
-# advisory seed only: the fixed exponents mean this is not an exact reduction
-PARENT = "carreau"
-PARENT_EXACT = False
+_model = _get_model("carreau_carreau")
+
+# --- model physics (equations, parameters, bounds, citations): rheomodel ---
+MODEL_NAME = _model.MODEL_NAME
+PARAMS = _model.PARAMS
+SCORECARD_PARAMS = _model.SCORECARD_PARAMS
+LOG_PARAMS = _model.LOG_PARAMS
+BOUNDS = _model.BOUNDS
+PARENT = _model.PARENT
+PARENT_EXACT = getattr(_model, "PARENT_EXACT", False)
+CITATION = _model.CITATION
+PARAM_INFO = _model.PARAM_INFO
+
+equation = _model.equation
+_func = equation  # the name _fitcore calls
+get_equation_latex = _model.get_equation_latex
 
 
-def _func(x, eta_0_1, lambda_val_1, eta_0_2, lambda_val_2):
-    c1 = eta_0_1 * x * (1.0 + (lambda_val_1 * x) ** 2) ** (-0.25)
-    c2 = eta_0_2 * x * (1.0 + (lambda_val_2 * x) ** 2) ** (-0.5)
-    return c1 + c2
-
-
-def get_equation_latex() -> str:
-    return r"$\sigma = \eta_{0,1} \dot{\gamma} \left[1+(\lambda_1 \dot{\gamma})^2\right]^{-1/4} + \eta_{0,2} \dot{\gamma} \left[1+(\lambda_2 \dot{\gamma})^2\right]^{-1/2}$"
-
-
+# --- fitting machinery (stays in rheofit) ---
 def initial_guess(x, y, eta) -> dict:
     eta_0 = est_eta_0(x, eta)
     lam = est_lambda(x, eta)

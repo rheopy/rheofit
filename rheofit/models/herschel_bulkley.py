@@ -4,6 +4,8 @@ Herschel-Bulkley — yield stress + power-law flow
 """
 import numpy as np
 
+from rheomodel import get_model as _get_model
+
 from ._fitcore import DEFAULT_EFFORT, est_power_law, est_sigma_y, robust_fit
 
 MODEL_NAME = "herschel_bulkley"
@@ -11,24 +13,25 @@ PARAMS = ["sigma_y", "K", "n"]
 SCORECARD_PARAMS = ["sigma_y", "K", "n"]
 
 LOG_PARAMS = ("sigma_y", "K")
-BOUNDS = {
-    "sigma_y": (1e-12, np.inf),
-    "K": (1e-12, np.inf),
-    "n": (0.01, 2.0),
-}
-# exact reduction: n -> 1 recovers Bingham
-PARENT = "bingham"
-PARENT_EXACT = True
+_model = _get_model("herschel_bulkley")
+
+# --- model physics (equations, parameters, bounds, citations): rheomodel ---
+MODEL_NAME = _model.MODEL_NAME
+PARAMS = _model.PARAMS
+SCORECARD_PARAMS = _model.SCORECARD_PARAMS
+LOG_PARAMS = _model.LOG_PARAMS
+BOUNDS = _model.BOUNDS
+PARENT = _model.PARENT
+PARENT_EXACT = getattr(_model, "PARENT_EXACT", False)
+CITATION = _model.CITATION
+PARAM_INFO = _model.PARAM_INFO
+
+equation = _model.equation
+_func = equation  # the name _fitcore calls
+get_equation_latex = _model.get_equation_latex
 
 
-def _func(x, sigma_y, K, n):
-    return sigma_y + K * x ** n
-
-
-def get_equation_latex() -> str:
-    return "σ = σ_y + K·γ̇ⁿ"
-
-
+# --- fitting machinery (stays in rheofit) ---
 def initial_guess(x, y, eta) -> dict:
     sigma_y = est_sigma_y(x, y)
     # strip the plateau before reading the power-law slope

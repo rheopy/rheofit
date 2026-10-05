@@ -29,7 +29,7 @@ from .cli import install_skill
 from .models import MODELS
 from .visualization import PLOTS, get_plot, list_plots, plot, plot_info
 
-__version__ = "1.0.2"
+__version__ = "1.1.0"
 
 __all__ = [
     "Analysis",

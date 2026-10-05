@@ -4,41 +4,30 @@ TCCC — Three-Component Carreau-Carreau
 
 Fit backend: scipy.optimize.least_squares (no lmfit, no tadatakit).
 """
-import numpy as np
+
+from rheomodel import get_model as _get_model
 
 from ._fitcore import (DEFAULT_EFFORT, est_eta_0, est_gamma_dot_c, est_lambda,
                        est_sigma_y, robust_fit)
+_model = _get_model("tccc")
 
-MODEL_NAME = "tccc"
-PARAMS = ["sigma_y", "gamma_dot_c", "eta_0_1", "lambda_val_1", "eta_0_2", "lambda_val_2"]
-SCORECARD_PARAMS = ["sigma_y", "eta_0_1", "eta_0_2"]
+# --- model physics (equations, parameters, bounds, citations): rheomodel ---
+MODEL_NAME = _model.MODEL_NAME
+PARAMS = _model.PARAMS
+SCORECARD_PARAMS = _model.SCORECARD_PARAMS
+LOG_PARAMS = _model.LOG_PARAMS
+BOUNDS = _model.BOUNDS
+PARENT = _model.PARENT
+PARENT_EXACT = getattr(_model, "PARENT_EXACT", False)
+CITATION = _model.CITATION
+PARAM_INFO = _model.PARAM_INFO
 
-LOG_PARAMS = ("sigma_y", "gamma_dot_c", "eta_0_1", "lambda_val_1",
-              "eta_0_2", "lambda_val_2")
-BOUNDS = {
-    "sigma_y": (1e-12, np.inf),
-    "gamma_dot_c": (1e-6, np.inf),
-    "eta_0_1": (1e-12, np.inf),
-    "lambda_val_1": (1e-12, np.inf),
-    "eta_0_2": (1e-12, np.inf),
-    "lambda_val_2": (1e-12, np.inf),
-}
-# exact reduction: eta_0_1 -> 0 recovers TC-Carreau
-PARENT = "tc_carreau"
-PARENT_EXACT = True
+equation = _model.equation
+_func = equation  # the name _fitcore calls
+get_equation_latex = _model.get_equation_latex
 
 
-def _func(x, sigma_y, gamma_dot_c, eta_0_1, lambda_val_1, eta_0_2, lambda_val_2):
-    tc = sigma_y + sigma_y * np.sqrt(x / gamma_dot_c)
-    c1 = eta_0_1 * x * (1.0 + (lambda_val_1 * x) ** 2) ** (-0.25)
-    c2 = eta_0_2 * x * (1.0 + (lambda_val_2 * x) ** 2) ** (-0.5)
-    return tc + c1 + c2
-
-
-def get_equation_latex() -> str:
-    return "σ = σ_y + σ_y·(γ̇/γ̇_c)^½ + η₀,₁·γ̇·[1+(λ₁·γ̇)²]^(-¼) + η₀,₂·γ̇·[1+(λ₂·γ̇)²]^(-½)"
-
-
+# --- fitting machinery (stays in rheofit) ---
 def initial_guess(x, y, eta) -> dict:
     eta_0 = est_eta_0(x, eta)
     lam = est_lambda(x, eta)

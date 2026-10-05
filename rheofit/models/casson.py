@@ -4,6 +4,8 @@ Casson — yield stress + square-root plastic flow
 """
 import numpy as np
 
+from rheomodel import get_model as _get_model
+
 from ._fitcore import DEFAULT_EFFORT, est_sigma_y, robust_fit
 
 MODEL_NAME = "casson"
@@ -11,21 +13,25 @@ PARAMS = ["sigma_y", "K"]
 SCORECARD_PARAMS = ["sigma_y", "K"]
 
 LOG_PARAMS = ("sigma_y", "K")
-BOUNDS = {
-    "sigma_y": (1e-12, np.inf),
-    "K": (1e-12, np.inf),
-}
-PARENT = None
+_model = _get_model("casson")
+
+# --- model physics (equations, parameters, bounds, citations): rheomodel ---
+MODEL_NAME = _model.MODEL_NAME
+PARAMS = _model.PARAMS
+SCORECARD_PARAMS = _model.SCORECARD_PARAMS
+LOG_PARAMS = _model.LOG_PARAMS
+BOUNDS = _model.BOUNDS
+PARENT = _model.PARENT
+PARENT_EXACT = getattr(_model, "PARENT_EXACT", False)
+CITATION = _model.CITATION
+PARAM_INFO = _model.PARAM_INFO
+
+equation = _model.equation
+_func = equation  # the name _fitcore calls
+get_equation_latex = _model.get_equation_latex
 
 
-def _func(x, sigma_y, K):
-    return (np.sqrt(sigma_y) + np.sqrt(K * x)) ** 2
-
-
-def get_equation_latex() -> str:
-    return "σ = (\\sqrt{\\sigma_y} + \\sqrt{K\\cdot\\dot\\gamma})^2"
-
-
+# --- fitting machinery (stays in rheofit) ---
 def initial_guess(x, y, eta) -> dict:
     sigma_y = est_sigma_y(x, y)
     sqrt_y = np.sqrt(np.maximum(y, 1e-12))
