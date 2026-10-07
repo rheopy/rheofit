@@ -340,11 +340,20 @@ def _(df, hi_in, lo_in, mo, mod, np, sci):
 
 
 @app.cell
-def _(mod, np, plt, sel_df, ui):
+def _(mo, mod, np, plt, sci, sel_df, ui):
     _x = sel_df["Shear rate / 1/s"].to_numpy()
     _xf = np.logspace(np.log10(_x.min()), np.log10(_x.max()), 200)
     _pv = {_p: 10.0 ** ui[_p].value for _p in mod.PARAMS}
     _yc = mod._func(_xf, **_pv)
+
+    # Physical values, live: the sliders move in log10, but what matters
+    # is the actual parameter value — initialized from the model's
+    # physics-informed initial_guess, updating as you drag.
+    _pv_txt = " · ".join(
+        f"{sci.PARAM_INFO.get(_p, {}).get('symbol', _p)} = {_pv[_p]:.3g}"
+        f" {sci.PARAM_INFO.get(_p, {}).get('unit', '')}".strip()
+        for _p in mod.PARAMS
+    )
 
     _fig_prev, _ax1 = plt.subplots(figsize=(7, 4.5))
     _ax1.loglog(
@@ -362,7 +371,12 @@ def _(mod, np, plt, sel_df, ui):
     _ax2.set_ylabel("viscosity η (Pa·s)", color="blue")
     _ax2.tick_params(axis="y", labelcolor="blue")
     _fig_prev.tight_layout()
-    _fig_prev
+    mo.vstack(
+        [
+            mo.md(f"**Preview values** (from the model's initial guess): {_pv_txt}"),
+            _fig_prev,
+        ]
+    )
     return
 
 
