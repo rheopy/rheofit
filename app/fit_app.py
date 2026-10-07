@@ -4,6 +4,7 @@
 #     "marimo",
 #     "rheofit>=1.0.1",
 #     "rheopy-rheodata",
+#     "rheopy-rheomodel",
 #     "numpy",
 #     "pandas",
 #     "matplotlib",
@@ -40,9 +41,10 @@ def _():
     import tempfile
     import rheofit.io
     import rheodata
+    import rheomodel
     from rheofit.models import MODELS
 
-    return MODELS, io, json, mo, np, os, pd, plt, rheodata, rheofit, tempfile
+    return MODELS, io, json, mo, np, os, pd, plt, rheodata, rheofit, rheomodel, tempfile
 
 
 @app.cell
@@ -221,15 +223,40 @@ def _(data_label, df, mo, plt):
 
 
 @app.cell
-def _(MODELS, mo, model_sel):
+def _(MODELS, mo, model_sel, pd, rheomodel):
     # Display labels are lowercase and human-readable; the dropdown *values*
     # are the exact rheofit model keys, so they always stay compatible with
     # the library (the dict is built from MODELS itself, no hardcoded list).
+    # The science info (symbols, units, descriptions, citation) comes from
+    # rheomodel — the canonical source of the equations.
 
     effort_sel = mo.ui.radio(
         ["fast", "normal", "thorough"], value="fast", label="Fit effort"
     )
     mod = MODELS[model_sel.value]
+    sci = rheomodel.get_model(model_sel.value)
+
+    _prows = []
+    for _p in sci.PARAMS:
+        _pi = sci.PARAM_INFO.get(_p, {})
+        _prows.append(
+            {
+                "symbol": _pi.get("symbol", _p),
+                "name": _p,
+                "unit": _pi.get("unit", "—"),
+                "meaning": _pi.get("description", ""),
+            }
+        )
+
+    _c = sci.CITATION or {}
+    _cite = (
+        f"{_c.get('authors', '')} ({_c.get('year', '')}). "
+        f"{_c.get('title', '')}. _{_c.get('journal', '')}"
+        f"{', ' + _c['volume'] if _c.get('volume') else ''}"
+        f"{', ' + _c['pages'] if _c.get('pages') else ''}_."
+        + (f" [doi:{_c['doi']}](https://doi.org/{_c['doi']})" if _c.get("doi") else "")
+    )
+
     mo.vstack(
         [
             mo.md("## ⚙️ Model"),
@@ -239,10 +266,12 @@ def _(MODELS, mo, model_sel):
                 "_Tip: `fast` is plenty in the browser; `thorough` can take a while._"
             ),
             mo.md(f"### {model_sel.value}"),
-            mo.md(f"`{mod.get_equation_latex()}`"),
+            mo.md(f"`{sci.get_equation_latex()}`"),
+            mo.ui.table(pd.DataFrame(_prows), label="Parameters"),
+            mo.md(f"_Reference: {_cite}_"),
         ]
     )
-    return effort_sel, mod
+    return effort_sel, mod, sci
 
 
 @app.cell
@@ -275,7 +304,7 @@ def _(df, mo):
 
 
 @app.cell
-def _(df, hi_in, lo_in, mo, mod, np):
+def _(df, hi_in, lo_in, mo, mod, np, sci):
 
 
     _sel = (df["Shear rate / 1/s"] >= lo_in.value) & (
@@ -291,12 +320,13 @@ def _(df, hi_in, lo_in, mo, mod, np):
     _sliders = {}
     for _p in mod.PARAMS:
         _g = max(float(_guess[_p]), 1e-12)
+        _sym = sci.PARAM_INFO.get(_p, {}).get("symbol", _p)
         _sliders[_p] = mo.ui.slider(
             np.log10(_g) - 3,
             np.log10(_g) + 3,
             step=0.05,
             value=np.log10(_g),
-            label=f"{_p} (log₁₀)",
+            label=f"{_sym} ({_p}) [log₁₀]",
         )
     ui = mo.ui.dictionary(_sliders)
     mo.vstack(
@@ -361,7 +391,7 @@ def _(effort_sel, mo, mod, model_sel, run_btn, sel_df):
 
 
 @app.cell
-def _(mo, model_sel, pd, plt, res):
+def _(mo, model_sel, pd, plt, res, sci):
     _rx = res["x"]
     _yd, _yf = res["y_data"], res["y_fit"]
 
@@ -394,9 +424,11 @@ def _(mo, model_sel, pd, plt, res):
     for _p, _d in res["params"].items():
         _v, _e = _d["value"], _d["stderr"]
         _rel = f"{100 * _e / _v:.1f} %" if _v else "—"
+        _sym = sci.PARAM_INFO.get(_p, {}).get("symbol", _p)
+        _unit = sci.PARAM_INFO.get(_p, {}).get("unit", "—")
         _rows.append(
-            {"parameter": _p, "value": f"{_v:.4g}",
-             "± stderr": f"{_e:.2g}", "rel. err": _rel}
+            {"parameter": f"{_sym} ({_p})", "value": f"{_v:.4g}",
+             "unit": _unit, "± stderr": f"{_e:.2g}", "rel. err": _rel}
         )
     _ptab = mo.ui.table(pd.DataFrame(_rows), label="Fitted parameters")
 
