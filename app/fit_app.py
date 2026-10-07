@@ -80,10 +80,10 @@ def _(mo, rheodata):
 
 @app.cell
 def _(ds_pick, mo, source_sel, upload):
-    if source_sel.value == "rheodata dataset":
-        mo.vstack([mo.md("## 📁 Data"), source_sel, ds_pick])
-    else:
-        mo.vstack([mo.md("## 📁 Data"), source_sel, upload])
+    # One unnested display expression at the end: marimo only renders the
+    # cell's last expression when it is not nested inside a branch.
+    _picker = ds_pick if source_sel.value == "rheodata dataset" else upload
+    mo.vstack([mo.md("## 📁 Data"), source_sel, _picker])
     return
 
 
@@ -91,6 +91,7 @@ def _(ds_pick, mo, source_sel, upload):
 def _(ds_pick, io, mo, os, pd, rheodata, rheofit, source_sel, tempfile, upload):
     content, ext, tmp = None, None, None
     step_pick, sample_pick = None, None
+    _items = []
 
     if source_sel.value == "Upload a file" and upload.value:
         _f = upload.value[0]
@@ -108,7 +109,7 @@ def _(ds_pick, io, mo, os, pd, rheodata, rheofit, source_sel, tempfile, upload):
             _sheets = pd.ExcelFile(io.BytesIO(content)).sheet_names
             step_pick = mo.ui.dropdown(_sheets, label="Worksheet")
 
-        mo.vstack([mo.md("## 📑 Step"), step_pick])
+        _items = [mo.md("## 📑 Step"), step_pick]
     elif source_sel.value == "rheodata dataset" and ds_pick.value:
         _ds = rheodata.load(ds_pick.value)
         _sopts = {f"{_s['label']} [{_s['id']}]": _s["id"] for _s in _ds.meta["samples"]}
@@ -120,13 +121,14 @@ def _(ds_pick, io, mo, os, pd, rheodata, rheofit, source_sel, tempfile, upload):
             if pd.notna(_row["doi"])
             else ""
         )
-        mo.vstack(
-            [
-                mo.md("## 📑 Sample"),
-                sample_pick,
-                mo.md(f"_{_row['title']} · {_row['material_name']}{_doi}_"),
-            ]
-        )
+        _items = [
+            mo.md("## 📑 Sample"),
+            sample_pick,
+            mo.md(f"_{_row['title']} · {_row['material_name']}{_doi}_"),
+        ]
+
+    # Single unnested display expression (see note in the cell above).
+    mo.vstack(_items)
     return content, ext, sample_pick, step_pick, tmp
 
 
