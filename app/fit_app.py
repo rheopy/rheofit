@@ -3,6 +3,8 @@
 # dependencies = [
 #     "marimo",
 #     "rheofit>=1.0.1",
+#     "rheopy-rheodata",
+#     "rheopy-rheomodel",
 #     "numpy",
 #     "pandas",
 #     "matplotlib",
@@ -12,8 +14,9 @@
 # ///
 """rheofit flow-curve fitting app.
 
-Upload a flow curve (TRIOS JSON or Excel), pick a model, preview the curve
-with sliders, then fit — all in the browser via WebAssembly.
+Pick a flow curve — either upload your own (TRIOS JSON or Excel) or choose
+one from the rheodata library — pick a model, preview the curve with sliders,
+then fit — all in the browser via WebAssembly.
 """
 
 import marimo
@@ -37,9 +40,11 @@ def _():
     import os
     import tempfile
     import rheofit.io
+    import rheodata
+    import rheomodel
     from rheofit.models import MODELS
 
-    return MODELS, io, json, mo, np, os, pd, plt, rheofit, tempfile
+    return MODELS, io, json, mo, np, os, pd, plt, rheodata, rheofit, rheomodel, tempfile
 
 
 @app.cell
@@ -48,43 +53,81 @@ def _(mo):
     # 🧪 rheofit — flow curve fitting
 
     Fit a measured flow curve with any rheofit model, right in your browser —
-    no install, no server. **1.** Upload a file · **2.** pick the step ·
-    **3.** pick a model and preview it with the sliders · **4.** hit **Fit**.
+    no install, no server. **1.** Pick your data — upload a file or choose a
+    rheodata dataset · **2.** pick the step/sample · **3.** pick a model and
+    preview it with the sliders · **4.** hit **Fit**.
     """)
     return
 
 
 @app.cell
-def _(mo):
+def _(mo, rheodata):
+    source_sel = mo.ui.radio(
+        ["Upload a file", "rheodata dataset"],
+        value="Upload a file",
+        label="Data source",
+    )
     upload = mo.ui.file(
         filetypes=[".json", ".xls", ".xlsx"],
         label="Flow curve file (TRIOS JSON or Excel)",
     )
-    mo.vstack([mo.md("## 📁 Data"), upload])
-    return (upload,)
+    _fc = rheodata.list()
+    _fc = _fc[_fc["experiment_type"] == "flow_curve"].sort_values("id")
+    _dopts = {f"{_r.title} [{_r.id}]": _r.id for _r in _fc.itertuples()}
+    ds_pick = mo.ui.dropdown(_dopts, label="Flow-curve dataset")
+    return ds_pick, source_sel, upload
 
 
 @app.cell
-def _(io, mo, os, pd, rheofit, tempfile, upload):
-    mo.stop(not upload.value, mo.md("👆 Upload a flow curve file to begin."))
-
-    _f = upload.value[0]
-    content = _f.contents
-    ext = os.path.splitext(_f.name)[1].lower()
-    tmp = tempfile.NamedTemporaryFile(suffix=ext, delete=False)
-    tmp.write(content)
-    tmp.close()
-
-    if ext == ".json":
-        _steps = rheofit.io.discover_steps(tmp.name)
-        _options = {f"{_s['name']} — {_s['n_rows']} pts": _i for _i, _s in enumerate(_steps)}
-        step_pick = mo.ui.dropdown(_options, label="Measurement step")
+def _(ds_pick, mo, source_sel, upload):
+    if source_sel.value == "rheodata dataset":
+        mo.vstack([mo.md("## 📁 Data"), source_sel, ds_pick])
     else:
-        _sheets = pd.ExcelFile(io.BytesIO(content)).sheet_names
-        step_pick = mo.ui.dropdown(_sheets, label="Worksheet")
+        mo.vstack([mo.md("## 📁 Data"), source_sel, upload])
+    return
 
-    mo.vstack([mo.md("## 📑 Step"), step_pick])
-    return content, ext, step_pick, tmp
+
+@app.cell
+def _(ds_pick, io, mo, os, pd, rheodata, rheofit, source_sel, tempfile, upload):
+    content, ext, tmp = None, None, None
+    step_pick, sample_pick = None, None
+
+    if source_sel.value == "Upload a file" and upload.value:
+        _f = upload.value[0]
+        content = _f.contents
+        ext = os.path.splitext(_f.name)[1].lower()
+        tmp = tempfile.NamedTemporaryFile(suffix=ext, delete=False)
+        tmp.write(content)
+        tmp.close()
+
+        if ext == ".json":
+            _steps = rheofit.io.discover_steps(tmp.name)
+            _options = {f"{_s['name']} — {_s['n_rows']} pts": _i for _i, _s in enumerate(_steps)}
+            step_pick = mo.ui.dropdown(_options, label="Measurement step")
+        else:
+            _sheets = pd.ExcelFile(io.BytesIO(content)).sheet_names
+            step_pick = mo.ui.dropdown(_sheets, label="Worksheet")
+
+        mo.vstack([mo.md("## 📑 Step"), step_pick])
+    elif source_sel.value == "rheodata dataset" and ds_pick.value:
+        _ds = rheodata.load(ds_pick.value)
+        _sopts = {f"{_s['label']} [{_s['id']}]": _s["id"] for _s in _ds.meta["samples"]}
+        sample_pick = mo.ui.dropdown(_sopts, label="Sample")
+        _row = rheodata.list()
+        _row = _row[_row["id"] == ds_pick.value].iloc[0]
+        _doi = (
+            f" · [doi:{_row['doi']}](https://doi.org/{_row['doi']})"
+            if pd.notna(_row["doi"])
+            else ""
+        )
+        mo.vstack(
+            [
+                mo.md("## 📑 Sample"),
+                sample_pick,
+                mo.md(f"_{_row['title']} · {_row['material_name']}{_doi}_"),
+            ]
+        )
+    return content, ext, sample_pick, step_pick, tmp
 
 
 @app.cell
@@ -117,29 +160,46 @@ def _(io, pd):
 
 
 @app.cell
-def _(content, ext, mo, parse_excel_sheet, rheofit, step_pick, tmp):
-    mo.stop(step_pick.value is None, mo.md("👆 Pick a measurement step."))
-
-    if ext == ".json":
-        df = rheofit.io.load_step(tmp.name, step_pick.value)
-        df = df[["Shear rate / 1/s", "Stress / Pa"]].dropna()
+def _(content, ds_pick, ext, mo, parse_excel_sheet, rheodata, rheofit,
+      sample_pick, source_sel, step_pick, tmp, upload):
+    if source_sel.value == "rheodata dataset":
+        mo.stop(ds_pick.value is None, mo.md("👆 Pick a rheodata dataset to begin."))
+        mo.stop(
+            sample_pick is None or sample_pick.value is None,
+            mo.md("👆 Pick a sample."),
+        )
+        df = rheodata.to_rheofit(ds_pick.value, sample_pick.value)
         df = df[(df["Shear rate / 1/s"] > 0) & (df["Stress / Pa"] > 0)]
         df = df.reset_index(drop=True)
+        data_label = f"rheodata:{ds_pick.value} · sample {sample_pick.value}"
     else:
-        try:
-            df = parse_excel_sheet(content, step_pick.value)
-        except ValueError:
-            mo.stop(
-                True,
-                mo.md("⚠️ Could not find shear-rate / stress columns in this sheet — pick another one."),
-            )
+        mo.stop(not upload.value, mo.md("👆 Upload a flow curve file to begin."))
+        mo.stop(
+            step_pick is None or step_pick.value is None,
+            mo.md("👆 Pick a measurement step."),
+        )
+        data_label = f"upload:{upload.value[0].name}"
 
-    mo.stop(len(df) < 5, mo.md("⚠️ Fewer than 5 valid points — check the file."))
-    return (df,)
+        if ext == ".json":
+            df = rheofit.io.load_step(tmp.name, step_pick.value)
+            df = df[["Shear rate / 1/s", "Stress / Pa"]].dropna()
+            df = df[(df["Shear rate / 1/s"] > 0) & (df["Stress / Pa"] > 0)]
+            df = df.reset_index(drop=True)
+        else:
+            try:
+                df = parse_excel_sheet(content, step_pick.value)
+            except ValueError:
+                mo.stop(
+                    True,
+                    mo.md("⚠️ Could not find shear-rate / stress columns in this sheet — pick another one."),
+                )
+
+    mo.stop(len(df) < 5, mo.md("⚠️ Fewer than 5 valid points — check the data."))
+    return data_label, df
 
 
 @app.cell
-def _(df, mo, plt):
+def _(data_label, df, mo, plt):
     _fig_data, _ax = plt.subplots(figsize=(6, 4))
     _x = df["Shear rate / 1/s"].to_numpy()
     _y = df["Stress / Pa"].to_numpy()
@@ -147,7 +207,7 @@ def _(df, mo, plt):
     _ax.loglog(_x, _y / _x, "o", color="blue", mfc="none", markersize=4, label="viscosity")
     _ax.set_xlabel("shear rate γ̇ (s⁻¹)")
     _ax.set_ylabel("stress σ (Pa) · viscosity η (Pa·s)")
-    _ax.set_title(f"Uploaded data — {len(df)} points")
+    _ax.set_title(f"{data_label} — {len(df)} points")
     _ax.grid(True, which="both", alpha=0.3)
     _ax.legend(fontsize=8)
     _fig_data.tight_layout()
@@ -163,15 +223,40 @@ def _(df, mo, plt):
 
 
 @app.cell
-def _(MODELS, mo, model_sel):
+def _(MODELS, mo, model_sel, pd, rheomodel):
     # Display labels are lowercase and human-readable; the dropdown *values*
     # are the exact rheofit model keys, so they always stay compatible with
     # the library (the dict is built from MODELS itself, no hardcoded list).
+    # The science info (symbols, units, descriptions, citation) comes from
+    # rheomodel — the canonical source of the equations.
 
     effort_sel = mo.ui.radio(
         ["fast", "normal", "thorough"], value="fast", label="Fit effort"
     )
     mod = MODELS[model_sel.value]
+    sci = rheomodel.get_model(model_sel.value)
+
+    _prows = []
+    for _p in sci.PARAMS:
+        _pi = sci.PARAM_INFO.get(_p, {})
+        _prows.append(
+            {
+                "symbol": _pi.get("symbol", _p),
+                "name": _p,
+                "unit": _pi.get("unit", "—"),
+                "meaning": _pi.get("description", ""),
+            }
+        )
+
+    _c = sci.CITATION or {}
+    _cite = (
+        f"{_c.get('authors', '')} ({_c.get('year', '')}). "
+        f"{_c.get('title', '')}. _{_c.get('journal', '')}"
+        f"{', ' + _c['volume'] if _c.get('volume') else ''}"
+        f"{', ' + _c['pages'] if _c.get('pages') else ''}_."
+        + (f" [doi:{_c['doi']}](https://doi.org/{_c['doi']})" if _c.get("doi") else "")
+    )
+
     mo.vstack(
         [
             mo.md("## ⚙️ Model"),
@@ -181,10 +266,12 @@ def _(MODELS, mo, model_sel):
                 "_Tip: `fast` is plenty in the browser; `thorough` can take a while._"
             ),
             mo.md(f"### {model_sel.value}"),
-            mo.md(f"`{mod.get_equation_latex()}`"),
+            mo.md(f"`{sci.get_equation_latex()}`"),
+            mo.ui.table(pd.DataFrame(_prows), label="Parameters"),
+            mo.md(f"_Reference: {_cite}_"),
         ]
     )
-    return effort_sel, mod
+    return effort_sel, mod, sci
 
 
 @app.cell
@@ -217,7 +304,7 @@ def _(df, mo):
 
 
 @app.cell
-def _(df, hi_in, lo_in, mo, mod, np):
+def _(df, hi_in, lo_in, mo, mod, np, sci):
 
 
     _sel = (df["Shear rate / 1/s"] >= lo_in.value) & (
@@ -233,12 +320,13 @@ def _(df, hi_in, lo_in, mo, mod, np):
     _sliders = {}
     for _p in mod.PARAMS:
         _g = max(float(_guess[_p]), 1e-12)
+        _sym = sci.PARAM_INFO.get(_p, {}).get("symbol", _p)
         _sliders[_p] = mo.ui.slider(
             np.log10(_g) - 3,
             np.log10(_g) + 3,
             step=0.05,
             value=np.log10(_g),
-            label=f"{_p} (log₁₀)",
+            label=f"{_sym} ({_p}) [log₁₀]",
         )
     ui = mo.ui.dictionary(_sliders)
     mo.vstack(
@@ -252,11 +340,20 @@ def _(df, hi_in, lo_in, mo, mod, np):
 
 
 @app.cell
-def _(mod, np, plt, sel_df, ui):
+def _(mo, mod, np, plt, sci, sel_df, ui):
     _x = sel_df["Shear rate / 1/s"].to_numpy()
     _xf = np.logspace(np.log10(_x.min()), np.log10(_x.max()), 200)
     _pv = {_p: 10.0 ** ui[_p].value for _p in mod.PARAMS}
     _yc = mod._func(_xf, **_pv)
+
+    # Physical values, live: the sliders move in log10, but what matters
+    # is the actual parameter value — initialized from the model's
+    # physics-informed initial_guess, updating as you drag.
+    _pv_txt = " · ".join(
+        f"{sci.PARAM_INFO.get(_p, {}).get('symbol', _p)} = {_pv[_p]:.3g}"
+        f" {sci.PARAM_INFO.get(_p, {}).get('unit', '')}".strip()
+        for _p in mod.PARAMS
+    )
 
     _fig_prev, _ax1 = plt.subplots(figsize=(7, 4.5))
     _ax1.loglog(
@@ -274,7 +371,12 @@ def _(mod, np, plt, sel_df, ui):
     _ax2.set_ylabel("viscosity η (Pa·s)", color="blue")
     _ax2.tick_params(axis="y", labelcolor="blue")
     _fig_prev.tight_layout()
-    _fig_prev
+    mo.vstack(
+        [
+            mo.md(f"**Preview values** (from the model's initial guess): {_pv_txt}"),
+            _fig_prev,
+        ]
+    )
     return
 
 
@@ -303,7 +405,7 @@ def _(effort_sel, mo, mod, model_sel, run_btn, sel_df):
 
 
 @app.cell
-def _(mo, model_sel, pd, plt, res):
+def _(mo, model_sel, pd, plt, res, sci):
     _rx = res["x"]
     _yd, _yf = res["y_data"], res["y_fit"]
 
@@ -336,9 +438,11 @@ def _(mo, model_sel, pd, plt, res):
     for _p, _d in res["params"].items():
         _v, _e = _d["value"], _d["stderr"]
         _rel = f"{100 * _e / _v:.1f} %" if _v else "—"
+        _sym = sci.PARAM_INFO.get(_p, {}).get("symbol", _p)
+        _unit = sci.PARAM_INFO.get(_p, {}).get("unit", "—")
         _rows.append(
-            {"parameter": _p, "value": f"{_v:.4g}",
-             "± stderr": f"{_e:.2g}", "rel. err": _rel}
+            {"parameter": f"{_sym} ({_p})", "value": f"{_v:.4g}",
+             "unit": _unit, "± stderr": f"{_e:.2g}", "rel. err": _rel}
         )
     _ptab = mo.ui.table(pd.DataFrame(_rows), label="Fitted parameters")
 
