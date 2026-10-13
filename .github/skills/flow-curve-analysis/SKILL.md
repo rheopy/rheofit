@@ -24,7 +24,7 @@ the skill draws the curves and reads model-free landmarks (LVR limit, G'/G'' cro
 
 **Default deliverables:** a scorecard PNG + a compact CSV summary.
 
-**Optional deliverable (on request):** PowerPoint (`.pptx`) via `--output pptx`.
+**Optional deliverable (on request):** PowerPoint (`.pptx`) via `output="pptx"`.
 
 **Dependencies:** `numpy`, `scipy`, `matplotlib`, `pandas`, `python-pptx` (optional) — no `tadatakit`, no `lmfit`.
 
@@ -60,15 +60,20 @@ This file is simultaneously the agent workflow *and* the user-facing documentati
 
 The user can drive the exact same code in three interchangeable ways:
 
-| Route          | Command / call                                          | Best for                          |
-| -------------- | ------------------------------------------------------- | --------------------------------- |
-| Python API     | `import rheofit` → `rheofit.analyze(...)`               | notebooks, scripts, custom plots  |
-| CLI            | `uv run rheofit <args>`                                 | one-shot runs from a terminal     |
-| Skill (agent)  | this file — the agent runs the CLI on the user's behalf | guided analysis, model selection  |
+| Route                 | Form                                                          | Role                                                   |
+| --------------------- | ------------------------------------------------------------- | ------------------------------------------------------ |
+| Python API (primary)  | `import rheofit` → `rheofit.analyze(...)` / `rheofit.fit(...)` | **agent execution** — returns result objects as values |
+| CLI                   | `uv run rheofit <args>`                                       | the quotable plan line; one-shot human terminal use    |
+| Skill (agent)         | this file — the agent runs the Python API on the user's behalf | guided analysis, model selection                      |
+
+The skill executes via the Python API so the agent holds fit results as **values** — parameters,
+RedChi², warning notes — that it can compare across models, loop over, and branch on
+programmatically. The CLI command is still shown in every proposed plan: it is the human-readable,
+quotable record of what will run, and it stays the route for one-shot terminal use.
 
 Because the skill only calls the library, the two can never drift: change the physics or the
-reporting in `rheofit/`, and every route changes with it. If you change the library's CLI
-flags, model list or output modes, **update this file in the same edit**.
+reporting in `rheofit/`, and every route changes with it. If you change the library's API,
+model list or output modes, **update this file in the same edit**.
 
 The repo is uv-managed. From a fresh clone, one command creates the environment, installs the
 pinned dependencies from `uv.lock` and installs `rheofit` editable:
@@ -77,8 +82,9 @@ pinned dependencies from `uv.lock` and installs `rheofit` editable:
 uv sync
 ```
 
-After that, prefix commands with `uv run` — no activation needed. `pip install -e .` also works if
-the user prefers pip.
+After that, `import rheofit` works under `uv run` — no activation needed. `pip install -e .` also works if
+the user prefers pip. If the library is not installed and there is no network, add the repo root to
+`sys.path` (the `rheofit/` package lives there) and import normally.
 
 ### Library quick reference
 
@@ -113,13 +119,64 @@ a.results, a.summary, a.outputs          # fits, tidy DataFrame, saved file path
 > `analyze()` and the CLI are **flow-curve only**. Frequency and amplitude sweeps are reached
 > through `rheofit.plot(...)` in Python; there is no CLI flag for them.
 
+### Result objects — what you hold after a run
+
+`rheofit.fit()` returns a plain dict. Everything the Fitting Contract promises is inspectable
+as a value — compare, loop, and branch on it instead of parsing printed output:
+
+```python
+res = rheofit.fit(df, "tc", effort="thorough", seed=0)
+
+res["success"]   # bool
+res["params"]    # {name: {"value": float, "stderr": float}}
+res["redchi"]    # float, dimensionless — directly comparable across steps and models
+res["cond"]      # Jacobian condition number; > 1e12 → near-degenerate parameter combination
+res["notes"]     # list[str]: dropped points, >100% relative errors, cond warnings
+res["x"], res["y_data"], res["y_fit"]   # numpy arrays — plot or compare directly
+res.get("parent"), res.get("parent_redchi")  # nested-parent fit, when ladder seeding ran
+```
+
+`rheofit.analyze()` returns an `Analysis` object:
+
+```python
+a = rheofit.analyze("sample.json", steps=[0, 2], model="tc",
+                    labels=["25C", "40C"], output="none")
+
+a.results   # {label: fit-result dict} — same shape as res above, keyed by your labels
+a.summary   # tidy DataFrame: step, parameter, value, stderr, rel_error_pct,
+            #                 redchi2, fit_quality, scorecard_param — joinable, groupable
+a.outputs   # saved artifact paths (empty when output="none")
+a.equation  # LaTeX equation string, for reports
+a.output_dir  # Path — artifacts land under results/<sample>/ by default
+```
+
+DataFrames from `rheofit.load_step()` carry `df.attrs["test_type"]` (plus `step_name`,
+`step_index`) — that is what lets `rheofit.plot(df)` pick the right view unprompted.
+
+Composition patterns this unlocks (all inside one approved plan):
+
+```python
+# head-to-head model comparison — no stdout parsing
+for model in ["tc", "tc_carreau", "tccc"]:
+    r = rheofit.fit(df, model, effort="normal", seed=0)
+    print(model, f"{r['redchi']:.2e}", r["notes"])
+
+# seed robustness — is the fit stable?
+vals = [rheofit.fit(df, "tc", seed=s)["params"]["sigma_y"]["value"] for s in range(5)]
+
+# cross-model summary table from the tidy summary frames
+import pandas as pd
+pd.concat([rheofit.analyze("s.json", steps=[0], model=m, output="none").summary
+           for m in ["tc", "herschel_bulkley"]])
+```
+
 ---
 
 ## Golden Rule — Interview First, Never Auto-Run
 
 **Do not run the analysis until the user has explicitly approved a plan.**
 
-The only command you may run before approval is step discovery (Step 1), which is read-only and prints nothing but a step table. Everything else waits for a green light.
+The only call you may make before approval is step discovery (Step 1), which is read-only and prints nothing but a step table. Everything else waits for a green light.
 
 Sequence: **discover steps → ask if structured → present the matching models → propose a plan → wait for approval → run → report.**
 
@@ -144,8 +201,8 @@ The demo dataset comes from the [`rheodata`](https://github.com/rheopy/rheodata)
 `caggioni_pg_carbopol_2pct` — 2% Carbopol Ultrez 21 in propylene glycol, one equilibrium
 flow sweep (61 points, 10⁻³–10³ s⁻¹).
 
-Never resolve the demo path relative to the user's working directory — use `--demo` on the CLI or
-`rheofit.demo_source()` in Python, which materializes the dataset as a TRIOS JSON in the
+Never resolve the demo path relative to the user's working directory — use `rheofit.demo_source()`
+in Python (or `--demo` on the CLI), which materializes the dataset as a TRIOS JSON in the
 system temp dir.
 
 Suggested prompt:
@@ -154,7 +211,7 @@ Suggested prompt:
 > rheodata package, so you can see the workflow before we analyze your own sample.
 > Shall I run that demo?"
 
-If the user says yes, follow the normal approval flow with `--demo` as the input source and default output mode `png_csv`. Demo artifacts are written to `results/` under the current working directory, so the skill folder stays clean.
+If the user says yes, follow the normal approval flow with the demo source as the input and default output mode `png_csv`. Demo artifacts are written to `results/` under the current working directory, so the skill folder stays clean.
 
 ### Demo walkthrough script (recommended)
 
@@ -314,6 +371,7 @@ style SF fill:#DDF7DD,stroke:#2E7D32,stroke-width:3px
 style D fill:#FFE6D5,stroke:#F57C00,stroke-width:3px
 
 style VM fill:#F3E5F5,stroke:#8E24AA,stroke-width:3px
+
 style FIT fill:#F8E1FF,stroke:#AD1457,stroke-width:3px
 
 style R fill:#FFE0E0,stroke:#D32F2F,stroke-width:3px
@@ -356,8 +414,8 @@ These models are strongly non-linear with parameters spanning many decades, so a
 1. **Log-space search** — all strictly-positive, multi-decade parameters ($\sigma_y$, $\dot\gamma_c$, $\eta$, $\lambda$, $K$) are fitted as $\log_{10} p$, making the search scale-free. Bounded exponents such as $n$ stay linear. Standard errors are chain-ruled back into physical units.
 2. **Physics-informed starting point** — read off the data rather than guessed: $\sigma_y$ from the low-rate stress plateau, $\eta_{bg}$ from the high-rate slope of $\sigma$ vs $\dot\gamma$, $\eta_0$ from the low-rate viscosity plateau, $\lambda$ from the viscosity half-fall crossover, and $(K, n)$ from a log-log regression.
 3. **Ladder seeding from the nested parent** — before fitting a richer model, its simpler parent is fitted first and injected as a start with the extra terms at their degenerate limits. Exact nesting chains: `power_law → herschel_bulkley` and `tc → tc_carreau → tccc`. This makes it structurally impossible for the richer model to score worse than its parent.
-4. **Sobol multi-start** — a scrambled low-discrepancy sample spanning ±3 decades around the physics estimate, sized by `--effort`.
-5. **Differential evolution** — an extra global pre-pass for models with 4+ parameters at `--effort thorough`.
+4. **Sobol multi-start** — a scrambled low-discrepancy sample spanning ±3 decades around the physics estimate, sized by `effort`.
+5. **Differential evolution** — an extra global pre-pass for models with 4+ parameters at `effort="thorough"`.
 6. **Tight polish** — the best survivors are re-optimised with `x_scale='jac'` and tolerances at `1e-14`.
 
 ### Self-checks reported after every fit
@@ -368,7 +426,7 @@ Each of these is added to `result["notes"]` and printed by the CLI as a `[!]` wa
 - Any parameter with relative error above 100% → unidentifiable, model over-parameterised for this data.
 - Jacobian condition number above `1e12` → near-degenerate parameter combination.
 
-> **Never interpret a nesting violation as physics.** If `tccc` fits worse than `tc`, the optimiser failed — re-run with `--effort thorough` and a different `--seed` rather than concluding the simpler model is "better".
+> **Never interpret a nesting violation as physics.** If `tccc` fits worse than `tc`, the optimiser failed — re-run with `effort="thorough"` and a different `seed` rather than concluding the simpler model is "better".
 
 ---
 
@@ -391,7 +449,7 @@ All axes are log-log, since every one of these quantities spans decades.
 This is the single rule that changes the figure layout:
 
 - **No `fits`** → one panel, data only.
-- **`fits` supplied** → two panels: the curve on top, **relative residuals** `(data − fit)/data` underneath, with a shaded ±5% band (`exp_err`).
+- **`fits` supplied** → two panels: the curve on top, **relative residuals** `(data − fit)/data` underneath, with a shaded ±5% band.
 
 Passing `fits` to a frequency or amplitude sweep raises a clear error — there are no oscillatory
 models yet. Do not fabricate one; say so to the user.
@@ -458,41 +516,6 @@ notebook display them. The plotting layer never writes files on its own.
 
 ---
 
-## How to Run
-
-**Preferred — uv (the repo is uv-managed):**
-
-```bash
-uv run rheofit <args>
-```
-
-`uv run` creates/updates the environment from `uv.lock` on first use, so it works on a fresh clone
-with no setup step. If the user reports no `uv` on their machine, fall back to the active
-interpreter with the library installed (`pip install -e .`):
-
-```bash
-python -m rheofit <args>
-```
-
-**If `rheofit` is not installed at all** — the skill ships a wrapper that adds the repo's `src/` to
-`sys.path` and forwards to the same CLI, so the flags are identical:
-
-```bash
-python .github/skills/flow-curve-analysis/scripts/flow_curve_fit.py <args>
-```
-
-**Last resort — if that still fails with `ModuleNotFoundError`:**
-
-```bash
-uv run .github/skills/flow-curve-analysis/scripts/flow_curve_fit.py <args>
-```
-
-That form reads the PEP 723 inline metadata in the wrapper and installs missing packages into an
-isolated environment, without needing the project environment at all.
-
-Every `uv run rheofit …` command below can be replaced by any of the fallbacks above, or by the
-equivalent `rheofit.analyze(...)` call, without changing the result.
-
 ## When to Use
 
 - User provides a TRIOS JSON file and wants to fit flow curve data
@@ -507,25 +530,17 @@ equivalent `rheofit.analyze(...)` call, without changing the result.
 
 ## Step 1 — Discover Available Steps
 
-This is the one command you may run before approval. Run the CLI without `--steps`:
+This is the one call you may make before approval. It is read-only:
 
-```bash
-uv run rheofit "sample.json"
+```python
+rheofit.print_steps("sample.json")    # step table incl. test type
+steps = rheofit.discover_steps("sample.json")   # same, as a list of dicts
 ```
 
-Demo shortcut (loads the bundled package JSON automatically):
+`sample.json` may be a local path or an HTTP(S) URL; `rheofit.demo_source()` materializes the
+bundled demo dataset. Report the non-empty steps to the user, grouped by test type.
 
-```bash
-uv run rheofit --demo
-```
-
-Python equivalent: `rheofit.print_steps("sample.json")` (or `rheofit.discover_steps(...)` for the raw list).
-
-`sample.json` may be either a local file path or an HTTP(S) URL.
-
-This prints a table of step indices, names, row counts, and the detected **test type**. Report the non-empty steps (marked `<-- data`) to the user, grouped by test type.
-
-> **Important:** These indices are 0-based `ResultsSteps` indices, **not** the procedure step numbers from TRIOS (which tadatakit exposes as a different numbering). Use the index from the printed table directly in `--steps`.
+> **Important:** These indices are 0-based `ResultsSteps` indices, **not** the procedure step numbers from TRIOS (which tadatakit exposes as a different numbering). Use the index from the printed table directly.
 
 The `test_type` column tells you what each step can be used for:
 
@@ -552,7 +567,7 @@ auto-run.
 plotting — see the **Visualization Contract** — since there is no model to choose.)*
 
 > "Is this sample **structured** — that is, do you expect it to have a yield stress?"
-> 
+>
 > Signs of a structured sample: it holds its shape at rest, the stress curve flattens to a plateau at the lowest shear rates, or the viscosity keeps climbing as $\dot\gamma \to 0$ with no plateau.
 
 If the user is unsure, inspect the low-shear end of the data and advise: a clear stress plateau at low $\dot\gamma$ indicates a yield stress; a viscosity that levels off into a Newtonian plateau indicates none.
@@ -609,32 +624,32 @@ Collect the remaining choices in one batch:
 - A label for each step (e.g. `26.7C`, `40C`)
 - Effort level — `fast`, `normal`, or `thorough` (default `thorough`)
 - Output mode — default `png_csv` / optional `pptx` / optional `both`
+- Candidate models, in ladder order, if the user wants a comparison or an escalation policy (see below)
 
-Then present the plan back and **stop**:
+Then present the plan back and **stop**. Show the CLI command as the human-readable record of what
+will run, and the Python call the agent will actually execute:
 
 > **Proposed analysis**
-> 
+>
 > - Sample: `<name>`
 > - Steps: `0` (26.7C), `2` (40C)
 > - Structured: yes → yield-stress family
 > - Model: `tc` — chosen because …
 > - Effort: `thorough`; relative-weighted objective; ladder seeding enabled
 > - Output: `png_csv` (default) in `results/<sample>/`
-> 
-> Command to be run:
-> 
+>
+> Record of the run (equivalent):
+>
 > ```bash
 > uv run rheofit "sample.json" --steps 0 2 --model tc --labels "26.7C" "40C" --effort thorough --output png_csv
 > ```
-> 
-> Equivalent in Python:
-> 
+>
 > ```python
 > import rheofit
 > a = rheofit.analyze("sample.json", steps=[0, 2], model="tc",
 >                     labels=["26.7C", "40C"], effort="thorough", output="png_csv")
 > ```
-> 
+>
 > Shall I proceed?
 
 Only after the user agrees do you continue.
@@ -643,23 +658,48 @@ Only after the user agrees do you continue.
 
 ## Step 4 — Run the Analysis
 
-```bash
-uv run rheofit \
-  <path_to_json> \
-  --steps <step_index_1> [step_index_2 ...] \
-  --model <model_name> \
-  [--labels <label_1> [label_2 ...]] \
-  [--effort fast|normal|thorough] \
-  [--seed N] \
-  [--sample-name NAME] \
-  [--output png_csv|pptx|both|none]
+Execute via the Python API so every result stays a value you can inspect, compare, and branch on:
+
+```python
+import rheofit
+
+a = rheofit.analyze("sample.json", steps=[0, 2], model="tc",
+                    labels=["26.7C", "40C"], effort="thorough", output="png_csv")
+a.results["26.7C"]["redchi"]   # inspect directly — no stdout parsing
+a.summary                      # tidy table across steps, ready to report or join
 ```
 
-`<path_to_json>` may be a local path or an HTTP(S) URL, or replace it with `--demo` to use the bundled reference sample. For URL inputs, use `--sample-name` to control output folder/filename prefixes.
+For a single fit without artifacts: `res = rheofit.fit(df, "tc", effort="thorough", seed=0)`.
 
-`--effort` controls how many multi-start seeds are explored before the polish (`fast` 32, `normal` 128, `thorough` 512) and whether differential evolution runs. `--seed` makes a run exactly reproducible; change it to test whether a fit is seed-robust. `--output none` fits without writing files.
+`effort` controls how many multi-start seeds are explored before the polish (`fast` 32, `normal` 128,
+`thorough` 512) and whether differential evolution runs. `seed` makes a run exactly reproducible;
+change it to test whether a fit is seed-robust. `output="none"` fits without writing files.
 
-If that fails with `ModuleNotFoundError`, use the wrapper script path (see **How to Run**).
+### Escalation policy — climbing the ladder inside one approval
+
+When the approved plan names candidate models in ladder order (e.g. `tc → tc_carreau → tccc`),
+climb programmatically instead of coming back to ask:
+
+1. Fit the simplest approved model.
+2. While `redchi > 0.1` **and** the residuals show visible structure **and** every parameter is identified (`rel_error_pct < 100` for all parameters in `a.summary`, `cond < 1e12`): fit the next rung.
+3. Stop at the first model with `redchi <= 0.1` and clean residuals, or at the richest approved model.
+4. **Never switch families** — that needs the yield-stress answer itself to change, so re-ask.
+5. A richer model scoring worse than its exactly-nested parent is a convergence failure, not a verdict: re-run that rung once with `effort="thorough"` and `seed + 1` before concluding anything.
+
+Report which rung won and why, quoting the RedChi² values.
+
+### CLI reference
+
+The CLI mirrors the Python API exactly and stays the route for one-shot terminal use:
+
+```bash
+uv run rheofit <path_to_json> --steps <i> [..] --model <name>
+    [--labels <l> [..]] [--effort fast|normal|thorough] [--seed N]
+    [--sample-name NAME] [--output png_csv|pptx|both|none]
+```
+
+`<path_to_json>` may be a local path or an HTTP(S) URL; `--demo` uses the bundled reference sample.
+For URL inputs, use `--sample-name` to control output folder/filename prefixes.
 
 Examples:
 
@@ -670,27 +710,16 @@ uv run rheofit "sample.json" --steps 0 2 --model tc --labels "25C" "40C" --effor
 # Unstructured polymer solution, single step
 uv run rheofit "sample.json" --steps 0 --model carreau --labels "25C"
 
-# Structured sample, three steps, Herschel-Bulkley
-uv run rheofit "sample.json" --steps 0 2 4 --model herschel_bulkley
-
 # Demo dataset (2% Carbopol in propylene glycol), TC
 uv run rheofit --demo --steps 0 --model tc
-```
-
-Same runs from Python:
-
-```python
-import rheofit
-
-rheofit.analyze("sample.json", steps=[0, 2], model="tc", labels=["25C", "40C"])
-rheofit.analyze(rheofit.demo_source(), steps=[0], model="tc")
 ```
 
 ---
 
 ## Step 5 — Report Results
 
-The CLI prints one or more saved file paths (`[>] Saved: ...`) based on `--output` (the same paths are returned as `Analysis.outputs` from `rheofit.analyze`):
+`rheofit.analyze` returns saved file paths as `a.outputs` (and prints `[>] Saved: ...`
+lines in verbose mode):
 
 - `png_csv` (default): one PNG scorecard + one compact CSV file
 - `pptx`: one PowerPoint deck
@@ -712,17 +741,15 @@ The PPTX, when requested, contains:
 
 Always summarize in chat:
 
-- The `SCORECARD_PARAMS` values for each step, **translated into material behaviour** — e.g. "σ_y of 1.2 Pa means the product holds its shape at rest", "η₀ dropped 40% at 40C, so it will feel thinner warm"
+- The `SCORECARD_PARAMS` values for each step, **translated into material behaviour** — e.g. "σ_y of 1.2 Pa means the product holds its shape at rest", "η₀ dropped 40% at 40C, so it will feel thinner warm". Read them straight from `a.summary` (`scorecard_param == True`).
 - The `RedChi2` per fit — below `0.01` excellent, above `0.1` consider a different model
-- **Every `[!]` warning line printed** (i.e. every entry of `result["notes"]`), in plain language
+- **Every entry of `res["notes"]`**, in plain language
 - A reminder that the fit minimised relative error, so RedChi² is comparable across steps and models
 
 If the user has told you what is in the formulation, close the loop: say which parameter moved, and
 which ingredient or level is the likely lever for it (see **Why the Model Choice Matters**). If the
 formulation is unknown, offer that step — the parameters are only actionable once they are tied to
 the formula.
-
-If RedChi² exceeds `0.1`, offer to climb one rung of the ladder within the same family — never switch families unless the yield-stress answer itself was wrong.
 
 ### Reporting an oscillatory measurement
 
@@ -772,6 +799,8 @@ The run has already saved a `.pptx`. Extract the content from it and insert into
 
 Keep typography consistent with the saved scorecard: monospaced font (Courier New), navy header (`#1F497D`), white slide background.
 
+Tip: with result values in hand (`a.summary`), recreating the native table is a direct transcription — no need to re-read the saved deck.
+
 #### Paste into open Excel workbook (Microsoft 365 / Copilot agent)
 
 1. **Parameters sheet** — Create a sheet named `Rheology Fit` with:
@@ -797,10 +826,9 @@ rheofit/
                   URL download, rheodata-backed demo
   models/         one thin adapter per model + _fitcore.py (the shared fitting engine);
                   equations, parameters, bounds and citations come from rheomodel
-  visualization/  one module per measurement type + _plotcore.py (shared plot primitives)
   report.py       PNG scorecard, parameter summary, PPTX builder
   analysis.py     analyze() — load → fit → summarise → save artifacts (flow curves only)
-  cli.py          argparse front-end used by the skill (flow curves only)
+  cli.py          argparse front-end (flow curves only); mirrors the Python API
   data/           bundled demo TRIOS JSON files
 ```
 
@@ -891,12 +919,22 @@ numpy
 scipy
 matplotlib
 pandas
-python-pptx   # dev group; needed only for --output pptx / both
+python-pptx   # dev group; needed only for output="pptx" / "both"
 ipykernel     # dev group; needed only for notebooks
 ```
 
-The wrapper script mirrors these as PEP 723 inline metadata, so the last-resort
-`uv run …/flow_curve_fit.py` route works even without the project environment.
-
 If the user has changed dependencies in `pyproject.toml`, run `uv lock` and commit the updated
 `uv.lock` in the same change.
+
+---
+
+## Changelog
+
+- 2026-10-13 — Python-first restructure: the skill now executes via the Python API so the
+  agent holds result objects as values (new **Result objects** contract section, verified
+  against `analysis.py` / `_fitcore.py`); the CLI stays as the quotable plan artifact and
+  one-shot terminal route; added the executable **escalation policy** for ladder climbing
+  inside one approval; collapsed the four run fallbacks to plain importability.
+- 2026-09-29 — initial version of the skill, written against the rheofit Python API contract
+  (`list_models`, `model_info`, `discover_steps`, `print_steps`, `load_step`, `fit`,
+  `analyze`, `plot`) and CLI.
